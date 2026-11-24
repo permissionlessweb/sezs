@@ -1,0 +1,43 @@
+# Official and session-local binary versions for Speak-Ez Sessions (SEZS) lab chains.
+# Checksums are SHA-256 of the files under ~/.ict-rs/bins on build-host
+# (darwin-arm64). Linux release SHA256SUMS were not minisign-verified here.
+#
+# Official tags:
+#   Penumbra  https://github.com/penumbrafi/penumbra/releases/tag/v2.0.8
+#   Zakura    https://github.com/zakura-core/zakura/releases/tag/v1.8.9
+# Bind 127.0.0.1 only. These binaries are not committed.
+
+[pd]
+version = "2.0.8"
+sha256 = "78f0f4efbd2a0a41eddc9b293d8971415f0a705ef5f66ca61675130e6cd8debc"
+note = "Official aarch64-apple-darwin tarball"
+
+[pcli]
+version = "2.0.8"
+sha256 = "9ca444d9263fe64b3799cffb477f349c75f76b48bd95fb1693397288df209120"
+note = "Official aarch64-apple-darwin tarball"
+
+[pclientd]
+version = "2.0.8"
+sha256 = "d46133d1464e6149a64dddd3269e1d34752dd7aa7b07b5590d3bccfb91b13231"
+note = "Official aarch64-apple-darwin tarball"
+
+[zakurad]
+version = "1.8.9"
+sha256 = "9f066937a5a56729c8613b1b6b782988be2929e73ef44cb6a0ac1b9de188bfb0"
+note = "Official tag is Linux-only; this darwin-arm64 binary was built from tag v1.8.9 with internal-miner. `zakurad version` reports 1.8.9+g23b79deda541."
+
+[cometbft]
+version = "0.37.18"
+sha256 = "d07a7cbcb83810d30031372ce2faaec537d71acac892055dc109c0cbcd53ea9e"
+note = "Built from the v0.37.18 source tag. `cometbft version` prints 0.37.16+019babe (upstream version-string bug)."
+
+[lightwalletd]
+version = "0.6.2"
+sha256 = "548d790829f2b47d3a0f7e56bba2606f2599794d55034b69bc21cd6702af2bd0"
+note = "v0.6.2 (commit f8fe2cca7ede03b1f06b1d637a2ab467d151b79d)"
+
+[hermes]
+version = "1.8.2"
+sha256 = "03dcd472a6eda8242ca6e6bf7e556f482a4cfe2deddaf1b622de1463637f1883"
+note = "Local rotko-hermes 1.8.2+880f354. Never point this at relay.zafu.pro or other public relays."

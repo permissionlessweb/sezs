@@ -1,0 +1,30 @@
+---
+title: Wallets
+description: The wallets and sign-in methods used for Speak-Ez Sessions.
+---
+
+# Wallets
+
+Speak-Ez Sessions does not ask you for an account or a profile. You sign in with Zafu, or with a passkey plus a key kept in this browser. Signing in does not charge you and is not a ticket. Email sign-in is not available yet.
+
+## Zafu
+
+Zafu is the preferred wallet for this event. Use **Log in with Zafu** to sign a site-scoped identity (ZID) for this origin. The same wallet also pays shielded ZEC and shielded Penumbra (UM) ticket invoices, and staff use it to authorize on-chain door actions.
+
+Install the Zafu extension from [zafu.pro](https://zafu.pro), then use **Sign in** and choose Zafu.
+
+## Passkey and this browser
+
+If you do not want to use the extension for login, this site can make a key in the browser and seal it to a passkey on the device. User verification is required. A passkey on its own is not sign-in. If the authenticator cannot provide the sealing key, nothing is stored.
+
+Registration, when it is open, writes the pair to Terp, then the setup key is erased from the tab. You can still buy a ticket without signing in: the browser makes a fresh ticket secret for the purchase.
+
+Use `http://localhost` or HTTPS for passkeys. An IP address in the address bar is not a valid passkey domain.
+
+## What sign-in is not
+
+- Signing in is not a ticket and does not mark you paid.
+- A destination or URI on screen is not paid.
+- The door admits a ticket, not a wallet session.
+
+For the ticket itself, see [Purchasing a ticket](/guides/general/purchasing-a-ticket).

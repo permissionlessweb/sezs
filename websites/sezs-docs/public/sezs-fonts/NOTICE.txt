@@ -1,0 +1,3 @@
+Outfit, EB Garamond, Inter, Fraunces: latin woff2 from @fontsource (jsdelivr), SIL Open Font License 1.1.
+IBM Plex (Fraunces theme) is served from /sezs-assets/fonts.
+Silkscreen: latin woff2 from @fontsource, SIL OFL 1.1.

@@ -1,0 +1,13 @@
+/* Self-hosted latin subsets from @fontsource (SIL OFL 1.1). Only the active theme's faces download. */
+@font-face{font-family:"Outfit";font-weight:300;font-display:swap;src:url("outfit-300.woff2") format("woff2");}
+@font-face{font-family:"Outfit";font-weight:400;font-display:swap;src:url("outfit-400.woff2") format("woff2");}
+@font-face{font-family:"Outfit";font-weight:600;font-display:swap;src:url("outfit-600.woff2") format("woff2");}
+@font-face{font-family:"Outfit";font-weight:700;font-display:swap;src:url("outfit-700.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:400;font-display:swap;src:url("eb-garamond-400.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:italic;font-display:swap;src:url("eb-garamond-400i.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:600;font-display:swap;src:url("eb-garamond-600.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-display:swap;src:url("inter-400.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:600;font-display:swap;src:url("inter-600.woff2") format("woff2");}
+@font-face{font-family:"Fraunces";font-weight:400;font-display:swap;src:url("fraunces-400.woff2") format("woff2");}
+@font-face{font-family:"Fraunces";font-weight:600;font-display:swap;src:url("fraunces-600.woff2") format("woff2");}
+@font-face{font-family:"Silkscreen";font-weight:400;font-display:swap;src:url("silkscreen-400.woff2") format("woff2");}

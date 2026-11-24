@@ -1,0 +1,499 @@
+schema_version: 1.1.0
+id: usher-check-in
+title: Usher check-in
+status: complete
+audience: A signed-in usher at the door, and a guest who holds a paid ticket QR.
+prerequisites:
+- A paid ticket QR is on the guest device. See the ticket purchase guide.
+- The usher is signed in and can open Check-in.
+user_constraints:
+- A passkey session is not a ticket.
+- The door uses the ticket QR, not the payment receipt.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+- Unpaid tickets, second uses, and removed ushers are refused.
+flow_graph: docs/flows/surfaces/usher-check-in.mmd
+derived_graphs:
+- docs/flows/derived/app-usher-door.mmd
+- docs/flows/derived/app-prepare-consume.mmd
+- docs/flows/derived/app-submit-consume.mmd
+- docs/flows/derived/circuit-prove.mmd
+- docs/flows/derived/manifold-execute.mmd
+- docs/flows/derived/manifold-verify.mmd
+surfaces:
+- apps/sezs/pages/check-in.tsx
+- apps/sezs/pages/ticket.tsx
+- apps/sezs/src/event/UsherDoor.tsx
+- apps/sezs/src/event/door-v3.ts
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 73.2
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: draft
+    engine: macos-say
+    voice: Samantha
+    path: docs/guides/narration/audio/usher-check-in/tts/
+    notes: Offline draft for timing only. Replace with a human take.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/usher-check-in/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: checkin-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's walk through check-in at the door. We scan a guest ticket. We admit the
+    guest when the door accepts it.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: GuestTicket
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: checkin-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/usher-check-in/checkin-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 9.4
+  word_count: 22
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-intro.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-intro.wav
+    take: null
+- id: checkin-02
+  status: complete
+  narration_ste: Let's start with the guest ticket. We open the ticket page. We hold the ticket
+    QR so the usher can scan it.
+  on_screen_action: Guest opens /ticket and holds the ticket QR
+  trail_step: trails/sezs-speakeasy/usher-checkin/trail.yaml#checkin-02
+  expected_ui:
+    route: /ticket
+    title: Ticket · the event
+    visible_labels:
+    - Hold this
+    - Your ticket
+    - Show this at the door
+    - Door ticket
+  video_slots:
+  - id: checkin-02-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/usher-check-in/checkin-02-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: checkin-02-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/usher-check-in/checkin-02-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: checkin-02-web-mobile
+    to: checkin-02-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.4
+  word_count: 22
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-02.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-02.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: GuestTicket
+  producer_note: null
+- id: checkin-03
+  status: complete
+  narration_ste: We open Check-in on the usher device. We use the Door panel after an usher session
+    is open.
+  on_screen_action: Usher opens /check-in
+  trail_step: trails/sezs-speakeasy/usher-checkin/trail.yaml#checkin-03
+  expected_ui:
+    route: /check-in
+    title: Check-in · the event
+    visible_labels:
+    - Check-in
+    - Your ticket
+    - Door
+    - Open camera
+    - Scan a ticket photo
+    notes: UsherDoor renders only when isSignedInUsher is true. Guests still see CheckInPanel
+      and TicketVault with intent door.
+  video_slots:
+  - id: checkin-03-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/usher-check-in/checkin-03-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: checkin-03-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/usher-check-in/checkin-03-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: checkin-03-web-mobile
+    to: checkin-03-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 8.1
+  word_count: 19
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-03.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-03.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: UsherPage
+  producer_note: null
+- id: checkin-04
+  status: complete
+  narration_ste: We select Open camera. We can also select Scan a ticket photo. We point the camera
+    at the guest ticket QR.
+  on_screen_action: Select Open camera or Scan a ticket photo
+  trail_step: trails/sezs-speakeasy/usher-checkin/trail.yaml#checkin-04
+  expected_ui:
+    route: /check-in
+    title: Check-in · the event
+    visible_labels:
+    - Open camera
+    - Scan a ticket photo
+    - Scan guest ticket QR
+  video_slots:
+  - id: checkin-04-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4
+    path: docs/guides/shots/usher-check-in/checkin-04-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id001
+    - A still of the guest Check-in page is on disk at this path. The Door panel was not visible
+      because this browser was not an usher session.
+    - Recapture with a signed-in usher so Open camera, Building the door proof, and Authorize
+      with Zafu are visible.
+    - Do not authorize a consume against a ticket the guest still needs unless this is a planned
+      take.
+  - id: checkin-04-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4
+    path: docs/guides/shots/usher-check-in/checkin-04-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id001
+  - id: checkin-04-camera
+    type: device-camera
+    source_app: usher-device-camera
+    source_device: phone-camera
+    duration_seconds: 5.0
+    path: docs/guides/shots/usher-check-in/checkin-04-camera.png
+    status: placeholder
+    capture_checklist:
+    - Capture the usher device pointing at the guest Door ticket QR.
+    - Keep both screens readable. Hide unrelated notifications.
+    - Do not capture the raw ticket secret as text.
+  transitions:
+  - from: checkin-04-web-mobile
+    to: checkin-04-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  - from: checkin-04-web-desktop
+    to: checkin-04-camera
+    type: cut
+    duration_seconds: 0.5
+  estimated_speech_seconds: 9.0
+  word_count: 21
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-04.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-04.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Cam
+  producer_note: null
+- id: checkin-05
+  status: complete
+  narration_ste: We wait while the page builds the door proof. This device builds the proof.
+  on_screen_action: Wait for Building the door proof…
+  trail_step: trails/sezs-speakeasy/usher-checkin/trail.yaml#checkin-05
+  expected_ui:
+    route: /check-in
+    title: Check-in · the event
+    visible_labels:
+    - Building the door proof…
+    notes: prepareConsumeV3 then circuits/sezs-ticket-v2 prove. The chain is not yet called.
+  video_slots:
+  - id: checkin-05-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4
+    path: docs/guides/shots/usher-check-in/checkin-05-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id002
+    - A still of the guest Check-in page is on disk at this path. The Door panel was not visible
+      because this browser was not an usher session.
+    - Recapture with a signed-in usher so Open camera, Building the door proof, and Authorize
+      with Zafu are visible.
+    - Do not authorize a consume against a ticket the guest still needs unless this is a planned
+      take.
+  - id: checkin-05-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4
+    path: docs/guides/shots/usher-check-in/checkin-05-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id002
+  transitions:
+  - from: checkin-05-web-mobile
+    to: checkin-05-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 6.0
+  word_count: 14
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-05.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-05.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: ProveUi
+  producer_note: null
+- id: checkin-06
+  status: complete
+  narration_ste: We select Authorize with Zafu. We confirm the signature on the usher device.
+  on_screen_action: Select Authorize with Zafu and confirm in Zafu
+  trail_step: trails/sezs-speakeasy/usher-checkin/trail.yaml#checkin-06
+  expected_ui:
+    route: /check-in
+    title: Check-in · the event
+    visible_labels:
+    - Authorize with Zafu
+    notes: submitConsumeV3 leads to cw-event-manifold execute ConsumeTicket and verify_ticket_proof.
+  video_slots:
+  - id: checkin-06-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4
+    path: docs/guides/shots/usher-check-in/checkin-06-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id003
+    - A still of the guest Check-in page is on disk at this path. The Door panel was not visible
+      because this browser was not an usher session.
+    - Recapture with a signed-in usher so Open camera, Building the door proof, and Authorize
+      with Zafu are visible.
+    - Do not authorize a consume against a ticket the guest still needs unless this is a planned
+      take.
+  - id: checkin-06-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4
+    path: docs/guides/shots/usher-check-in/checkin-06-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id003
+  - id: checkin-06-wallet
+    type: mobile-wallet-capture
+    source_app: zafu-extension
+    source_device: desktop-extension-or-phone
+    duration_seconds: 6
+    path: docs/guides/shots/usher-check-in/checkin-06-wallet.png
+    status: placeholder
+    capture_checklist:
+    - Capture the Zafu authorize or sign prompt for the door consume.
+    - Do not capture spending keys or the ticket secret.
+    - Skip this take if it would consume a ticket the guest still needs.
+  transitions:
+  - from: checkin-06-web-mobile
+    to: checkin-06-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  - from: checkin-06-web-desktop
+    to: checkin-06-wallet
+    type: cut
+    duration_seconds: 0.5
+  estimated_speech_seconds: 5.6
+  word_count: 13
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-06.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-06.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Authorize
+  producer_note: null
+- id: checkin-07
+  status: complete
+  narration_ste: We read the door note. We admit the guest if the note reports success. We refuse
+    the guest if the ticket is unpaid, already used, or the usher is not authorized.
+  on_screen_action: Read the door note (admitted or refused)
+  trail_step: trails/sezs-speakeasy/usher-checkin/trail.yaml#checkin-07
+  expected_ui:
+    route: /check-in
+    title: Check-in · the event
+    visible_labels:
+    - Door
+    notes: The note is in data-door-note. Classes is-admitted and is-refused style the card.
+  video_slots:
+  - id: checkin-07-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/usher-check-in/checkin-07-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id004
+    - A still of the guest Check-in page is on disk at this path. The Door panel was not visible
+      because this browser was not an usher session.
+    - Recapture with a signed-in usher so Open camera, Building the door proof, and Authorize
+      with Zafu are visible.
+    - Do not authorize a consume against a ticket the guest still needs unless this is a planned
+      take.
+  - id: checkin-07-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/usher-check-in/checkin-07-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id004
+  transitions:
+  - from: checkin-07-web-mobile
+    to: checkin-07-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 13.3
+  word_count: 31
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-07.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-07.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Admitted
+  producer_note: null
+- id: checkin-08
+  status: complete
+  narration_ste: We select Next guest when we are ready to scan another ticket.
+  on_screen_action: Select Next guest
+  trail_step: trails/sezs-speakeasy/usher-checkin/trail.yaml#checkin-08
+  expected_ui:
+    route: /check-in
+    title: Check-in · the event
+    visible_labels:
+    - Next guest
+    - Open camera
+    - Scan a ticket photo
+  video_slots:
+  - id: checkin-08-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 3
+    path: docs/guides/shots/usher-check-in/checkin-08-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: checkin-08-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 3
+    path: docs/guides/shots/usher-check-in/checkin-08-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: checkin-08-web-mobile
+    to: checkin-08-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 5.1
+  word_count: 12
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-08.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-08.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Next
+  producer_note: null
+- id: checkin-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: That is the door flow. Let's move to the next guest when a new ticket is ready.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Next
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: checkin-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/usher-check-in/checkin-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 7.3
+  word_count: 17
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-check-in/tts/checkin-outro.aiff
+    human_path: docs/guides/narration/audio/usher-check-in/human/checkin-outro.wav
+    take: null
+producer_note: 'Recorder: this walkthrough was developed against a local event record. Do not
+  tear down a running session. Do not speak seeded event names, venues, list prices, ports, or
+  chain tooling. Capture checklists may still mention the local origin.'

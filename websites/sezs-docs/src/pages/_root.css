@@ -1,0 +1,255 @@
+/* Speak-Ez Sessions docs — tokens and motifs from apps/sezs/src/ui/ui.css.
+   The webapp itself is dark-only ("one dark room, one warm light").
+   Light mode here is a cream-paper reading theme using the same ember/core palette. */
+
+@font-face {
+  font-family: "Silkscreen";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/alpha/sezs/docs/sezs-fonts/silkscreen-400.woff2") format("woff2");
+}
+
+:root {
+  --sez-field: #07070a;
+  --sez-core: #ffb347;
+  --sez-hot: #fff1c9;
+  --sez-pale: #f7d9a8;
+  --sez-ember: #a0521a;
+  --sez-ink: #ece6dc;
+  --sez-dim: rgba(236, 230, 220, 0.62);
+  --sez-hair: rgba(247, 217, 168, 0.22);
+  --sez-hair-2: rgba(247, 217, 168, 0.45);
+  --sez-ok: #9fd8b0;
+  --sez-bad: #f09a86;
+  --sez-font-pixel: "Silkscreen", "Courier New", monospace;
+  --sez-font-mono: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", "DejaVu Sans Mono", Consolas, monospace;
+  --sez-font-body: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+
+  --vocs-default-font-family: var(--sez-font-body);
+  --vocs-font-family: var(--sez-font-body);
+  --vocs-font-sans: var(--sez-font-body);
+  --vocs-font-family-mono: var(--sez-font-mono);
+  --vocs-default-mono-font-family: var(--sez-font-mono);
+  --vocs-font-mono: var(--sez-font-mono);
+  --vocs-spacing-topNav: 60px;
+}
+
+/* Default (and explicit dark): the webapp field */
+:root,
+:root[data-vocs-theme='dark'],
+:root[style*='color-scheme: dark'] {
+  color-scheme: dark;
+  --vocs-background-color-primary: var(--sez-field);
+  --vocs-color-background-primary: var(--sez-field);
+  --vocs-background-color-surface: #0c0c10;
+  --vocs-background-color-surfaceMuted: #101014;
+  --vocs-background-color-surfaceTint: rgba(255, 179, 71, 0.08);
+  --vocs-background-color-code-block: #101014;
+  --vocs-background-color-inline-code: rgba(255, 179, 71, 0.1);
+  --vocs-background-color-blockquote: rgba(255, 179, 71, 0.06);
+  --vocs-text-color-primary: var(--sez-ink);
+  --vocs-text-color-heading: var(--sez-hot);
+  --vocs-text-color-muted: var(--sez-dim);
+  --vocs-text-color-secondary: var(--sez-pale);
+  --vocs-text-color-quote: var(--sez-pale);
+  --vocs-text-color-link: var(--sez-pale);
+  --vocs-text-color-link-hover: var(--sez-hot);
+  --vocs-border-color-primary: var(--sez-hair);
+  --vocs-border-color-secondary: var(--sez-hair-2);
+  --vocs-color-accent: var(--sez-core);
+  --vocs-color-accentInvert: var(--sez-field);
+}
+
+:root[data-vocs-theme='light'],
+:root[style*='color-scheme: light'] {
+  color-scheme: light;
+  --sez-field: #f7eedc;
+  --sez-core: #a0521a;
+  --sez-hot: #3d1e0a;
+  --sez-pale: #6b3410;
+  --sez-ember: #a0521a;
+  --sez-ink: #1c140c;
+  --sez-dim: rgba(28, 20, 12, 0.62);
+  --sez-hair: rgba(160, 82, 26, 0.22);
+  --sez-hair-2: rgba(160, 82, 26, 0.45);
+  --vocs-background-color-primary: #f7eedc;
+  --vocs-color-background-primary: #f7eedc;
+  --vocs-background-color-surface: #fff8ea;
+  --vocs-background-color-surfaceMuted: #efe4ce;
+  --vocs-background-color-surfaceTint: rgba(160, 82, 26, 0.08);
+  --vocs-background-color-code-block: #efe4ce;
+  --vocs-background-color-inline-code: rgba(160, 82, 26, 0.1);
+  --vocs-background-color-blockquote: rgba(160, 82, 26, 0.06);
+  --vocs-text-color-primary: #1c140c;
+  --vocs-text-color-heading: #3d1e0a;
+  --vocs-text-color-muted: rgba(28, 20, 12, 0.62);
+  --vocs-text-color-secondary: #6b3410;
+  --vocs-text-color-quote: #6b3410;
+  --vocs-text-color-link: #6b3410;
+  --vocs-text-color-link-hover: #a0521a;
+  --vocs-border-color-primary: rgba(160, 82, 26, 0.22);
+  --vocs-border-color-secondary: rgba(160, 82, 26, 0.45);
+  --vocs-color-accent: #a0521a;
+  --vocs-color-accentInvert: #f7eedc;
+}
+
+html {
+  background: var(--vocs-background-color-primary);
+}
+
+body {
+  font-family: var(--sez-font-body);
+}
+
+/* A soft radial veil, like the webapp stage */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 70%, rgba(7, 7, 10, 0.55), transparent 70%);
+}
+
+:root[data-vocs-theme='light'] body::before,
+:root[style*='color-scheme: light'] body::before {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 179, 71, 0.18), transparent 60%);
+}
+
+/* Title rule — hairline, then the lead */
+article[data-v-content] > h1:first-child,
+article[data-v-content] > hgroup:first-child {
+  border-bottom: 1px solid var(--vocs-border-color-primary);
+  padding-bottom: 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+article[data-v-content] h1,
+article[data-v-content] h2 {
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--vocs-text-color-heading);
+}
+
+[data-v-gutter-top] {
+  background: linear-gradient(
+    color-mix(in srgb, var(--vocs-background-color-primary) 92%, transparent),
+    color-mix(in srgb, var(--vocs-background-color-primary) 55%, transparent) 70%,
+    transparent
+  );
+}
+
+/* Sidebar wordmark — Silkscreen, mid-dots, core glow */
+.sez-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  height: 2.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.sez-brand-mark {
+  height: 1.15rem;
+  width: 1.15rem;
+  filter: drop-shadow(0 0 8px rgba(255, 179, 71, 0.55));
+}
+
+.sez-brand-mark--light { display: none; }
+.sez-brand-mark--dark { display: block; }
+
+:root[data-vocs-theme='light'] .sez-brand-mark--dark,
+:root[style*='color-scheme: light'] .sez-brand-mark--dark { display: none; }
+
+:root[data-vocs-theme='light'] .sez-brand-mark--light,
+:root[style*='color-scheme: light'] .sez-brand-mark--light { display: block; }
+
+:root[data-vocs-theme='light'] .sez-brand-mark,
+:root[style*='color-scheme: light'] .sez-brand-mark {
+  filter: none;
+}
+
+.sez-brand-word {
+  font-family: var(--sez-font-pixel);
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--sez-core);
+  text-shadow: 0 0 12px rgba(255, 179, 71, 0.55);
+  line-height: 1;
+}
+
+:root[data-vocs-theme='light'] .sez-brand-word,
+:root[style*='color-scheme: light'] .sez-brand-word {
+  text-shadow: none;
+}
+
+.sez-brand-dot {
+  color: var(--sez-pale);
+  margin: 0 0.15em;
+}
+
+aside[data-v-sidebar-container] [data-v-sidebar-header] {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--vocs-border-color-primary);
+}
+
+@media (min-width: 1024px) {
+  [data-v-logo-link] { display: none; }
+}
+
+/* Pixel kicker on section titles inside the article */
+article[data-v-content] > h2 {
+  font-family: var(--sez-font-body);
+}
+
+/* Cards: a 7px core node, no boxes — close to the webapp .card */
+[data-v-content] .vocs_Card,
+[class*="Card"]:not(footer) {
+  position: relative;
+}
+
+.sezs-docs-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 3rem;
+  padding: 1.25rem 0 2rem;
+  border-top: 1px solid var(--vocs-border-color-primary);
+  font-size: 0.85rem;
+  font-family: var(--sez-font-mono);
+}
+
+.sezs-docs-footer a {
+  color: var(--vocs-color-accent);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.sezs-docs-footer a:hover {
+  color: var(--sez-hot);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.sezs-docs-footer-note {
+  color: var(--vocs-text-color-muted);
+  font-family: var(--sez-font-pixel);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+::selection {
+  background: var(--sez-core);
+  color: var(--vocs-color-accentInvert);
+}
+
+:focus-visible {
+  outline: 1px dashed var(--sez-core);
+  outline-offset: 3px;
+}

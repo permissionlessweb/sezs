@@ -1,0 +1,10 @@
+node_modules
+dist
+out
+src/pages/specs/event
+src/pages/specs/ticketing
+src/pages/specs/gallery
+src/pages/specs/admin
+.DS_Store
+*.log
+.tsbuildinfo

@@ -1,0 +1,32 @@
+---
+title: Post art in the gallery
+description: The showcase that is live, and sales that are still planned
+---
+
+# Post art in the gallery
+
+The live Speak-Ez Sessions gallery is a showcase and collection viewer. Buying from the page is off. A listing marked for sale is rejected until an escrow contract exists.
+
+See the [gallery spec](/specs/gallery) for what is built and what is still planned. The public event site is [permissionless.money/alpha/sezs](https://permissionless.money/alpha/sezs/).
+
+## Register first
+
+To take part, complete the registration form at [permissionless.money/alpha/sezs/register](https://permissionless.money/alpha/sezs/register/) and include a one-time registration commitment key issued to you by an event coordinator, along with the wallet addresses that should receive payouts. See [Submit payment addresses](/guides/artists/submitting-wallet-addresses). Do not send a key, a recovery phrase, or a payment to a person who only claims to represent the gallery.
+
+## What you can do now
+
+- Prepare images and a title, a short description, and the name you want shown.
+- If the organizers have opened a collection or an invite link for this event, use that link. Invite fragments stay in the URL hash so they are not sent as a query string; still treat the link as something you share on purpose, not as a secret that grants payment.
+
+## Splits
+
+The share that goes to charity and the share that goes to the artist are **modifiable parameters**, set per session by the event coordinators. The values currently in the code (11.1 percent, 11.1 percent, and 77.8 percent) are the defaults for those parameters — an example, not a fixed rule. Until escrow exists, they are display parameters only.
+
+## What is not available yet
+
+- The artist registration form and one-time commitment key are in place. A signed payout batch records the intended release; it does not itself move funds.
+- On-chain checkout and escrow (`sezs-art-escrow`) are designed and not deployed.
+- Donation routing through a FROST-controlled address is planned, not live.
+- A private auction is a design discussion only. There is no auction contract in this source tree.
+
+When those pieces ship, this guide should be updated next to the new behaviour. Until then, do not treat the showcase as a till.

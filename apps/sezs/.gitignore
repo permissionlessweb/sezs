@@ -1,0 +1,15 @@
+public/sezs-assets/artist-pay.js
+
+# DEV ONLY splash board state + TEST keys (never commit)
+.splash/
+
+# ticket v2 wasm build outputs (scripts/build-ticket-v2-wasm.sh)
+.zk/
+public/zk/
+
+# FROST payroll helper build
+dev/frost-payroll/target/
+
+# session admin FROST shares and splash state
+admin-frost/
+**/ticket-dests.env

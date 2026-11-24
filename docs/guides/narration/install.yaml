@@ -1,0 +1,294 @@
+schema_version: 1.1.0
+id: install
+title: Initial installations
+status: has_gaps
+audience: A new guest or usher who needs a wallet and a site session before any other guide.
+prerequisites:
+- A desktop browser, and permission to install a browser extension and a phone wallet.
+user_constraints:
+- Wallet installers live outside this app. Do not invent an in-app store screen.
+- A passkey session is not a ticket.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+flow_graph: docs/flows/surfaces/install.mmd
+derived_graphs:
+- docs/flows/derived/app-auth-module-deps.mmd
+surfaces:
+- apps/sezs/pages/keys.tsx
+- apps/sezs/src/auth/SignInPanel.tsx
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 51.0
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: pending
+    engine: null
+    voice: null
+    path: docs/guides/narration/audio/install/tts/
+    notes: Leave empty until a local offline TTS take is rendered.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/install/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: install-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's get ready to use Speak-Ez Sessions. We will install a wallet and start
+    a site session.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Start
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: install-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/install/install-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 7.7
+  word_count: 18
+  audio_render:
+    tts_path: docs/guides/narration/audio/install/tts/install-intro.aiff
+    human_path: docs/guides/narration/audio/install/human/install-intro.wav
+    take: null
+- id: install-02
+  status: gap
+  narration_ste: We install the Zafu browser extension from the wallet site. This app does not
+    include a Zafu installer.
+  on_screen_action: Off-site Zafu install (no in-app surface)
+  trail_step: trails/install.trail.yaml#install-02
+  expected_ui:
+    route: null
+    title: null
+    visible_labels: []
+  video_slots:
+  - id: install-02-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/install/install-02-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: event name, guide title, and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+  - id: install-02-wallet
+    type: mobile-wallet-capture
+    source_app: zafu-extension
+    source_device: desktop-extension
+    duration_seconds: 5.0
+    path: docs/guides/shots/install/install-02-wallet.png
+    status: placeholder
+    capture_checklist:
+    - Capture the official Zafu install or enabled state only.
+    - Do not capture account seeds or recovery phrases.
+  transitions:
+  - from: install-02-title
+    to: install-02-wallet
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 7.7
+  word_count: 18
+  audio_render:
+    tts_path: docs/guides/narration/audio/install/tts/install-02.aiff
+    human_path: docs/guides/narration/audio/install/human/install-02.wav
+    take: null
+  gap: Zafu is installed from its own site. There is no installer inside this app.
+  role: step
+  flow_node: ZafuInstall
+  producer_note: null
+- id: install-03
+  status: gap
+  narration_ste: We install a ZIP-321 wallet on the phone, such as Zashi or Ywallet. This app
+    does not include a phone-wallet installer.
+  on_screen_action: Off-site ZIP-321 wallet install (no in-app surface)
+  trail_step: trails/install.trail.yaml#install-03
+  expected_ui:
+    route: null
+    title: null
+    visible_labels: []
+  video_slots:
+  - id: install-03-wallet
+    type: mobile-wallet-capture
+    source_app: zashi-or-ywallet
+    source_device: phone
+    duration_seconds: 5.0
+    path: docs/guides/shots/install/install-03-wallet.png
+    status: placeholder
+    capture_checklist:
+    - Capture the installed wallet home after setup, with balances hidden if needed.
+    - Do not capture seed words or spending keys.
+    - 'Name the wallet in the filename: zashi or ywallet.'
+  transitions: []
+  estimated_speech_seconds: 9.9
+  word_count: 23
+  audio_render:
+    tts_path: docs/guides/narration/audio/install/tts/install-03.aiff
+    human_path: docs/guides/narration/audio/install/human/install-03.wav
+    take: null
+  gap: There is no in-app installer for Zashi or Ywallet. These wallets are used later to pay
+    a ZIP-321 request.
+  role: step
+  flow_node: ZipInstall
+  producer_note: null
+- id: install-04
+  status: complete
+  narration_ste: We open the Keys page. We read the movement titled Ways to sign in.
+  on_screen_action: Open /keys and read Ways to sign in
+  trail_step: trails/install.trail.yaml#install-04
+  expected_ui:
+    route: /keys
+    title: Keys · the event
+    visible_labels:
+    - Ways to sign in
+    - Zafu
+    - Zafu passkey
+    - This browser
+  video_slots:
+  - id: install-04-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/install/install-04-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at http://localhost on the walkthrough or a sibling session. Passkeys need localhost or HTTPS, not an IP address.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: install-04-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/install/install-04-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: install-04-web-mobile
+    to: install-04-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 5.6
+  word_count: 13
+  audio_render:
+    tts_path: docs/guides/narration/audio/install/tts/install-04.aiff
+    human_path: docs/guides/narration/audio/install/human/install-04.wav
+    take: null
+  gap: Keys page copy and modal options changed. Recapture shots and re-record audio before
+    regenerating this guide. Trails or shots that still say "Three ways in" or "Ephemeral key"
+    are stale. Email may appear in the modal but is not served on this branch.
+  role: step
+  flow_node: WaysIn
+  producer_note: Retune before regeneration. Labels are Zafu, Zafu passkey, This browser.
+- id: install-05
+  status: gap
+  narration_ste: We select Sign in. We choose Log in with Zafu or a passkey, and we complete
+    that method. We confirm the session on the Keys page.
+  on_screen_action: Sign in from the Keys page
+  trail_step: trails/install.trail.yaml#install-05
+  expected_ui:
+    route: /keys
+    title: Keys · the event
+    visible_labels:
+    - Sign in
+    - Log in with Zafu
+    - Zafu passkey
+    - This browser
+    - Your devices
+    - Unlock policy
+  video_slots:
+  - id: install-05-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/install/install-05-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at http://localhost on the walkthrough or a sibling session. Passkeys need localhost or HTTPS, not an IP address.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: install-05-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/install/install-05-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: install-05-web-mobile
+    to: install-05-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 12.0
+  word_count: 28
+  audio_render:
+    tts_path: docs/guides/narration/audio/install/tts/install-05.aiff
+    human_path: docs/guides/narration/audio/install/human/install-05.wav
+    take: null
+  gap: Sign-in modal lists Zafu, Zafu passkey, and This browser as working options.
+    Email may appear but is not served on this branch. Recapture shots and retune
+    the trail before regenerating.
+  role: step
+  flow_node: SignIn
+  producer_note: Retune before regeneration. Do not record a successful email OTP on this branch.
+- id: install-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: We now have a wallet and a site session. Let's continue to a ticket purchase
+    or to the door.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Session
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: install-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/install/install-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 8.1
+  word_count: 19
+  audio_render:
+    tts_path: docs/guides/narration/audio/install/tts/install-outro.aiff
+    human_path: docs/guides/narration/audio/install/human/install-outro.wav
+    take: null
+producer_note: 'Recorder: wallet installs happen off-site. Do not speak ports, local origins,
+  or seeded event names.'

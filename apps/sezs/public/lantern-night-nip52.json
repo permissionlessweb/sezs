@@ -1,0 +1,328 @@
+{
+  "content": "Doors at eight. Four rooms, one night. Tickets are issued as a Speak-Ez Sessions pass; a booking is not a ticket.",
+  "d": "lantern-night-2027",
+  "kind": 31923,
+  "sponsors": [
+    {
+      "example": true,
+      "id": "sp-copper-dome-press",
+      "name": "Copper Dome Press",
+      "note": "Printed the night's poster and programmes.",
+      "tier": "presenting"
+    },
+    {
+      "example": true,
+      "id": "sp-harbor-row-collective",
+      "name": "Harbor Row Collective",
+      "note": "Neighborhood support for the copper lantern.",
+      "tier": "community"
+    }
+  ],
+  "tags": [
+    [
+      "d",
+      "lantern-night-2027"
+    ],
+    [
+      "title",
+      "Speak-Ez Sessions: Lantern Night"
+    ],
+    [
+      "summary",
+      "A winter session of live sets, printed works, and a late-night raffle under the copper dome."
+    ],
+    [
+      "location",
+      "The Copper Lantern, Harbor Row"
+    ],
+    [
+      "start",
+      "1797120000"
+    ],
+    [
+      "end",
+      "1797145200"
+    ],
+    [
+      "set",
+      "alcove",
+      "Mirelle Voss",
+      "1797120000",
+      "1797123600",
+      "dj",
+      "set-alcove-mirelle"
+    ],
+    [
+      "set",
+      "alcove",
+      "Pearl Radio",
+      "1797123600",
+      "1797127200",
+      "dj",
+      "set-alcove-pearl"
+    ],
+    [
+      "set",
+      "cellar",
+      "The Night Palms",
+      "1797120000",
+      "1797122700",
+      "live",
+      "set-cellar-palms"
+    ],
+    [
+      "set",
+      "cellar",
+      "Hollow Finch",
+      "1797122700",
+      "1797127200",
+      "live",
+      "set-cellar-finch"
+    ],
+    [
+      "set",
+      "cellar",
+      "Red Kite Ensemble",
+      "1797127200",
+      "1797132600",
+      "live",
+      "set-cellar-kite"
+    ],
+    [
+      "set",
+      "floor",
+      "Juniper Vale",
+      "1797121800",
+      "1797127200",
+      "dj",
+      "set-floor-juniper"
+    ],
+    [
+      "set",
+      "floor",
+      "Cassette Harbor",
+      "1797127200",
+      "1797134400",
+      "dj",
+      "set-floor-cassette"
+    ],
+    [
+      "set",
+      "yard",
+      "Oat & Ember",
+      "1797123600",
+      "1797129000",
+      "flow",
+      "set-yard-oat"
+    ],
+    [
+      "set",
+      "yard",
+      "Vesper Quay",
+      "1797130800",
+      "1797138000",
+      "live",
+      "set-yard-vesper"
+    ],
+    [
+      "set",
+      "floor",
+      "Lampblack",
+      "1797134400",
+      "1797145200",
+      "dj",
+      "set-floor-lampblack"
+    ],
+    [
+      "door-price",
+      "5500",
+      "uterp"
+    ],
+    [
+      "stage",
+      "cellar",
+      "Cellar"
+    ],
+    [
+      "stage",
+      "floor",
+      "Floor"
+    ],
+    [
+      "stage",
+      "alcove",
+      "Alcove"
+    ],
+    [
+      "stage",
+      "yard",
+      "Yard"
+    ],
+    [
+      "artist",
+      "mirelle-voss",
+      "Mirelle Voss",
+      "",
+      "Opening set in the Alcove. Soft percussion, long delay."
+    ],
+    [
+      "artist",
+      "night-palms",
+      "The Night Palms",
+      "",
+      "Five-piece from the lower docks. Brushed drums and two horns."
+    ],
+    [
+      "artist",
+      "juniper-vale",
+      "Juniper Vale",
+      "",
+      "Records under her own name; floor sets lean toward house."
+    ],
+    [
+      "artist",
+      "cassette-harbor",
+      "Cassette Harbor",
+      "",
+      "Edits and broken-tempo selections from a private tape library."
+    ],
+    [
+      "artist",
+      "red-kite",
+      "Red Kite Ensemble",
+      "",
+      "String quartet with a small amplifier, late cellar set."
+    ],
+    [
+      "artist",
+      "hollow-finch",
+      "Hollow Finch",
+      "",
+      "Songs written on the ferry. Voice and twelve-string."
+    ],
+    [
+      "artist",
+      "pearl-radio",
+      "Pearl Radio",
+      "",
+      "Alcove closer. Voice, drum machine, one light."
+    ],
+    [
+      "artist",
+      "lampblack",
+      "Lampblack",
+      "",
+      "Last records of the night on the Floor."
+    ],
+    [
+      "artist",
+      "oat-ember",
+      "Oat & Ember",
+      "",
+      "Movement in the Yard between kitchen service."
+    ],
+    [
+      "artist",
+      "vesper-quay",
+      "Vesper Quay",
+      "",
+      "Yard closer. Harmonium and a small choir of friends."
+    ],
+    [
+      "vendor",
+      "salt-cinder",
+      "Salt & Cinder",
+      "Kitchen: hearth bread, late soup, citrus ices."
+    ],
+    [
+      "vendor",
+      "glasswing",
+      "Glasswing Coffee",
+      "Coffee and a short list of infusions until last set."
+    ],
+    [
+      "vendor",
+      "northferry",
+      "Northferry Records",
+      "Pressings and a listening table in the hall."
+    ],
+    [
+      "vendor",
+      "loom-ribbon",
+      "Loom & Ribbon",
+      "Printed merch and lantern badges at the alcove stair."
+    ],
+    [
+      "gallery",
+      "gw-copper-dome",
+      "Under the Copper Dome",
+      "Mirelle Voss",
+      "2.5",
+      "",
+      "mirelle-voss",
+      "Ink and wash of the lantern room, edition of thirty."
+    ],
+    [
+      "gallery",
+      "gw-harbor-row",
+      "Harbor Row at Nine",
+      "The Night Palms",
+      "1.8",
+      "",
+      "night-palms",
+      "A linoleum print of the street outside the venue."
+    ],
+    [
+      "gallery",
+      "gw-ferry-ticket",
+      "Unused Ferry Ticket",
+      "Hollow Finch",
+      "0.9",
+      "",
+      "hollow-finch",
+      "Small collage on board, one of a series of twelve."
+    ],
+    [
+      "prize",
+      "rf-lithograph",
+      "Harbor Lithograph",
+      "A signed print held at the records table.",
+      "80",
+      "open"
+    ],
+    [
+      "prize",
+      "rf-lantern-print",
+      "Copper Lantern print",
+      "Workshop print from the alcove stair.",
+      "120",
+      "open"
+    ],
+    [
+      "prize",
+      "rf-listening",
+      "After-hours listening pass",
+      "A seat at the Northferry table after last set.",
+      "60",
+      "open"
+    ],
+    [
+      "sponsor",
+      "sp-copper-dome-press",
+      "Copper Dome Press",
+      "",
+      "",
+      "presenting",
+      "Printed the night's poster and programmes."
+    ],
+    [
+      "sponsor",
+      "sp-harbor-row-collective",
+      "Harbor Row Collective",
+      "",
+      "",
+      "community",
+      "Neighborhood support for the copper lantern."
+    ]
+  ]
+}

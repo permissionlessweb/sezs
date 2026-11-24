@@ -1,0 +1,337 @@
+schema_version: 1.1.0
+id: admin-multisig-payments
+title: Admin signing and payments
+status: has_gaps
+audience: Event holders who approve artist and vendor payouts with FROST. A DAO path is not in
+  the current UI.
+prerequisites:
+- Holders are on the admin roster.
+- Artists or vendors have registered payout addresses.
+user_constraints:
+- Do not display private shares or spending keys.
+- There is no DAO payout screen. Mark that half as a gap.
+- A passkey session is not a ticket.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+flow_graph: docs/flows/surfaces/admin-multisig-payments.mmd
+derived_graphs:
+- docs/flows/derived/app-frost-module-deps.mmd
+surfaces:
+- apps/sezs/pages/admin.tsx
+- apps/sezs/src/frost/ParticipantsPanel.tsx
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 44.2
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: pending
+    engine: null
+    voice: null
+    path: docs/guides/narration/audio/admin-multisig-payments/tts/
+    notes: Leave empty until a local offline TTS take is rendered.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/admin-multisig-payments/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: admin-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's walk through signing and accepting payouts. We will use the FROST holder
+    set on Admin.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Admin
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: admin-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/admin-multisig-payments/admin-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 6.9
+  word_count: 16
+  audio_render:
+    tts_path: docs/guides/narration/audio/admin-multisig-payments/tts/admin-intro.aiff
+    human_path: docs/guides/narration/audio/admin-multisig-payments/human/admin-intro.wav
+    take: null
+- id: admin-02
+  status: complete
+  narration_ste: We open Admin. We open the Holders tab. We read how many holders must agree.
+  on_screen_action: Open /admin and the Holders tab
+  trail_step: trails/admin-multisig-payments.trail.yaml#admin-02
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Holders
+    - Participants
+    - group key
+  video_slots:
+  - id: admin-02-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/admin-multisig-payments/admin-02-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: admin-02-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/admin-multisig-payments/admin-02-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: admin-02-web-mobile
+    to: admin-02-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 6.4
+  word_count: 15
+  audio_render:
+    tts_path: docs/guides/narration/audio/admin-multisig-payments/tts/admin-02.aiff
+    human_path: docs/guides/narration/audio/admin-multisig-payments/human/admin-02.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Holders
+  producer_note: null
+- id: admin-03
+  status: complete
+  narration_ste: We open the Participants tab. We review registered payout addresses. We select
+    Propose batch.
+  on_screen_action: Open Participants and select Propose batch
+  trail_step: trails/admin-multisig-payments.trail.yaml#admin-03
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Participants
+    - Payout batch
+    - Propose batch
+  video_slots:
+  - id: admin-03-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/admin-multisig-payments/admin-03-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: admin-03-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/admin-multisig-payments/admin-03-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: admin-03-web-mobile
+    to: admin-03-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 6.0
+  word_count: 14
+  audio_render:
+    tts_path: docs/guides/narration/audio/admin-multisig-payments/tts/admin-03.aiff
+    human_path: docs/guides/narration/audio/admin-multisig-payments/human/admin-03.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Batch
+  producer_note: null
+- id: admin-04
+  status: complete
+  narration_ste: We select Sign with FROST. We confirm the signature on the usher device. We select
+    Execute payouts.
+  on_screen_action: Select Sign with FROST, then Execute payouts
+  trail_step: trails/admin-multisig-payments.trail.yaml#admin-04
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Sign with FROST
+    - Execute payouts
+  video_slots:
+  - id: admin-04-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/admin-multisig-payments/admin-04-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: admin-04-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/admin-multisig-payments/admin-04-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: admin-04-wallet
+    type: mobile-wallet-capture
+    source_app: frost-holder-device
+    source_device: holder-device
+    duration_seconds: 8
+    path: docs/guides/shots/admin-multisig-payments/admin-04-wallet.png
+    status: placeholder
+    capture_checklist:
+    - Capture each holder’s FROST sign prompt, with shares hidden.
+    - Capture the batch status change to signed, then executed.
+  transitions:
+  - from: admin-04-web-mobile
+    to: admin-04-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  - from: admin-04-web-desktop
+    to: admin-04-wallet
+    type: cut
+    duration_seconds: 0.5
+  estimated_speech_seconds: 7.3
+  word_count: 17
+  audio_render:
+    tts_path: docs/guides/narration/audio/admin-multisig-payments/tts/admin-04.aiff
+    human_path: docs/guides/narration/audio/admin-multisig-payments/human/admin-04.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: FrostSign
+  producer_note: null
+- id: admin-05
+  status: gap
+  narration_ste: A DAO payout screen is not in the app yet. We use the FROST payout path on Admin
+    for this flow.
+  on_screen_action: No DAO payout UI in the current app
+  trail_step: trails/admin-multisig-payments.trail.yaml#admin-05
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Holders
+    - Participants
+  video_slots:
+  - id: admin-05-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 4
+    path: docs/guides/shots/admin-multisig-payments/admin-05-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: event name, guide title, and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+  - id: admin-05-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 3
+    path: docs/guides/shots/admin-multisig-payments/admin-05-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: admin-05-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 3
+    path: docs/guides/shots/admin-multisig-payments/admin-05-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: admin-05-title
+    to: admin-05-web-mobile
+    type: cut
+    duration_seconds: 0.4
+  - from: admin-05-web-mobile
+    to: admin-05-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.0
+  word_count: 21
+  audio_render:
+    tts_path: docs/guides/narration/audio/admin-multisig-payments/tts/admin-05.aiff
+    human_path: docs/guides/narration/audio/admin-multisig-payments/human/admin-05.wav
+    take: null
+  gap: The current coordinator path is Propose batch, Sign with FROST, and Execute payouts. There
+    is no DAO payout screen.
+  role: step
+  flow_node: Dao
+  producer_note: null
+- id: admin-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: The batch is complete when the status shows it executed. We can return to Admin
+    to review holders and participants.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Done
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: admin-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/admin-multisig-payments/admin-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 8.6
+  word_count: 20
+  audio_render:
+    tts_path: docs/guides/narration/audio/admin-multisig-payments/tts/admin-outro.aiff
+    human_path: docs/guides/narration/audio/admin-multisig-payments/human/admin-outro.wav
+    take: null
+producer_note: 'Recorder: the FROST path used by ParticipantsPanel is the current coordinator
+  path. instantiate_dao is deploy-time only. Do not speak local signer nicknames or seeded event
+  names.'

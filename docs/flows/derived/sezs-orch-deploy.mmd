@@ -1,0 +1,452 @@
+flowchart TB
+    src_suite_SezsSuite_deploy_on["deploy_on, method, CC=10"]
+    proxy_unresolved_chain_sender_addr["chain.sender_addr, proxy"]
+    proxy_unresolved_Self__store_on["Self::store_on, proxy"]
+    proxy_unresolved_chain_clone["chain.clone, proxy"]
+    proxy_unresolved_data__curator__clone___unwrap_or_else["data
+            .curator
+            .clone()
+            .unwrap_or_else, proxy"]
+    proxy_unresolved_data__curator__clone["data
+            .curator
+            .clone, proxy"]
+    proxy_unresolved_sender_to_string["sender.to_string, proxy"]
+    proxy_unresolved_suite__zkid__ok_or_else__48b166379d397b35["suite
+            .zkid
+            .ok_or_else, proxy"]
+    proxy_unresolved_CwEnvError__StdErr["CwEnvError::StdErr, proxy"]
+    proxy_unresolved__circuit_zkid_missing_after_upload__into["#quot;circuit zkid missing after upload#quot;.into, proxy"]
+    proxy_unresolved_src_suite_Some["src.suite:Some, proxy"]
+    proxy_unresolved_suite__coordinators__instantiate___JsonMsg_json___admin___curator___members___data_coordinators_iter__map_m__json_addr___m_addr___weight___m_weight__collect___Vec______Some_sender_______map_err["suite
+            .coordinators
+            .instantiate(
+                &JsonMsg(json!({
+                    #quot;admin#quot;: curator,
+                    #quot;members#quot;: data.coordinators.iter().map(|m| json!({#quot;addr#quot;: m.addr, #quot;weight#quot;: m.weight})).collect::<Vec<_>>(),
+                })),
+                Some(&sender),
+                &[],
+            )
+            .map_err, proxy"]
+    proxy_unresolved_suite__coordinators__instantiate["suite
+            .coordinators
+            .instantiate, proxy"]
+    proxy_unresolved_src_suite_JsonMsg["src.suite:JsonMsg, proxy"]
+    proxy_unresolved_suite_coordinators_addr_str["suite.coordinators.addr_str, proxy"]
+    proxy_unresolved_suite__ushers__instantiate___JsonMsg_json___admin___curator___members___data_ushers_iter__map_m__json_addr___m_addr___weight___m_weight__collect___Vec______Some_sender_______map_err["suite
+            .ushers
+            .instantiate(
+                &JsonMsg(json!({
+                    #quot;admin#quot;: curator,
+                    #quot;members#quot;: data.ushers.iter().map(|m| json!({#quot;addr#quot;: m.addr, #quot;weight#quot;: m.weight})).collect::<Vec<_>>(),
+                })),
+                Some(&sender),
+                &[],
+            )
+            .map_err, proxy"]
+    proxy_unresolved_suite__ushers__instantiate["suite
+            .ushers
+            .instantiate, proxy"]
+    proxy_unresolved_suite_ushers_addr_str["suite.ushers.addr_str, proxy"]
+    proxy_unresolved_suite_cw_ave_factory_code_id__is_ok["suite.cw_ave_factory.code_id().is_ok, proxy"]
+    proxy_unresolved_suite_cw_ave_factory_code_id["suite.cw_ave_factory.code_id, proxy"]
+    proxy_unresolved_suite_cw_ave_code_id__is_ok["suite.cw_ave.code_id().is_ok, proxy"]
+    proxy_unresolved_suite_cw_ave_code_id["suite.cw_ave.code_id, proxy"]
+    proxy_unresolved_suite_cw_ave_factory_instantiate["suite.cw_ave_factory.instantiate, proxy"]
+    proxy_unresolved_suite_cw_ave_factory_addr_str__ok["suite.cw_ave_factory.addr_str().ok, proxy"]
+    proxy_unresolved_suite_cw_ave_factory_addr_str["suite.cw_ave_factory.addr_str, proxy"]
+    src_suite_instantiate_dao["instantiate_dao, function, CC=7"]
+    src_suite_instantiate_randomness["instantiate_randomness, function, CC=8"]
+    proxy_unresolved_data_meta_path_clone__unwrap_or_else["data.meta_path.clone().unwrap_or_else, proxy"]
+    proxy_unresolved_data_meta_path_clone["data.meta_path.clone, proxy"]
+    proxy_unresolved_wasm__repo_root__join["wasm::repo_root().join, proxy"]
+    proxy_unresolved_wasm__repo_root["wasm::repo_root, proxy"]
+    proxy_unresolved_data__event__write_metadata_file_meta_path___map_err["data
+            .event
+            .write_metadata_file(&meta_path)
+            .map_err, proxy"]
+    proxy_unresolved_data__event__write_metadata_file["data
+            .event
+            .write_metadata_file, proxy"]
+    proxy_unresolved_e_to_string["e.to_string, proxy"]
+    proxy_unresolved_data_event_instantiate_msg["data.event.instantiate_msg, proxy"]
+    proxy_unresolved_curator_clone["curator.clone, proxy"]
+    proxy_unresolved_suite__addresses__cw420_coordinators__clone___ok_or_else["suite
+                .addresses
+                .cw420_coordinators
+                .clone()
+                .ok_or_else, proxy"]
+    proxy_unresolved_suite__addresses__cw420_coordinators__clone["suite
+                .addresses
+                .cw420_coordinators
+                .clone, proxy"]
+    proxy_unresolved__coordinators_addr_missing__into["#quot;coordinators addr missing#quot;.into, proxy"]
+    proxy_unresolved_suite_addresses_cw420_ushers_clone["suite.addresses.cw420_ushers.clone, proxy"]
+    proxy_unresolved_data_service_key_clone["data.service_key.clone, proxy"]
+    proxy_unresolved_suite_addresses_terp_beacon_clone["suite.addresses.terp_beacon.clone, proxy"]
+    proxy_unresolved_meta_uri_clone["meta_uri.clone, proxy"]
+    proxy_unresolved_meta_hash_clone["meta_hash.clone, proxy"]
+    proxy_unresolved_suite__event__instantiate_JsonMsg_ev__Some_sender_____map_err["suite
+            .event
+            .instantiate(&JsonMsg(ev), Some(&sender), &[])
+            .map_err, proxy"]
+    proxy_unresolved_suite__event__instantiate["suite
+            .event
+            .instantiate, proxy"]
+    proxy_unresolved_suite_event_addr_str["suite.event.addr_str, proxy"]
+    src_suite_guest_root_vk_hex["guest_root_vk_hex, function, CC=3"]
+    proxy_unresolved_suite_event_execute["suite.event.execute, proxy"]
+    proxy_unresolved_data_event_curate_msgs["data.event.curate_msgs, proxy"]
+    proxy_unresolved_msg_clone["msg.clone, proxy"]
+    proxy_unresolved_src_suite_Ok["src.suite:Ok, proxy"]
+    src_bin_deploy_main["main, function, CC=11"]
+    src_suite_SezsSuite_new["new, method, CC=1"]
+    src_suite_SezsSuite_compile_and_upload_circuit["compile_and_upload_circuit, method, CC=1"]
+    src_suite_into_env["into_env, function, CC=1"]
+    src_suite_SezsSuite_load_from["load_from, method, CC=2"]
+    src_suite_SezsSuite_query_event_view["query_event_view, method, CC=1"]
+    proxy_unresolved_suite_dao_core_code_id__is_err["suite.dao_core.code_id().is_err, proxy"]
+    proxy_unresolved_suite_dao_core_code_id["suite.dao_core.code_id, proxy"]
+    proxy_unresolved_suite_dao_voting_code_id__is_err["suite.dao_voting.code_id().is_err, proxy"]
+    proxy_unresolved_suite_dao_voting_code_id["suite.dao_voting.code_id, proxy"]
+    proxy_unresolved_suite_dao_proposal_code_id__is_err["suite.dao_proposal.code_id().is_err, proxy"]
+    proxy_unresolved_suite_dao_proposal_code_id["suite.dao_proposal.code_id, proxy"]
+    proxy_unresolved_suite_cw4_group_code_id__is_err["suite.cw4_group.code_id().is_err, proxy"]
+    proxy_unresolved_suite_cw4_group_code_id["suite.cw4_group.code_id, proxy"]
+    proxy_unresolved_suite__dao_core__instantiate_JsonMsg_dao_init__Some_sender_____map_err["suite
+        .dao_core
+        .instantiate(&JsonMsg(dao_init), Some(&sender), &[])
+        .map_err, proxy"]
+    proxy_unresolved_suite__dao_core__instantiate["suite
+        .dao_core
+        .instantiate, proxy"]
+    proxy_unresolved_suite_dao_core_addr_str["suite.dao_core.addr_str, proxy"]
+    proxy_unresolved_suite_dao_calendar_code_id__is_ok["suite.dao_calendar.code_id().is_ok, proxy"]
+    proxy_unresolved_suite_dao_calendar_code_id["suite.dao_calendar.code_id, proxy"]
+    proxy_unresolved_suite__dao_calendar__instantiate["suite
+                .dao_calendar
+                .instantiate, proxy"]
+    proxy_unresolved_suite_dao_calendar_addr_str__ok["suite.dao_calendar.addr_str().ok, proxy"]
+    proxy_unresolved_suite_dao_calendar_addr_str["suite.dao_calendar.addr_str, proxy"]
+    proxy_unresolved_suite_terp_beacon_code_id__is_ok["suite.terp_beacon.code_id().is_ok, proxy"]
+    proxy_unresolved_suite_terp_beacon_code_id["suite.terp_beacon.code_id, proxy"]
+    proxy_unresolved_suite__terp_beacon__instantiate___JsonMsg_terp_beacon_instantiate_curator__Some_sender_______map_err["suite
+            .terp_beacon
+            .instantiate(
+                &JsonMsg(terp_beacon_instantiate(curator)),
+                Some(&sender),
+                &[],
+            )
+            .map_err, proxy"]
+    proxy_unresolved_suite__terp_beacon__instantiate["suite
+            .terp_beacon
+            .instantiate, proxy"]
+    src_seed_terp_beacon_instantiate["terp_beacon_instantiate, function, CC=1"]
+    proxy_unresolved_suite_terp_beacon_addr_str["suite.terp_beacon.addr_str, proxy"]
+    proxy_unresolved_suite_nftfi_raffle_code_id__is_ok["suite.nftfi_raffle.code_id().is_ok, proxy"]
+    proxy_unresolved_suite_nftfi_raffle_code_id["suite.nftfi_raffle.code_id, proxy"]
+    proxy_unresolved_msgs_insert["msgs.insert, proxy"]
+    proxy_unresolved_suite__nftfi_raffle__instantiate["suite
+                .nftfi_raffle
+                .instantiate, proxy"]
+    proxy_unresolved_suite_nftfi_raffle_addr_str__ok["suite.nftfi_raffle.addr_str().ok, proxy"]
+    proxy_unresolved_suite_nftfi_raffle_addr_str["suite.nftfi_raffle.addr_str, proxy"]
+    proxy_unresolved_std__env__var["std::env::var, proxy"]
+    proxy_unresolved_v_trim__trim_start_matches_0x__to_lowercase["v.trim().trim_start_matches(#quot;0x#quot;).to_lowercase, proxy"]
+    proxy_unresolved_v_trim__trim_start_matches["v.trim().trim_start_matches, proxy"]
+    proxy_unresolved_v_trim["v.trim, proxy"]
+    proxy_unresolved_v_len["v.len, proxy"]
+    proxy_unresolved_v_chars__all["v.chars().all, proxy"]
+    proxy_unresolved_v_chars["v.chars, proxy"]
+    proxy_unresolved_c_is_ascii_hexdigit["c.is_ascii_hexdigit, proxy"]
+    proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok___map_std__path__PathBuf__from___unwrap_or_else__std__path__PathBuf__from_tmp_sezs_session_walkthrough___join["std::env::var(#quot;SEZS_SESSION_ROOT#quot;)
+        .ok()
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else(|| std::path::PathBuf::from(#quot;/tmp/sezs-session-walkthrough#quot;))
+        .join, proxy"]
+    proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok___map_std__path__PathBuf__from___unwrap_or_else["std::env::var(#quot;SEZS_SESSION_ROOT#quot;)
+        .ok()
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else, proxy"]
+    proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok___map["std::env::var(#quot;SEZS_SESSION_ROOT#quot;)
+        .ok()
+        .map, proxy"]
+    proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok["std::env::var(#quot;SEZS_SESSION_ROOT#quot;)
+        .ok, proxy"]
+    proxy_unresolved_std__path__PathBuf__from["std::path::PathBuf::from, proxy"]
+    proxy_unresolved_std__fs__read_to_string_path__ok["std::fs::read_to_string(path).ok, proxy"]
+    proxy_unresolved_std__fs__read_to_string["std::fs::read_to_string, proxy"]
+    proxy_unresolved_serde_json__from_str_raw__ok["serde_json::from_str(&raw).ok, proxy"]
+    proxy_unresolved_serde_json__from_str["serde_json::from_str, proxy"]
+    proxy_unresolved_v_get_verifyingKey__as_str__trim__trim_start_matches_0x__to_lowercase["v.get(#quot;verifyingKey#quot;)?.as_str()?.trim().trim_start_matches(#quot;0x#quot;).to_lowercase, proxy"]
+    proxy_unresolved_v_get_verifyingKey__as_str__trim__trim_start_matches["v.get(#quot;verifyingKey#quot;)?.as_str()?.trim().trim_start_matches, proxy"]
+    proxy_unresolved_v_get_verifyingKey__as_str__trim["v.get(#quot;verifyingKey#quot;)?.as_str()?.trim, proxy"]
+    proxy_unresolved_v_get_verifyingKey__as_str["v.get(#quot;verifyingKey#quot;)?.as_str, proxy"]
+    proxy_unresolved_v_get["v.get, proxy"]
+    proxy_unresolved__s_len____64___s_chars__all_c__c_is_ascii_hexdigit__then_some["(s.len() == 64 && s.chars().all(|c| c.is_ascii_hexdigit())).then_some, proxy"]
+    proxy_unresolved_s_len["s.len, proxy"]
+    proxy_unresolved_s_chars__all["s.chars().all, proxy"]
+    proxy_unresolved_s_chars["s.chars, proxy"]
+    src_suite_SezsSuite_store_sezs_contracts["store_sezs_contracts, method, CC=5"]
+    src_suite_SezsSuite_store_on["store_on, method, CC=8"]
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_chain_sender_addr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_Self__store_on
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__curator__clone___unwrap_or_else
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__curator__clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_sender_to_string
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__zkid__ok_or_else__48b166379d397b35
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved__circuit_zkid_missing_after_upload__into
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__coordinators__instantiate___JsonMsg_json___admin___curator___members___data_coordinators_iter__map_m__json_addr___m_addr___weight___m_weight__collect___Vec______Some_sender_______map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__coordinators__instantiate
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_coordinators_addr_str
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__ushers__instantiate___JsonMsg_json___admin___curator___members___data_ushers_iter__map_m__json_addr___m_addr___weight___m_weight__collect___Vec______Some_sender_______map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__ushers__instantiate
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_ushers_addr_str
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_code_id__is_ok
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_code_id
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_code_id__is_ok
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_code_id
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_instantiate
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_addr_str__ok
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_addr_str
+    src_suite_SezsSuite_deploy_on --> src_suite_instantiate_dao
+    src_suite_SezsSuite_deploy_on --> src_suite_instantiate_randomness
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_meta_path_clone__unwrap_or_else
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_meta_path_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_wasm__repo_root__join
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_wasm__repo_root
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__event__write_metadata_file_meta_path___map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__event__write_metadata_file
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_e_to_string
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_event_instantiate_msg
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_curator_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__addresses__cw420_coordinators__clone___ok_or_else
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__addresses__cw420_coordinators__clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved__coordinators_addr_missing__into
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_addresses_cw420_ushers_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_service_key_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_addresses_terp_beacon_clone
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_meta_uri_clone
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_meta_hash_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__event__instantiate_JsonMsg_ev__Some_sender_____map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__event__instantiate
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_event_addr_str
+    src_suite_SezsSuite_deploy_on --> src_suite_guest_root_vk_hex
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_event_execute
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_event_curate_msgs
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_event_execute
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_msg_clone
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Ok
+    src_bin_deploy_main -.-> proxy_unresolved_chain_sender_addr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_chain_sender_addr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_Self__store_on
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_new -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_chain_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__curator__clone___unwrap_or_else
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__curator__clone
+    src_bin_deploy_main -.-> proxy_unresolved_sender_to_string
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_sender_to_string
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__zkid__ok_or_else__48b166379d397b35
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_into_env -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved__circuit_zkid_missing_after_upload__into
+    src_suite_SezsSuite_compile_and_upload_circuit --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_load_from --> proxy_unresolved_src_suite_Some
+    src_suite_guest_root_vk_hex --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__coordinators__instantiate___JsonMsg_json___admin___curator___members___data_coordinators_iter__map_m__json_addr___m_addr___weight___m_weight__collect___Vec______Some_sender_______map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__coordinators__instantiate
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_query_event_view --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_coordinators_addr_str
+    src_suite_SezsSuite_load_from -.-> proxy_unresolved_suite_coordinators_addr_str
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__ushers__instantiate___JsonMsg_json___admin___curator___members___data_ushers_iter__map_m__json_addr___m_addr___weight___m_weight__collect___Vec______Some_sender_______map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__ushers__instantiate
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_ushers_addr_str
+    src_suite_SezsSuite_load_from -.-> proxy_unresolved_suite_ushers_addr_str
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_code_id__is_ok
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_code_id
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_code_id__is_ok
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_code_id
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_instantiate
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_addr_str__ok
+    src_suite_SezsSuite_load_from -.-> proxy_unresolved_suite_cw_ave_factory_addr_str__ok
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_cw_ave_factory_addr_str
+    src_suite_SezsSuite_load_from -.-> proxy_unresolved_suite_cw_ave_factory_addr_str
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_core_code_id__is_err
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_core_code_id
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_voting_code_id__is_err
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_voting_code_id
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_proposal_code_id__is_err
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_proposal_code_id
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_cw4_group_code_id__is_err
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_cw4_group_code_id
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite__dao_core__instantiate_JsonMsg_dao_init__Some_sender_____map_err
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite__dao_core__instantiate
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_core_addr_str
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_calendar_code_id__is_ok
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_calendar_code_id
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_core_addr_str
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite__dao_calendar__instantiate
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_calendar_addr_str__ok
+    src_suite_instantiate_dao -.-> proxy_unresolved_suite_dao_calendar_addr_str
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_deploy_on --> src_suite_instantiate_dao
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite_terp_beacon_code_id__is_ok
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite_terp_beacon_code_id
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite__terp_beacon__instantiate___JsonMsg_terp_beacon_instantiate_curator__Some_sender_______map_err
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite__terp_beacon__instantiate
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_randomness -.-> src_seed_terp_beacon_instantiate
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite_terp_beacon_addr_str
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite_nftfi_raffle_code_id__is_ok
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite_nftfi_raffle_code_id
+    src_suite_instantiate_randomness -.-> proxy_unresolved_msgs_insert
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite__nftfi_raffle__instantiate
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_JsonMsg
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite_nftfi_raffle_addr_str__ok
+    src_suite_instantiate_randomness -.-> proxy_unresolved_suite_nftfi_raffle_addr_str
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_deploy_on --> src_suite_instantiate_randomness
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_meta_path_clone__unwrap_or_else
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_meta_path_clone
+    src_bin_deploy_main -.-> proxy_unresolved_wasm__repo_root__join
+    src_bin_deploy_main -.-> proxy_unresolved_wasm__repo_root__join
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_wasm__repo_root__join
+    src_bin_deploy_main -.-> proxy_unresolved_wasm__repo_root
+    src_bin_deploy_main -.-> proxy_unresolved_wasm__repo_root
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_wasm__repo_root
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__event__write_metadata_file_meta_path___map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data__event__write_metadata_file
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_e_to_string
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_e_to_string
+    src_suite_into_env -.-> proxy_unresolved_e_to_string
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_event_instantiate_msg
+    src_bin_deploy_main -.-> proxy_unresolved_curator_clone
+    src_bin_deploy_main -.-> proxy_unresolved_curator_clone
+    src_bin_deploy_main -.-> proxy_unresolved_curator_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_curator_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__addresses__cw420_coordinators__clone___ok_or_else
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__addresses__cw420_coordinators__clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved__coordinators_addr_missing__into
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_addresses_cw420_ushers_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_service_key_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_addresses_terp_beacon_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_meta_uri_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_meta_hash_clone
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__event__instantiate_JsonMsg_ev__Some_sender_____map_err
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite__event__instantiate
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_event_addr_str
+    src_suite_SezsSuite_load_from -.-> proxy_unresolved_suite_event_addr_str
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__env__var
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_trim__trim_start_matches_0x__to_lowercase
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_trim__trim_start_matches
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_trim
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_len
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_chars__all
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_chars
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_c_is_ascii_hexdigit
+    src_suite_guest_root_vk_hex --> proxy_unresolved_src_suite_Some
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok___map_std__path__PathBuf__from___unwrap_or_else__std__path__PathBuf__from_tmp_sezs_session_walkthrough___join
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok___map_std__path__PathBuf__from___unwrap_or_else
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok___map
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__env__var_SEZS_SESSION_ROOT___ok
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__env__var
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__path__PathBuf__from
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__fs__read_to_string_path__ok
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_std__fs__read_to_string
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_serde_json__from_str_raw__ok
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_serde_json__from_str
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_get_verifyingKey__as_str__trim__trim_start_matches_0x__to_lowercase
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_get_verifyingKey__as_str__trim__trim_start_matches
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_get_verifyingKey__as_str__trim
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_get_verifyingKey__as_str
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_v_get
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved__s_len____64___s_chars__all_c__c_is_ascii_hexdigit__then_some
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_s_len
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_s_chars__all
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_s_chars
+    src_suite_guest_root_vk_hex -.-> proxy_unresolved_c_is_ascii_hexdigit
+    src_suite_SezsSuite_deploy_on --> src_suite_guest_root_vk_hex
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_event_execute
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_suite_event_execute
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_data_event_curate_msgs
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_msg_clone
+    src_suite_SezsSuite_store_sezs_contracts --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_compile_and_upload_circuit --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_store_on --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_load_from --> proxy_unresolved_src_suite_Ok
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Ok
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Ok

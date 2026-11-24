@@ -1,0 +1,36 @@
+[workspace]
+resolver = "2"
+members = ["circuit", "wasm"]
+exclude = ["probe"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "BSD-3-Clause"
+
+[workspace.dependencies]
+ff = { version = "0.14", default-features = false, features = ["std"] }
+group = "0.14"
+halo2_gadgets = { package = "zakura-halo2-gadgets", path = "../../../terp-core/crates/zakura-common/crates/halo2_gadgets", default-features = false }
+halo2_poseidon = { package = "zakura-halo2-poseidon", path = "../../../terp-core/crates/zakura-common/crates/halo2_poseidon", default-features = false }
+halo2_proofs = { package = "zakura-halo2-proofs", path = "../../../terp-core/crates/zakura-common/crates/halo2_proofs", default-features = false }
+pasta_curves = { package = "zakura-pasta-curves", path = "../../../terp-core/crates/zakura-common/crates/pasta_curves", default-features = false, features = ["alloc", "sqrt-table"] }
+reddsa = { package = "zakura-reddsa", path = "../../../terp-core/crates/zakura-common/crates/reddsa", default-features = false, features = ["std", "pallas-pasta"] }
+rand = { version = "0.10", default-features = false, features = ["std_rng"] }
+rand_core = { version = "0.10", default-features = false }
+sha2 = "0.10"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+
+# Same patch set libwasmvm builds with, so the prover, the host verifier
+# (zk-cosmwasm) and this crate all use one zakura halo2 copy.
+[patch.crates-io]
+zakura-halo2-gadgets = { path = "../../../terp-core/crates/zakura-common/crates/halo2_gadgets" }
+zakura-halo2-poseidon = { path = "../../../terp-core/crates/zakura-common/crates/halo2_poseidon" }
+zakura-halo2-proofs = { path = "../../../terp-core/crates/zakura-common/crates/halo2_proofs" }
+zakura-pasta-curves = { path = "../../../terp-core/crates/zakura-common/crates/pasta_curves" }
+zakura-reddsa = { path = "../../../terp-core/crates/zakura-common/crates/reddsa" }

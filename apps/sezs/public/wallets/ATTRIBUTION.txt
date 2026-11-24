@@ -1,0 +1,10 @@
+Wallet marks stored locally (not hotlinked):
+
+- keplr.svg: official Keplr wallet mark from the Chainapsis
+  keplr-rainbow-connector repository
+  (packages/rainbow-connector/src/assets/keplrWallet.svg).
+- zafu.svg / zafu.png / zafu-seal.svg: official Zafu extension marks from
+  rotkonetworks/zafu (apps/extension/public/favicon/seal.svg and
+  icon128-emblem.png).
+- passkey.svg: original mark drawn for this app, for the browser + passkey
+  sign-in option. It is not a FIDO Alliance or platform vendor logo.

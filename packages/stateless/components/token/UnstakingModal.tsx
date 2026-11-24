@@ -1,0 +1,217 @@
+import { ArrowDropDown, WarningRounded } from '@mui/icons-material'
+import clsx from 'clsx'
+import { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { ModalProps, UnstakingTask } from '@dao-dao/types'
+import { expirationToDate } from '@dao-dao/utils'
+
+import { Button } from '../buttons/Button'
+import { Modal } from '../modals/Modal'
+import { NoContent } from '../NoContent'
+import { UnstakingLine } from './UnstakingLine'
+import { UnstakingTaskStatus } from './UnstakingStatus'
+
+export interface UnstakingModalProps extends Omit<ModalProps, 'children'> {
+  claimingLoading?: boolean
+  unstakingDuration?: string
+  tasks: UnstakingTask[]
+  onClaim?: () => void
+  refresh?: () => void
+}
+
+const sortTasks = (a: UnstakingTask, b: UnstakingTask) => {
+  const aValue =
+    'at_time' in a.expiration
+      ? Number(a.expiration.at_time)
+      : 'at_height' in a.expiration
+        ? a.expiration.at_height
+        : 'never' in a.expiration
+          ? Infinity
+          : 0
+  const bValue =
+    'at_time' in b.expiration
+      ? Number(b.expiration.at_time)
+      : 'at_height' in b.expiration
+        ? b.expiration.at_height
+        : 'never' in b.expiration
+          ? Infinity
+          : 0
+  return aValue - bValue
+}
+
+export const UnstakingModal = ({
+  claimingLoading,
+  unstakingDuration,
+  tasks,
+  containerClassName,
+  onClaim,
+  refresh,
+  ...modalProps
+}: UnstakingModalProps) => {
+  const { t } = useTranslation()
+
+  modalProps.header = {
+    title: modalProps.header?.title || t('title.unstaking'),
+    subtitle:
+      modalProps.header?.subtitle ||
+      (unstakingDuration
+        ? t('info.unstakingDurationExplanation', {
+            duration: unstakingDuration,
+          })
+        : t('info.unstakingDurationNoneExplanation')),
+  }
+
+  // Combine into tasks grouped by token.
+  const readyToClaim = useMemo(
+    () =>
+      tasks
+        .filter(({ status }) => status === UnstakingTaskStatus.ReadyToClaim)
+        .sort(sortTasks)
+        .reduce((combinedTasks, task) => {
+          const existingTask = combinedTasks.find(
+            ({ token }) => token.symbol === task.token.symbol
+          )
+          // If found, just modify existing by increasing amount. No need to
+          // worry about the date since it will be replaced by a claim button.
+          if (existingTask) {
+            existingTask.amount = existingTask.amount.plus(task.amount)
+          } else {
+            // If not found, add this task as the new one.
+            combinedTasks.push(task)
+          }
+
+          return combinedTasks
+        }, [] as UnstakingTask[]),
+    [tasks]
+  )
+  // Sorted ascending so that the next one to finish is first.
+  const unstaking = useMemo(
+    () =>
+      tasks
+        .filter(({ status }) => status === UnstakingTaskStatus.Unstaking)
+        .sort(sortTasks),
+    [tasks]
+  )
+  const claimed = useMemo(
+    () =>
+      tasks
+        .filter(({ status }) => status === UnstakingTaskStatus.Claimed)
+        .sort(sortTasks),
+    [tasks]
+  )
+
+  // Refresh when the soonest task completes if refresh provided.
+  useEffect(() => {
+    if (!refresh) {
+      return
+    }
+
+    // If there are no unstaking tasks with a time, don't refresh.
+    const firstUnstakingTaskWithTime = unstaking.find(
+      (t) => 'at_time' in t.expiration
+    )?.expiration
+    if (!firstUnstakingTaskWithTime) {
+      return
+    }
+
+    // Unstaking is sorted so that the first one is next to finish.
+    const msUntilNextTaskCompletion =
+      expirationToDate(firstUnstakingTaskWithTime).getTime() - Date.now()
+
+    // `setTimeout` uses 32-bit integers, so we need to check if the number is
+    // too large. Why JavaScript...
+    if (msUntilNextTaskCompletion < 2 ** 31) {
+      const timeout = setTimeout(refresh, msUntilNextTaskCompletion)
+      // Clean up on unmount.
+      return () => clearTimeout(timeout)
+    }
+  }, [unstaking, refresh])
+
+  return (
+    <Modal
+      {...modalProps}
+      containerClassName={clsx(
+        '!h-[38rem] !max-h-[82dvh] w-full !max-w-2xl',
+        containerClassName
+      )}
+    >
+      {tasks.length === 0 ? (
+        <NoContent
+          Icon={WarningRounded}
+          body={t('info.nothingFound')}
+          className="h-full w-full justify-center border-0"
+        />
+      ) : (
+        <>
+          {/* Only show if something is ready to claim. */}
+          {readyToClaim.length > 0 && (
+            <>
+              <div className="mb-5 space-y-1">
+                {readyToClaim.map((task, index) => (
+                  <UnstakingLine
+                    key={index}
+                    dateReplacement={
+                      onClaim && (
+                        <Button
+                          loading={claimingLoading}
+                          onClick={onClaim}
+                          variant="brand"
+                        >
+                          {t('button.claim')}
+                        </Button>
+                      )
+                    }
+                    task={task}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+
+          <div className="link-text ml-2 flex flex-row items-center gap-2 text-text-secondary">
+            <ArrowDropDown
+              className={clsx('!h-5 !w-5', {
+                '-rotate-90': unstaking.length === 0,
+              })}
+            />
+
+            <p>{t('title.numPending', { count: unstaking.length })}</p>
+          </div>
+
+          {unstaking.length > 0 && (
+            <div className="mt-5 space-y-1">
+              {unstaking.map((task, index) => (
+                <UnstakingLine key={index} task={task} />
+              ))}
+            </div>
+          )}
+
+          {claimed.length > 0 && (
+            <>
+              <div className="link-text mt-6 ml-2 mb-5 flex flex-row items-center gap-2 text-text-secondary">
+                <ArrowDropDown
+                  className={clsx('!h-5 !w-5', {
+                    '-rotate-90': claimed.length === 0,
+                  })}
+                />
+
+                <p>
+                  {claimed.length === 0
+                    ? t('title.noHistory')
+                    : t('title.history')}
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                {claimed.map((task, index) => (
+                  <UnstakingLine key={index} task={task} />
+                ))}
+              </div>
+            </>
+          )}
+        </>
+      )}
+    </Modal>
+  )
+}

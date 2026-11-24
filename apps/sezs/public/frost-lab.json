@@ -1,0 +1,10 @@
+{
+  "chain_id": "sezs-frost-1",
+  "lcd": "http://127.0.0.1:55000",
+  "grpc": "http://127.0.0.1:55001",
+  "contract": "terp14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9skqhzr5",
+  "rotate_tx": "400EB5CE6FACA6B78774DDB6F385E133CBA92A2CD406131EE212F1C9D4444768",
+  "other_tx": "96400F79A6C2A96A54E7F67DFE6FFE9D52F715499F5C4DAD51A6A98F6B9B191F",
+  "sender": "terp16ewmfj5gg9wp96jzmt8prnsuk0wfyw7sq46244",
+  "image": "terp-core:local-arm64"
+}

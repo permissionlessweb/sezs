@@ -1,0 +1,23 @@
+%% Onramp ZEC
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-pay-module-deps.mmd
+%% - docs/flows/derived/app-checkout.mmd (CheckoutPanel)
+%% - apps/sezs/src/pay/zec.ts
+%% Gaps:
+%% - The app has no onramp, exchange, or buy-ZEC screen. Checkout assumes the wallet already holds ZEC.
+flowchart TB
+
+    NeedZec["Guest needs shielded ZEC"]:::guest --> NoOnramp["No in-app ZEC onramp surface"]:::gap
+    NoOnramp --> External["Obtain ZEC in a ZIP-321 wallet outside this app"]:::gap
+    External --> Tickets["pages/tickets.tsx · Tickets"]:::web
+    Tickets --> Checkout["CheckoutPanel · Shielded ZEC"]:::web
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

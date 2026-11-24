@@ -1,0 +1,26 @@
+
+# --- schema / codegen / local cw-orch deploy (see docs/DEPLOY.md) ---
+.PHONY: schema codegen deploy-local deploy orch-test
+
+schema:
+	bash $(CURDIR)/scripts/schema.sh
+
+codegen: schema
+	true; \
+	node $(CURDIR)/scripts/codegen.mjs
+
+deploy-local:
+	true; \
+	NETWORK=local bash $(CURDIR)/scripts/deploy.sh
+
+# `make deploy NETWORK=local` (default). Refuses mainnet/testnet unless
+# SEZS_DEPLOY_CONFIRM_MAINNET=1. Never broadcasts from this target to a
+# public node without that confirm var.
+NETWORK ?= local
+deploy:
+	true; \
+	NETWORK=$(NETWORK) bash $(CURDIR)/scripts/deploy.sh
+
+orch-test:
+	cargo test --manifest-path $(CURDIR)/packages/sezs-orch/Cargo.toml -- --nocapture
+	cargo test --manifest-path $(CURDIR)/packages/sezs-circuit-orch/Cargo.toml -- --nocapture

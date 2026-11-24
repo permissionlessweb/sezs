@@ -1,0 +1,273 @@
+schema_version: 1.1.0
+id: payout-wallet
+title: Artist and vendor payout wallet
+status: complete
+audience: A coordinator who issues a one-time key, and an artist or vendor who registers payout
+  addresses.
+prerequisites:
+- An admin or coordinator session is available for issuing the key.
+- The artist or vendor has ZEC and UM addresses.
+user_constraints:
+- The one-time key is shown once. Do not store it in a public frame.
+- A passkey session is not a ticket.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+flow_graph: docs/flows/surfaces/payout-wallet.mmd
+derived_graphs:
+- docs/flows/derived/app-frost-module-deps.mmd
+surfaces:
+- apps/sezs/src/frost/ParticipantsPanel.tsx
+- apps/sezs/pages/register.tsx
+- apps/sezs/pages/admin.tsx
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 39.8
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: pending
+    engine: null
+    voice: null
+    path: docs/guides/narration/audio/payout-wallet/tts/
+    notes: Leave empty until a local offline TTS take is rendered.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/payout-wallet/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: payout-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's register a payout wallet for an artist or vendor.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Issue
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: payout-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/payout-wallet/payout-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 4.3
+  word_count: 10
+  audio_render:
+    tts_path: docs/guides/narration/audio/payout-wallet/tts/payout-intro.aiff
+    human_path: docs/guides/narration/audio/payout-wallet/human/payout-intro.wav
+    take: null
+- id: payout-02
+  status: complete
+  narration_ste: We open the Participants tab on Admin. We enter an act or name under Issue a
+    registration key. We issue the key.
+  on_screen_action: Issue a registration key on Admin Participants
+  trail_step: trails/payout-wallet.trail.yaml#payout-02
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Participants
+    - Issue a registration key
+    - act or name
+    notes: The plaintext key is shown once and is not stored. Do not leave it in a published still.
+  video_slots:
+  - id: payout-02-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/payout-wallet/payout-02-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: payout-02-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/payout-wallet/payout-02-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: payout-02-web-mobile
+    to: payout-02-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.4
+  word_count: 22
+  audio_render:
+    tts_path: docs/guides/narration/audio/payout-wallet/tts/payout-02.aiff
+    human_path: docs/guides/narration/audio/payout-wallet/human/payout-02.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Issue
+  producer_note: null
+- id: payout-03
+  status: complete
+  narration_ste: We open Register to take part. We enter the one-time registration key and the
+    name or act.
+  on_screen_action: Open /register and enter the key
+  trail_step: trails/payout-wallet.trail.yaml#payout-03
+  expected_ui:
+    route: /register
+    title: Register to take part
+    visible_labels:
+    - One-time registration key
+    - Name or act
+    - Scan a Zigner QR
+  video_slots:
+  - id: payout-03-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/payout-wallet/payout-03-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: payout-03-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/payout-wallet/payout-03-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: payout-03-web-mobile
+    to: payout-03-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 7.7
+  word_count: 18
+  audio_render:
+    tts_path: docs/guides/narration/audio/payout-wallet/tts/payout-03.aiff
+    human_path: docs/guides/narration/audio/payout-wallet/human/payout-03.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Register
+  producer_note: null
+- id: payout-04
+  status: complete
+  narration_ste: We enter the ZEC unified or shielded address. We enter the UM address that starts
+    with penumbra1. We select Register. We keep a copy of the addresses we submitted.
+  on_screen_action: Enter addresses and select Register
+  trail_step: trails/payout-wallet.trail.yaml#payout-04
+  expected_ui:
+    route: /register
+    title: Register to take part
+    visible_labels:
+    - ZEC unified or shielded address
+    - UM address (penumbra1…)
+    - Register
+  video_slots:
+  - id: payout-04-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/payout-wallet/payout-04-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: payout-04-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/payout-wallet/payout-04-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: payout-04-wallet
+    type: mobile-wallet-capture
+    source_app: zafu-or-zigner
+    source_device: phone-or-extension
+    duration_seconds: 5.0
+    path: docs/guides/shots/payout-wallet/payout-04-wallet.png
+    status: placeholder
+    capture_checklist:
+    - 'Optional: capture Scan a Zigner QR filling the address fields.'
+    - Do not capture spending keys.
+  transitions:
+  - from: payout-04-web-mobile
+    to: payout-04-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  - from: payout-04-web-desktop
+    to: payout-04-wallet
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 12.4
+  word_count: 29
+  audio_render:
+    tts_path: docs/guides/narration/audio/payout-wallet/tts/payout-04.aiff
+    human_path: docs/guides/narration/audio/payout-wallet/human/payout-04.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Submit
+  producer_note: null
+- id: payout-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: The payout addresses are on the roster. We can review them later on Admin.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Roster
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: payout-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/payout-wallet/payout-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 6.0
+  word_count: 14
+  audio_render:
+    tts_path: docs/guides/narration/audio/payout-wallet/tts/payout-outro.aiff
+    human_path: docs/guides/narration/audio/payout-wallet/human/payout-outro.wav
+    take: null
+producer_note: 'Recorder: pages/artist.tsx only redirects to the gallery studio. Addresses are
+  entered on /register. Do not speak seeded event names.'

@@ -1,0 +1,20 @@
+flowchart TB
+    src_seed_LanternNight_curate_msgs["curate_msgs, method, CC=6"]
+    proxy_unresolved_self_nip52_tags["self.nip52_tags, proxy"]
+    proxy_unresolved_out_push["out.push, proxy"]
+    src_seed_LanternNight_write_metadata_file["write_metadata_file, method, CC=3"]
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_self_nip52_tags
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_self_nip52_tags
+    src_seed_LanternNight_write_metadata_file -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push
+    src_seed_LanternNight_curate_msgs -.-> proxy_unresolved_out_push

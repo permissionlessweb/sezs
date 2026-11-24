@@ -1,0 +1,11 @@
+[package]
+name = "sezs-circuit-orch"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "BSD-3-Clause"
+description = "sezs_consume_v2 circuit_interface against the terp-core cw-orch fork, plus store-circuit blob compile and CircuitFooter validation."
+
+[dependencies]
+sha2 = "0.10"
+cw-orch = { version = "0.30.0", default-features = false, features = ["zk"] }

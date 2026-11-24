@@ -1,0 +1,37 @@
+---
+title: Submit payment addresses
+description: Register wallet addresses with a one-time commitment key from an event admin
+---
+
+# Submit payment addresses
+
+Artists and vendors who should be paid from a sale, a donation, or a door split register their destination addresses when they sign up to take part in the event. Do this before the night, not at the till.
+
+## The registration form
+
+The form is at [permissionless.money/alpha/sezs/register](https://permissionless.money/alpha/sezs/register/). You will usually open a link or QR an event coordinator sent you, which already includes your one-time key.
+
+Event admins can give a specific artist a **one-time registration commitment key** (a password). You include that key when you register your wallet address or addresses in the form. The key is issued to you personally, for one registration. It is not a spending key, and it is not a ticket secret.
+
+This page will never show a sample key. If someone publishes a key in a document or a public chat, do not use it — ask the admin for a new one through a channel you already trust.
+
+## What to submit
+
+In the form, submit the addresses the organizers ask for. Typically that is:
+
+- A shielded or unified ZEC address, if you will be paid in ZEC. Create it in [Zafu](https://zafu.pro) or another wallet whose keys you hold.
+- A UM address starting with `penumbra1…`. The form checks that this is valid bech32.
+
+If Zafu is connected, the form fills both addresses for you. Use **Randomize diversified address** to pick a fresh diversified address from the wallet, or **Scan a Zigner QR** to read an address from an offline Zigner.
+
+Double-check the characters; a typo cannot be undone after a release.
+
+Do not send a recovery phrase, a spending key, or a ticket secret. The commitment key only proves the admin invited you to register; it does not unlock funds.
+
+## If you need to change an address
+
+Ask a coordinator for a new one-time key and submit the new addresses through the same form. Confirm that the old addresses are retired before a payout is signed.
+
+## What exists today
+
+The registration form and the coordinator Participants tab are in place: a one-time key, payout addresses, and a payout batch that the FROST admin set signs. Once the batch has a valid aggregate signature, shielded ZEC and UM transfers are submitted to the addresses you registered. Ushers cannot open payroll or the participants list.

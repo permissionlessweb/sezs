@@ -1,0 +1,649 @@
+flowchart TB
+    src_verify_verify_ticket_proof["verify_ticket_proof, function, CC=1"]
+    src_verify_verify_ticket_proof_with["verify_ticket_proof_with, function, CC=5"]
+    src_contract_execute["execute, function, CC=67"]
+    src_verify_tests_zkid_zero_is_fail_closed["zkid_zero_is_fail_closed, function, CC=1"]
+    src_verify_tests_stub_ok_accepted_in_tests["stub_ok_accepted_in_tests, function, CC=1"]
+    src_verify_tests_other_proofs_are_rejected["other_proofs_are_rejected, function, CC=1"]
+    src_verify_tests_short_public_input_is_rejected["short_public_input_is_rejected, function, CC=1"]
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event["event_or_domain_mismatch_is_wrong_event, function, CC=1"]
+    src_verify_tests_printed_disabled_without_door_auth["printed_disabled_without_door_auth, function, CC=1"]
+    proxy_unresolved_src_verify_Err["src.verify:Err, proxy"]
+    src_verify_arr32["arr32, function, CC=1"]
+    proxy_unresolved_cfg_door_auth_pubkey_as_slice["cfg.door_auth_pubkey.as_slice, proxy"]
+    proxy_unresolved_challenge_as_slice["challenge.as_slice, proxy"]
+    proxy_unresolved_sig_as_slice["sig.as_slice, proxy"]
+    proxy_unresolved_proof_as_slice["proof.as_slice, proxy"]
+    proxy_unresolved_info_sender_as_str["info.sender.as_str, proxy"]
+    proxy_unresolved_env_block_time_seconds["env.block.time.seconds, proxy"]
+    proxy_unresolved_v2__verify_consume_host___door___input__ctx__map_err["v2::verify_consume(host, &door, &input, ctx).map_err, proxy"]
+    proxy_unresolved_v2__verify_consume["v2::verify_consume, proxy"]
+    src_contract_must_curator["must_curator, function, CC=3"]
+    proxy_unresolved_deps_as_ref["deps.as_ref, proxy"]
+    proxy_unresolved_CONFIG_update["CONFIG.update, proxy"]
+    proxy_unresolved_src_contract_Ok["src.contract:Ok, proxy"]
+    proxy_unresolved_Response__new__add_attribute["Response::new().add_attribute, proxy"]
+    proxy_unresolved_Response__new["Response::new, proxy"]
+    proxy_unresolved_addr_map_s__deps_api_addr_validate_s__transpose["addr.map(|s| deps.api.addr_validate(&s)).transpose, proxy"]
+    proxy_unresolved_addr_map["addr.map, proxy"]
+    proxy_unresolved_deps_api_addr_validate["deps.api.addr_validate, proxy"]
+    src_contract_must_write["must_write, function, CC=3"]
+    src_contract_normalize_origin["normalize_origin, function, CC=8"]
+    src_contract_door_auth_of["door_auth_of, function, CC=3"]
+    proxy_unresolved_pk_is_empty["pk.is_empty, proxy"]
+    proxy_unresolved_LINEUP_save["LINEUP.save, proxy"]
+    proxy_unresolved_slot_id_clone["slot.id.clone, proxy"]
+    proxy_unresolved_LINEUP_remove["LINEUP.remove, proxy"]
+    proxy_unresolved_TIMELINE_save["TIMELINE.save, proxy"]
+    proxy_unresolved_item_id_clone["item.id.clone, proxy"]
+    proxy_unresolved_TIMELINE_remove["TIMELINE.remove, proxy"]
+    proxy_unresolved_SPONSORS_save["SPONSORS.save, proxy"]
+    proxy_unresolved_sponsor_id_clone["sponsor.id.clone, proxy"]
+    proxy_unresolved_SPONSORS_remove["SPONSORS.remove, proxy"]
+    src_contract_require_sale_rails["require_sale_rails, function, CC=3"]
+    proxy_unresolved_TIERS_save["TIERS.save, proxy"]
+    proxy_unresolved_tier_id_clone["tier.id.clone, proxy"]
+    proxy_unresolved_TIERS_remove["TIERS.remove, proxy"]
+    proxy_unresolved_TIERS_update["TIERS.update, proxy"]
+    proxy_unresolved_tier_sold_saturating_add["tier.sold.saturating_add, proxy"]
+    proxy_unresolved_src_contract_Err["src.contract:Err, proxy"]
+    proxy_unresolved_commitment_len["commitment.len, proxy"]
+    proxy_unresolved_PAID_LEAVES__range_deps_storage__None__None__Order__Ascending___any["PAID_LEAVES
+                .range(deps.storage, None, None, Order::Ascending)
+                .any, proxy"]
+    proxy_unresolved_PAID_LEAVES__range["PAID_LEAVES
+                .range, proxy"]
+    proxy_unresolved_r_map____c__c___commitment__unwrap_or["r.map(|(_, c)| c == commitment).unwrap_or, proxy"]
+    proxy_unresolved_r_map["r.map, proxy"]
+    src_state_paid_count["paid_count, function, CC=1"]
+    proxy_unresolved_PAID_LEAVES_save["PAID_LEAVES.save, proxy"]
+    proxy_unresolved_PAID_NEXT_save["PAID_NEXT.save, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___register_paid_leaf___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;register_paid_leaf#quot;)
+                .add_attribute, proxy"]
+    proxy_unresolved_Response__new___add_attribute__cb91b0b78794f552["Response::new()
+                .add_attribute, proxy"]
+    proxy_unresolved_idx_to_string["idx.to_string, proxy"]
+    proxy_unresolved_RAFFLES_save["RAFFLES.save, proxy"]
+    proxy_unresolved_prize_id_clone["prize.id.clone, proxy"]
+    proxy_unresolved_RAFFLES_update["RAFFLES.update, proxy"]
+    proxy_unresolved_CONFIG_load["CONFIG.load, proxy"]
+    proxy_unresolved_cfg_randomness_ok_or["cfg.randomness.ok_or, proxy"]
+    proxy_unresolved_prize_draw_is_some["prize.draw.is_some, proxy"]
+    proxy_unresolved_src_contract_Some["src.contract:Some, proxy"]
+    proxy_unresolved_oracle_to_string["oracle.to_string, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___request_draw___add_attribute_oracle__oracle___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;request_draw#quot;)
+                .add_attribute(#quot;oracle#quot;, oracle)
+                .add_attribute, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___request_draw___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;request_draw#quot;)
+                .add_attribute, proxy"]
+    proxy_unresolved_RAFFLES__range_deps_storage__None__None__Order__Ascending___map_r__r_map_k_____k__unwrap___collect["RAFFLES
+                .range(deps.storage, None, None, Order::Ascending)
+                .map(|r| r.map(|(k, _)| k).unwrap())
+                .collect, proxy"]
+    proxy_unresolved_RAFFLES__range_deps_storage__None__None__Order__Ascending___map["RAFFLES
+                .range(deps.storage, None, None, Order::Ascending)
+                .map, proxy"]
+    proxy_unresolved_RAFFLES__range["RAFFLES
+                .range, proxy"]
+    proxy_unresolved_r_map_k_____k__unwrap["r.map(|(k, _)| k).unwrap, proxy"]
+    proxy_unresolved_RAFFLES_load["RAFFLES.load, proxy"]
+    proxy_unresolved_prize__draw__as_ref___map_d__d_job_id___job_id___d_winner_index_is_none___unwrap_or["prize
+                    .draw
+                    .as_ref()
+                    .map(|d| d.job_id == job_id && d.winner_index.is_none())
+                    .unwrap_or, proxy"]
+    proxy_unresolved_prize__draw__as_ref___map["prize
+                    .draw
+                    .as_ref()
+                    .map, proxy"]
+    proxy_unresolved_prize__draw__as_ref["prize
+                    .draw
+                    .as_ref, proxy"]
+    proxy_unresolved_d_winner_index_is_none["d.winner_index.is_none, proxy"]
+    proxy_unresolved_prize_entries_max["prize.entries.max, proxy"]
+    src_contract_int_in_range["int_in_range, function, CC=4"]
+    proxy_unresolved_prize_draw_as_mut["prize.draw.as_mut, proxy"]
+    src_contract_hex_of["hex_of, function, CC=1"]
+    proxy_unresolved_found_ok_or["found.ok_or, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___randomness_receive___add_attribute_id__id___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;randomness_receive#quot;)
+                .add_attribute(#quot;id#quot;, id)
+                .add_attribute, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___randomness_receive___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;randomness_receive#quot;)
+                .add_attribute, proxy"]
+    src_state_valid_kind["valid_kind, function, CC=1"]
+    proxy_unresolved_body_geohash_unwrap_or_default["body.geohash.unwrap_or_default, proxy"]
+    proxy_unresolved_body_image_unwrap_or_default["body.image.unwrap_or_default, proxy"]
+    proxy_unresolved_content_hash_unwrap_or_default["content_hash.unwrap_or_default, proxy"]
+    src_contract_require_hash32["require_hash32, function, CC=3"]
+    proxy_unresolved_fp_len["fp.len, proxy"]
+    proxy_unresolved_vk_len["vk.len, proxy"]
+    src_verify_require_canonical_root["require_canonical_root, function, CC=2"]
+    src_frost_root_verify_guest_root_sig["verify_guest_root_sig, function, CC=2"]
+    proxy_unresolved_root_clone["root.clone, proxy"]
+    proxy_unresolved_ROOTS_save["ROOTS.save, proxy"]
+    proxy_unresolved_root_as_slice["root.as_slice, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___update_guest_root___add_attribute_epoch__epoch_to_string___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;update_guest_root#quot;)
+                .add_attribute(#quot;epoch#quot;, epoch.to_string())
+                .add_attribute, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___update_guest_root___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;update_guest_root#quot;)
+                .add_attribute, proxy"]
+    proxy_unresolved_epoch_to_string["epoch.to_string, proxy"]
+    proxy_unresolved_leaf_count_to_string["leaf_count.to_string, proxy"]
+    src_contract_must_usher["must_usher, function, CC=3"]
+    proxy_unresolved_ROOTS_may_load_deps_storage__root_as_slice__is_none["ROOTS.may_load(deps.storage, root.as_slice())?.is_none, proxy"]
+    proxy_unresolved_ROOTS_may_load["ROOTS.may_load, proxy"]
+    proxy_unresolved_NULLIFIERS__may_load_deps_storage__nullifier_as_slice___is_some["NULLIFIERS
+                .may_load(deps.storage, nullifier.as_slice())?
+                .is_some, proxy"]
+    proxy_unresolved_NULLIFIERS__may_load["NULLIFIERS
+                .may_load, proxy"]
+    proxy_unresolved_nullifier_as_slice["nullifier.as_slice, proxy"]
+    proxy_unresolved_nullifier_clone["nullifier.clone, proxy"]
+    proxy_unresolved_NULLIFIERS_save["NULLIFIERS.save, proxy"]
+    proxy_unresolved_Response__new___add_attribute_action___consume_ticket___add_attribute["Response::new()
+                .add_attribute(#quot;action#quot;, #quot;consume_ticket#quot;)
+                .add_attribute, proxy"]
+    proxy_unresolved_FAQ_save["FAQ.save, proxy"]
+    proxy_unresolved_FAQ_remove["FAQ.remove, proxy"]
+    src_contract_tests_setup_ready["setup_ready, function, CC=1"]
+    src_contract_tests_coordinator_from_cw420_can_edit_lineup_stranger_cannot["coordinator_from_cw420_can_edit_lineup_stranger_cannot, function, CC=1"]
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness["paid_leaves_are_raffle_entries_and_draw_needs_randomness, function, CC=1"]
+    src_contract_tests_domain_is_coordinator_gated_and_returned_on_event_info["domain_is_coordinator_gated_and_returned_on_event_info, function, CC=1"]
+    src_contract_tests_event_view_is_complete_and_versioned["event_view_is_complete_and_versioned, function, CC=1"]
+    src_contract_tests_nip52_and_metadata_uri_round_trip["nip52_and_metadata_uri_round_trip, function, CC=1"]
+    src_contract_tests_eth_and_base_tiers_are_rejected["eth_and_base_tiers_are_rejected, function, CC=1"]
+    src_contract_tests_admin_frost_publishes_roots_and_history_is_kept["admin_frost_publishes_roots_and_history_is_kept, function, CC=1"]
+    src_contract_tests_consume_ticket_is_usher_only_and_stub_verifies_in_tests["consume_ticket_is_usher_only_and_stub_verifies_in_tests, function, CC=2"]
+    src_contract_tests_consume_is_fail_closed_when_zkid_is_zero["consume_is_fail_closed_when_zkid_is_zero, function, CC=1"]
+    src_contract_tests_consume_rejects_wrong_event_and_does_not_spend["consume_rejects_wrong_event_and_does_not_spend, function, CC=1"]
+    src_contract_tests_consume_live_binds_the_usher_sender["consume_live_binds_the_usher_sender, function, CC=3"]
+    src_contract_tests_update_guest_root_rejects_a_non_canonical_field["update_guest_root_rejects_a_non_canonical_field, function, CC=1"]
+    src_verify_tests_cfg["cfg, function, CC=1"]
+    proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____c___Binary__from_STUB_OK_to_vec___ok_inputs___printed_____unwrap_err["verify_ticket_proof(
+            &mock_env(),
+            &mock_info(#quot;usher#quot;, &[]),
+            &c,
+            &Binary::from(STUB_OK.to_vec()),
+            &ok_inputs(),
+            &printed(),
+        )
+        .unwrap_err, proxy"]
+    proxy_unresolved_src_verify_tests_mock_env["src.verify.tests:mock_env, proxy"]
+    proxy_unresolved_src_verify_tests_mock_info["src.verify.tests:mock_info, proxy"]
+    proxy_unresolved_Binary__from["Binary::from, proxy"]
+    proxy_unresolved_STUB_OK_to_vec["STUB_OK.to_vec, proxy"]
+    src_verify_tests_ok_inputs["ok_inputs, function, CC=1"]
+    src_verify_tests_printed["printed, function, CC=1"]
+    proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____cfg___Binary__from_STUB_OK_to_vec___ok_inputs___printed_____unwrap["verify_ticket_proof(
+            &mock_env(),
+            &mock_info(#quot;usher#quot;, &[]),
+            &cfg(),
+            &Binary::from(STUB_OK.to_vec()),
+            &ok_inputs(),
+            &printed(),
+        )
+        .unwrap, proxy"]
+    proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____cfg___Binary__from_vec_9__9__9___ok_inputs___printed_____unwrap_err["verify_ticket_proof(
+            &mock_env(),
+            &mock_info(#quot;usher#quot;, &[]),
+            &cfg(),
+            &Binary::from(vec![9, 9, 9]),
+            &ok_inputs(),
+            &printed(),
+        )
+        .unwrap_err, proxy"]
+    proxy_unresolved_HexBinary__from["HexBinary::from, proxy"]
+    proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____cfg___Binary__from_STUB_OK_to_vec___inputs___printed_____unwrap_err["verify_ticket_proof(
+            &mock_env(),
+            &mock_info(#quot;usher#quot;, &[]),
+            &cfg(),
+            &Binary::from(STUB_OK.to_vec()),
+            &inputs,
+            &printed(),
+        )
+        .unwrap_err, proxy"]
+    src_verify_tests_fp["fp, function, CC=1"]
+    src_verify_verify_ticket_proof --> src_verify_verify_ticket_proof_with
+    src_verify_verify_ticket_proof --> src_verify_verify_ticket_proof_with
+    src_contract_execute -.-> src_verify_verify_ticket_proof
+    src_verify_tests_zkid_zero_is_fail_closed --> src_verify_verify_ticket_proof
+    src_verify_tests_stub_ok_accepted_in_tests --> src_verify_verify_ticket_proof
+    src_verify_tests_other_proofs_are_rejected --> src_verify_verify_ticket_proof
+    src_verify_tests_short_public_input_is_rejected --> src_verify_verify_ticket_proof
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> src_verify_verify_ticket_proof
+    src_verify_tests_printed_disabled_without_door_auth --> src_verify_verify_ticket_proof
+    src_verify_verify_ticket_proof_with --> proxy_unresolved_src_verify_Err
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with --> proxy_unresolved_src_verify_Err
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_cfg_door_auth_pubkey_as_slice
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_challenge_as_slice
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_sig_as_slice
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_sig_as_slice
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_proof_as_slice
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with --> src_verify_arr32
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_info_sender_as_str
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_env_block_time_seconds
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_v2__verify_consume_host___door___input__ctx__map_err
+    src_verify_verify_ticket_proof_with -.-> proxy_unresolved_v2__verify_consume
+    src_verify_verify_ticket_proof --> src_verify_verify_ticket_proof_with
+    src_verify_verify_ticket_proof --> src_verify_verify_ticket_proof_with
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute -.-> proxy_unresolved_addr_map_s__deps_api_addr_validate_s__transpose
+    src_contract_execute -.-> proxy_unresolved_addr_map
+    src_contract_execute -.-> proxy_unresolved_deps_api_addr_validate
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_deps_api_addr_validate
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute -.-> proxy_unresolved_addr_map_s__deps_api_addr_validate_s__transpose
+    src_contract_execute -.-> proxy_unresolved_addr_map
+    src_contract_execute -.-> proxy_unresolved_deps_api_addr_validate
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute --> src_contract_normalize_origin
+    src_contract_execute --> src_contract_door_auth_of
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute -.-> proxy_unresolved_pk_is_empty
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_LINEUP_save
+    src_contract_execute -.-> proxy_unresolved_slot_id_clone
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_LINEUP_remove
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_TIMELINE_save
+    src_contract_execute -.-> proxy_unresolved_item_id_clone
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_TIMELINE_remove
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_SPONSORS_save
+    src_contract_execute -.-> proxy_unresolved_sponsor_id_clone
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_SPONSORS_remove
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute --> src_contract_require_sale_rails
+    src_contract_execute -.-> proxy_unresolved_TIERS_save
+    src_contract_execute -.-> proxy_unresolved_tier_id_clone
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_TIERS_remove
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_TIERS_update
+    src_contract_execute -.-> proxy_unresolved_tier_sold_saturating_add
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_curator
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_commitment_len
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_PAID_LEAVES__range_deps_storage__None__None__Order__Ascending___any
+    src_contract_execute -.-> proxy_unresolved_PAID_LEAVES__range
+    src_contract_execute -.-> proxy_unresolved_r_map____c__c___commitment__unwrap_or
+    src_contract_execute -.-> proxy_unresolved_r_map
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> src_state_paid_count
+    src_contract_execute -.-> proxy_unresolved_PAID_LEAVES_save
+    src_contract_execute -.-> proxy_unresolved_PAID_NEXT_save
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___register_paid_leaf___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute__cb91b0b78794f552
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute -.-> proxy_unresolved_idx_to_string
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_RAFFLES_save
+    src_contract_execute -.-> proxy_unresolved_prize_id_clone
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> src_state_paid_count
+    src_contract_execute -.-> proxy_unresolved_RAFFLES_update
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_load
+    src_contract_execute -.-> proxy_unresolved_cfg_randomness_ok_or
+    src_contract_execute -.-> src_state_paid_count
+    src_contract_execute -.-> proxy_unresolved_RAFFLES_update
+    src_contract_execute -.-> proxy_unresolved_prize_draw_is_some
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute --> proxy_unresolved_src_contract_Some
+    src_contract_execute -.-> proxy_unresolved_oracle_to_string
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___request_draw___add_attribute_oracle__oracle___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___request_draw___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute__cb91b0b78794f552
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute -.-> proxy_unresolved_CONFIG_load
+    src_contract_execute -.-> proxy_unresolved_cfg_randomness_ok_or
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_RAFFLES__range_deps_storage__None__None__Order__Ascending___map_r__r_map_k_____k__unwrap___collect
+    src_contract_execute -.-> proxy_unresolved_RAFFLES__range_deps_storage__None__None__Order__Ascending___map
+    src_contract_execute -.-> proxy_unresolved_RAFFLES__range
+    src_contract_execute -.-> proxy_unresolved_r_map_k_____k__unwrap
+    src_contract_execute -.-> proxy_unresolved_r_map
+    src_contract_execute -.-> proxy_unresolved_RAFFLES_load
+    src_contract_execute -.-> proxy_unresolved_prize__draw__as_ref___map_d__d_job_id___job_id___d_winner_index_is_none___unwrap_or
+    src_contract_execute -.-> proxy_unresolved_prize__draw__as_ref___map
+    src_contract_execute -.-> proxy_unresolved_prize__draw__as_ref
+    src_contract_execute -.-> proxy_unresolved_d_winner_index_is_none
+    src_contract_execute -.-> proxy_unresolved_prize_entries_max
+    src_contract_execute --> src_contract_int_in_range
+    src_contract_execute -.-> proxy_unresolved_prize_draw_as_mut
+    src_contract_execute --> proxy_unresolved_src_contract_Some
+    src_contract_execute --> proxy_unresolved_src_contract_Some
+    src_contract_execute --> src_contract_hex_of
+    src_contract_execute -.-> proxy_unresolved_RAFFLES_save
+    src_contract_execute --> proxy_unresolved_src_contract_Some
+    src_contract_execute -.-> proxy_unresolved_found_ok_or
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___randomness_receive___add_attribute_id__id___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___randomness_receive___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute__cb91b0b78794f552
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute -.-> proxy_unresolved_idx_to_string
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> src_state_valid_kind
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute -.-> proxy_unresolved_body_geohash_unwrap_or_default
+    src_contract_execute -.-> proxy_unresolved_body_image_unwrap_or_default
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_content_hash_unwrap_or_default
+    src_contract_execute --> src_contract_require_hash32
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute -.-> proxy_unresolved_addr_map_s__deps_api_addr_validate_s__transpose
+    src_contract_execute -.-> proxy_unresolved_addr_map
+    src_contract_execute -.-> proxy_unresolved_deps_api_addr_validate
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute -.-> proxy_unresolved_addr_map_s__deps_api_addr_validate_s__transpose
+    src_contract_execute -.-> proxy_unresolved_addr_map
+    src_contract_execute -.-> proxy_unresolved_deps_api_addr_validate
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_fp_len
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_fp_len
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_vk_len
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute --> proxy_unresolved_src_contract_Some
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute -.-> src_verify_require_canonical_root
+    src_contract_execute -.-> proxy_unresolved_CONFIG_load
+    src_contract_execute -.-> src_frost_root_verify_guest_root_sig
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_root_clone
+    src_contract_execute -.-> proxy_unresolved_ROOTS_save
+    src_contract_execute -.-> proxy_unresolved_root_as_slice
+    src_contract_execute -.-> proxy_unresolved_CONFIG_update
+    src_contract_execute -.-> proxy_unresolved_root_clone
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___update_guest_root___add_attribute_epoch__epoch_to_string___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___update_guest_root___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute__cb91b0b78794f552
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute -.-> proxy_unresolved_epoch_to_string
+    src_contract_execute -.-> proxy_unresolved_leaf_count_to_string
+    src_contract_execute --> src_contract_must_usher
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_CONFIG_load
+    src_contract_execute -.-> proxy_unresolved_ROOTS_may_load_deps_storage__root_as_slice__is_none
+    src_contract_execute -.-> proxy_unresolved_ROOTS_may_load
+    src_contract_execute -.-> proxy_unresolved_root_as_slice
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_NULLIFIERS__may_load_deps_storage__nullifier_as_slice___is_some
+    src_contract_execute -.-> proxy_unresolved_NULLIFIERS__may_load
+    src_contract_execute -.-> proxy_unresolved_nullifier_as_slice
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_execute -.-> proxy_unresolved_root_clone
+    src_contract_execute -.-> proxy_unresolved_nullifier_clone
+    src_contract_execute -.-> src_verify_verify_ticket_proof
+    src_contract_execute -.-> proxy_unresolved_NULLIFIERS_save
+    src_contract_execute -.-> proxy_unresolved_nullifier_as_slice
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute_action___consume_ticket___add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new___add_attribute__cb91b0b78794f552
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_item_id_clone
+    src_contract_execute -.-> proxy_unresolved_FAQ_save
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> src_contract_must_write
+    src_contract_execute -.-> proxy_unresolved_deps_as_ref
+    src_contract_execute -.-> proxy_unresolved_FAQ_remove
+    src_contract_execute --> proxy_unresolved_src_contract_Ok
+    src_contract_execute -.-> proxy_unresolved_Response__new__add_attribute
+    src_contract_execute -.-> proxy_unresolved_Response__new
+    src_contract_execute --> proxy_unresolved_src_contract_Err
+    src_contract_tests_setup_ready --> src_contract_execute
+    src_contract_tests_setup_ready --> src_contract_execute
+    src_contract_tests_setup_ready --> src_contract_execute
+    src_contract_tests_setup_ready --> src_contract_execute
+    src_contract_tests_setup_ready --> src_contract_execute
+    src_contract_tests_coordinator_from_cw420_can_edit_lineup_stranger_cannot --> src_contract_execute
+    src_contract_tests_coordinator_from_cw420_can_edit_lineup_stranger_cannot --> src_contract_execute
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness --> src_contract_execute
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness --> src_contract_execute
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness --> src_contract_execute
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness --> src_contract_execute
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness --> src_contract_execute
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness --> src_contract_execute
+    src_contract_tests_paid_leaves_are_raffle_entries_and_draw_needs_randomness --> src_contract_execute
+    src_contract_tests_domain_is_coordinator_gated_and_returned_on_event_info --> src_contract_execute
+    src_contract_tests_domain_is_coordinator_gated_and_returned_on_event_info --> src_contract_execute
+    src_contract_tests_domain_is_coordinator_gated_and_returned_on_event_info --> src_contract_execute
+    src_contract_tests_event_view_is_complete_and_versioned --> src_contract_execute
+    src_contract_tests_nip52_and_metadata_uri_round_trip --> src_contract_execute
+    src_contract_tests_nip52_and_metadata_uri_round_trip --> src_contract_execute
+    src_contract_tests_nip52_and_metadata_uri_round_trip --> src_contract_execute
+    src_contract_tests_nip52_and_metadata_uri_round_trip --> src_contract_execute
+    src_contract_tests_eth_and_base_tiers_are_rejected --> src_contract_execute
+    src_contract_tests_eth_and_base_tiers_are_rejected --> src_contract_execute
+    src_contract_tests_admin_frost_publishes_roots_and_history_is_kept --> src_contract_execute
+    src_contract_tests_admin_frost_publishes_roots_and_history_is_kept --> src_contract_execute
+    src_contract_tests_admin_frost_publishes_roots_and_history_is_kept --> src_contract_execute
+    src_contract_tests_admin_frost_publishes_roots_and_history_is_kept --> src_contract_execute
+    src_contract_tests_consume_ticket_is_usher_only_and_stub_verifies_in_tests --> src_contract_execute
+    src_contract_tests_consume_ticket_is_usher_only_and_stub_verifies_in_tests --> src_contract_execute
+    src_contract_tests_consume_ticket_is_usher_only_and_stub_verifies_in_tests --> src_contract_execute
+    src_contract_tests_consume_ticket_is_usher_only_and_stub_verifies_in_tests --> src_contract_execute
+    src_contract_tests_consume_ticket_is_usher_only_and_stub_verifies_in_tests --> src_contract_execute
+    src_contract_tests_consume_ticket_is_usher_only_and_stub_verifies_in_tests --> src_contract_execute
+    src_contract_tests_consume_is_fail_closed_when_zkid_is_zero --> src_contract_execute
+    src_contract_tests_consume_is_fail_closed_when_zkid_is_zero --> src_contract_execute
+    src_contract_tests_consume_is_fail_closed_when_zkid_is_zero --> src_contract_execute
+    src_contract_tests_consume_is_fail_closed_when_zkid_is_zero --> src_contract_execute
+    src_contract_tests_consume_is_fail_closed_when_zkid_is_zero --> src_contract_execute
+    src_contract_tests_consume_rejects_wrong_event_and_does_not_spend --> src_contract_execute
+    src_contract_tests_consume_rejects_wrong_event_and_does_not_spend --> src_contract_execute
+    src_contract_tests_consume_live_binds_the_usher_sender --> src_contract_execute
+    src_contract_tests_consume_live_binds_the_usher_sender --> src_contract_execute
+    src_contract_tests_consume_live_binds_the_usher_sender --> src_contract_execute
+    src_contract_tests_update_guest_root_rejects_a_non_canonical_field --> src_contract_execute
+    src_verify_tests_zkid_zero_is_fail_closed --> src_verify_tests_cfg
+    src_verify_tests_zkid_zero_is_fail_closed -.-> proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____c___Binary__from_STUB_OK_to_vec___ok_inputs___printed_____unwrap_err
+    src_verify_tests_zkid_zero_is_fail_closed --> src_verify_verify_ticket_proof
+    src_verify_tests_zkid_zero_is_fail_closed --> proxy_unresolved_src_verify_tests_mock_env
+    src_verify_tests_zkid_zero_is_fail_closed --> proxy_unresolved_src_verify_tests_mock_info
+    src_verify_tests_zkid_zero_is_fail_closed -.-> proxy_unresolved_Binary__from
+    src_verify_tests_zkid_zero_is_fail_closed -.-> proxy_unresolved_STUB_OK_to_vec
+    src_verify_tests_zkid_zero_is_fail_closed --> src_verify_tests_ok_inputs
+    src_verify_tests_zkid_zero_is_fail_closed --> src_verify_tests_printed
+    src_verify_tests_stub_ok_accepted_in_tests -.-> proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____cfg___Binary__from_STUB_OK_to_vec___ok_inputs___printed_____unwrap
+    src_verify_tests_stub_ok_accepted_in_tests --> src_verify_verify_ticket_proof
+    src_verify_tests_stub_ok_accepted_in_tests --> proxy_unresolved_src_verify_tests_mock_env
+    src_verify_tests_stub_ok_accepted_in_tests --> proxy_unresolved_src_verify_tests_mock_info
+    src_verify_tests_stub_ok_accepted_in_tests --> src_verify_tests_cfg
+    src_verify_tests_stub_ok_accepted_in_tests -.-> proxy_unresolved_Binary__from
+    src_verify_tests_stub_ok_accepted_in_tests -.-> proxy_unresolved_STUB_OK_to_vec
+    src_verify_tests_stub_ok_accepted_in_tests --> src_verify_tests_ok_inputs
+    src_verify_tests_stub_ok_accepted_in_tests --> src_verify_tests_printed
+    src_verify_tests_other_proofs_are_rejected -.-> proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____cfg___Binary__from_vec_9__9__9___ok_inputs___printed_____unwrap_err
+    src_verify_tests_other_proofs_are_rejected --> src_verify_verify_ticket_proof
+    src_verify_tests_other_proofs_are_rejected --> proxy_unresolved_src_verify_tests_mock_env
+    src_verify_tests_other_proofs_are_rejected --> proxy_unresolved_src_verify_tests_mock_info
+    src_verify_tests_other_proofs_are_rejected --> src_verify_tests_cfg
+    src_verify_tests_other_proofs_are_rejected -.-> proxy_unresolved_Binary__from
+    src_verify_tests_other_proofs_are_rejected --> src_verify_tests_ok_inputs
+    src_verify_tests_other_proofs_are_rejected --> src_verify_tests_printed
+    src_verify_tests_short_public_input_is_rejected --> src_verify_tests_ok_inputs
+    src_verify_tests_short_public_input_is_rejected -.-> proxy_unresolved_HexBinary__from
+    src_verify_tests_short_public_input_is_rejected -.-> proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____cfg___Binary__from_STUB_OK_to_vec___inputs___printed_____unwrap_err
+    src_verify_tests_short_public_input_is_rejected --> src_verify_verify_ticket_proof
+    src_verify_tests_short_public_input_is_rejected --> proxy_unresolved_src_verify_tests_mock_env
+    src_verify_tests_short_public_input_is_rejected --> proxy_unresolved_src_verify_tests_mock_info
+    src_verify_tests_short_public_input_is_rejected --> src_verify_tests_cfg
+    src_verify_tests_short_public_input_is_rejected -.-> proxy_unresolved_Binary__from
+    src_verify_tests_short_public_input_is_rejected -.-> proxy_unresolved_STUB_OK_to_vec
+    src_verify_tests_short_public_input_is_rejected --> src_verify_tests_printed
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> src_verify_tests_ok_inputs
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> src_verify_tests_fp
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event -.-> proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____cfg___Binary__from_STUB_OK_to_vec___inputs___printed_____unwrap_err
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> src_verify_verify_ticket_proof
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> proxy_unresolved_src_verify_tests_mock_env
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> proxy_unresolved_src_verify_tests_mock_info
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> src_verify_tests_cfg
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event -.-> proxy_unresolved_Binary__from
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event -.-> proxy_unresolved_STUB_OK_to_vec
+    src_verify_tests_event_or_domain_mismatch_is_wrong_event --> src_verify_tests_printed
+    src_verify_tests_printed_disabled_without_door_auth --> src_verify_tests_cfg
+    src_verify_tests_printed_disabled_without_door_auth -.-> proxy_unresolved_HexBinary__from
+    src_verify_tests_printed_disabled_without_door_auth -.-> proxy_unresolved_verify_ticket_proof___mock_env___mock_info_usher_____c___Binary__from_STUB_OK_to_vec___ok_inputs___printed_____unwrap_err
+    src_verify_tests_printed_disabled_without_door_auth --> src_verify_verify_ticket_proof
+    src_verify_tests_printed_disabled_without_door_auth --> proxy_unresolved_src_verify_tests_mock_env
+    src_verify_tests_printed_disabled_without_door_auth --> proxy_unresolved_src_verify_tests_mock_info
+    src_verify_tests_printed_disabled_without_door_auth -.-> proxy_unresolved_Binary__from
+    src_verify_tests_printed_disabled_without_door_auth -.-> proxy_unresolved_STUB_OK_to_vec
+    src_verify_tests_printed_disabled_without_door_auth --> src_verify_tests_ok_inputs
+    src_verify_tests_printed_disabled_without_door_auth --> src_verify_tests_printed

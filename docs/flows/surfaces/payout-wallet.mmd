@@ -1,0 +1,27 @@
+%% Artist and vendor payout wallet
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-frost-module-deps.mmd
+%% - apps/sezs/src/frost/ParticipantsPanel.tsx
+%% - apps/sezs/pages/register.tsx
+%% - apps/sezs/pages/artist.tsx (redirects to /gallery/?view=studio)
+%% Gaps:
+%% - pages/artist.tsx is only a redirect to the gallery studio. Payout addresses are registered on /register, not on a separate artist wallet screen.
+flowchart TB
+
+    Issue["ParticipantsPanel.issue · Issue a registration key"]:::usher --> KeyOnce["Show the one-time key once"]:::usher
+    KeyOnce --> Register["pages/register.tsx"]:::web
+    Register --> ScanZigner["Select Scan a Zigner QR (optional)"]:::wallet
+    Register --> Addrs["Enter ZEC unified or shielded address"]:::web
+    Addrs --> Um["Enter UM address (penumbra1…)"]:::web
+    Um --> Submit["Select Register"]:::web
+    Submit --> Roster["Participants list: invited, registered, or paid"]:::usher
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

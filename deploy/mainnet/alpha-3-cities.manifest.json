@@ -1,0 +1,48 @@
+{
+  "chainId": "morocco-1",
+  "codes": {
+    "cw420": 112,
+    "cw4_group": 61,
+    "cw_event_manifold": 113,
+    "dao_calendar": 102,
+    "dao_dao_core": 23,
+    "dao_proposal_single": 24,
+    "dao_voting_cw4": 56,
+    "nftfi_raffle": 94,
+    "terp_beacon": 107
+  },
+  "events": [
+    {
+      "contract": "terp1qf4plkes8hmtpdjp06qmggdd69z067gt2jz6ffgymunxmwcj5p6s60vkyz",
+      "coordinators": "terp13t2l4v7j62tfzjl5j3q7cmxzreq2f7fz6havz5s0wmqs3q9tu0cs8qncgk",
+      "id": "sezs-baltimore",
+      "metadataPath": "apps/sezs/public/sezs-baltimore-nip52.json",
+      "metadataUri": "https://permissionless.money/alpha/sezs/sezs-baltimore-nip52.json",
+      "name": "Speak-Ez Sessions \u2014 Baltimore",
+      "ushers": "terp1c0vwnqetm89teg6v7yvxahuc0kneluqg7586f2f5yaq6kevn7e2s3rm8rt",
+      "zkid": null
+    },
+    {
+      "contract": "terp1tz0setr8vkh9udp8xyxgpqc89ns27k4d0jx2h942hr0ax63yjhmqx7ajem",
+      "coordinators": "terp14cczl8vde2u4heyyarqpqkaql9gjxyaq52ygws6y3d67ll5anf9smtm4dv",
+      "id": "sezs-chicago",
+      "metadataPath": "apps/sezs/public/sezs-chicago-nip52.json",
+      "metadataUri": "https://permissionless.money/alpha/sezs/sezs-chicago-nip52.json",
+      "name": "Speak-Ez Sessions \u2014 Chicago",
+      "ushers": "terp1ewmwz97xm0h8rdk8sw7h9mwn866qkx9hl9zlmagqfkhuzvwk5hhqr3wkte",
+      "zkid": null
+    },
+    {
+      "contract": "terp1dyxlfhc3gtlvcerlrsag75vqfx2hukea4723ffqvygu6ta2j98eqct2jsl",
+      "coordinators": "terp192x4q9z3ktw4wrjde30ax59966gzrmckff5u0tq80rdv6l80neusxue02q",
+      "id": "sezs-philadelphia",
+      "metadataPath": "apps/sezs/public/sezs-philadelphia-nip52.json",
+      "metadataUri": "https://permissionless.money/alpha/sezs/sezs-philadelphia-nip52.json",
+      "name": "Speak-Ez Sessions \u2014 Philadelphia",
+      "ushers": "terp1gt7xuj7nv7eyrheywjctkezcglj2kulfszrldqnvj4x7f2ktdvpsmcsndg",
+      "zkid": null
+    }
+  ],
+  "nextPublicSezsEvents": "terp1qf4plkes8hmtpdjp06qmggdd69z067gt2jz6ffgymunxmwcj5p6s60vkyz,terp1tz0setr8vkh9udp8xyxgpqc89ns27k4d0jx2h942hr0ax63yjhmqx7ajem,terp1dyxlfhc3gtlvcerlrsag75vqfx2hukea4723ffqvygu6ta2j98eqct2jsl",
+  "ok": true
+}

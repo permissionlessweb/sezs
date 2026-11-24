@@ -1,0 +1,58 @@
+{
+  "events": [
+    {
+      "id": "sezs-alpha-01",
+      "name": "Speak-Ez Sessions: Alpha Night 1",
+      "status": "announced",
+      "start": 1797120000,
+      "end": 1797145200,
+      "timezone": "Africa/Dakar",
+      "venue_label": "Venue TBD",
+      "domain": "https://permissionless.money",
+      "summary": "Live sets, printed works, and sessions pass.",
+      "content": "Doors at eight. Details are curated on-chain.",
+      "location": "Venue TBD",
+      "curator": "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052",
+      "coordinators": [
+        "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052"
+      ],
+      "ushers": [
+        "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052"
+      ],
+      "sponsors": [],
+      "lineup": [
+        {
+          "id": "slot-01",
+          "index": 0,
+          "role": "host",
+          "handle": "Doors",
+          "start": 1797120000,
+          "duration_min": 60,
+          "lane": "main"
+        }
+      ],
+      "tiers": [
+        {
+          "id": "floor",
+          "label": "Floor",
+          "guest_weight": 1,
+          "list_cents": 2500,
+          "supply": 100,
+          "rails": [
+            "zec",
+            "penumbra"
+          ]
+        }
+      ],
+      "raffles": [],
+      "faq": [
+        {
+          "id": "faq-ticket",
+          "question": "Is a booking a ticket?",
+          "answer": "No. Entry uses a Speak-Ez Sessions pass issued for this night."
+        }
+      ],
+      "metadata_uri": "https://permissionless.money/alpha/sezs/sezs-alpha-01-nip52.json"
+    }
+  ]
+}

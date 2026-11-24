@@ -1,0 +1,38 @@
+---
+title: Check in at the door
+description: Show a compact ticket QR. The usher’s device builds the proof and authorizes the consume.
+---
+
+# Check in at the door
+
+Bring the ticket that lives in your browser, a passkey-unlocked copy, or a paper printout of the same code. You do not build a proof on your phone. The event usher scans your ticket, their device builds the proof, and they authorize the consume with Zafu.
+
+## What you show
+
+The ticket is a single static QR (version 3, bech32m, human-readable prefix `sezs3`). It carries:
+
+- the ticket opening (the secret that was committed when you paid)
+- the sku, when it is not the default admission sku
+- an 8-byte event tag, so a ticket for a different event is refused
+
+Typical size is about 80 characters, within a 90-character budget, so the code fits a Version 4 QR at error-correction level M. If you want a paper copy, print the 3×3 grid of the same code. Any one cell is enough if another is damaged.
+
+Older printouts that use the longer `sezs1://ticket?…` URI are still accepted.
+
+## What the usher does
+
+1. An usher who is already signed in — and listed as an usher on the event — opens the check-in page. Door tools stay hidden from everyone else.
+2. They scan your QR. Their device fetches the public guest-list root and leaf list, finds your commitment, and builds the membership and nullifier proof in the browser with the same circuit the contract verifies.
+3. They authorize the consume in Zafu. The authorization covers the event, the nullifier, the root, a hash of the proof, and an expiry.
+4. The signed consume is relayed to the event contract. A successful admit spends the nullifier. A second scan is refused.
+
+On a desktop Chromium build of this revision, the usher-device wasm prove took 2.6 seconds after a 4.3-second first-time parameter warm-up (bundle 4,321 bytes). With the CPU throttled 4× — a mid-range phone estimate — the prove took 10.8 seconds (warm-up 17.7 seconds). At 6× — a slower phone estimate — the prove took 16.3 seconds (warm-up 27.1 seconds). Warm-up runs once per page load; later guests on the same open door page only pay the prove time. These figures are desktop Chromium measurements with CPU throttling, not timings from a physical phone.
+
+## Trust model
+
+- The services that registered your ticket only ever stored a commitment to the secret, not the secret itself.
+- The only time you reveal the secret to an usher is at check-in, by showing this QR. Ushers are trusted for admission.
+- The chain records the nullifier, not the secret. A spent nullifier cannot be used again.
+- The relayer cannot forge an admit if the consume is signed by the usher’s Zafu and submitted as that usher (the contract already requires the sender to be in the usher group). Until that on-chain path is the only path, the relayer also checks the usher’s signature, live usher membership, expiry, and replay before it submits.
+
+Signing in is not a ticket. A destination on a payment screen is not a ticket.

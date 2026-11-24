@@ -1,0 +1,13 @@
+{
+  "name": "vote-elgamal-wasm",
+  "description": "Browser-ready Pallas ElGamal encrypt matching vote-sdk crypto/elgamal (SpendAuthG)",
+  "version": "0.1.0",
+  "license": "MIT OR Apache-2.0",
+  "files": [
+    "vote_elgamal_wasm_bg.wasm",
+    "vote_elgamal_wasm.js",
+    "vote_elgamal_wasm.d.ts"
+  ],
+  "main": "vote_elgamal_wasm.js",
+  "types": "vote_elgamal_wasm.d.ts"
+}

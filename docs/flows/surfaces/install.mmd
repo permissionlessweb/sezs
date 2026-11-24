@@ -1,0 +1,31 @@
+%% Initial installations
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-auth-module-deps.mmd
+%% - apps/sezs/pages/keys.tsx (Ways to sign in, Sign in, Your devices)
+%% Gaps:
+%% - No in-app installer or store listing. Wallet installs happen outside this app.
+%% - Trailmark has no graph for third-party wallet binaries.
+%% - Email appears in the sign-in modal but is not served on this branch.
+flowchart TB
+
+    Start["Start tomorrow's session"]:::web --> KeysPage["pages/keys.tsx · Keys"]:::web
+    KeysPage --> WaysIn["Ways to sign in: Zafu, Zafu passkey, This browser"]:::web
+    WaysIn --> SignIn["src/auth/SignInPanel · Sign in"]:::web
+    ZafuInstall["Install Zafu extension
+(off-site, no in-app installer)"]:::gap --> KeysPage
+    ZipInstall["Install a ZIP-321 wallet
+(Zashi or Ywallet, off-site)"]:::gap --> KeysPage
+    SignIn --> Zid["Log in with Zafu · @zafu/zid"]:::web
+    SignIn --> Passkey["Passkey + PRF-sealed browser key"]:::web
+    Zid --> Session["Signed session on this origin"]:::web
+    Passkey --> Session
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

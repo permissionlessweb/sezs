@@ -1,0 +1,269 @@
+schema_version: 1.1.0
+id: ticket-transfer
+title: Transfer a ticket
+status: complete
+audience: A guest who already holds a ticket in this browser and wants to send a sealed copy to
+  a friend.
+prerequisites:
+- A paid ticket is stored in this browser.
+- The friend has a ZID pubkey.
+user_constraints:
+- This sends a sealed copy. It does not move the ticket on chain.
+- Do not put a ticket secret in usher chat or in a screenshot of the friend's key beyond the pubkey
+  field.
+- A passkey session is not a ticket.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+flow_graph: docs/flows/surfaces/ticket-transfer.mmd
+derived_graphs:
+- docs/flows/derived/app-ticket-vault.mmd
+surfaces:
+- apps/sezs/src/event/TicketVault.tsx
+- apps/sezs/pages/ticket.tsx
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 34.7
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: pending
+    engine: null
+    voice: null
+    path: docs/guides/narration/audio/ticket-transfer/tts/
+    notes: Leave empty until a local offline TTS take is rendered.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/ticket-transfer/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: transfer-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's send a sealed copy of a ticket to a friend.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: TicketPage
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: transfer-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/ticket-transfer/transfer-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 4.7
+  word_count: 11
+  audio_render:
+    tts_path: docs/guides/narration/audio/ticket-transfer/tts/transfer-intro.aiff
+    human_path: docs/guides/narration/audio/ticket-transfer/human/transfer-intro.wav
+    take: null
+- id: transfer-02
+  status: complete
+  narration_ste: We open the ticket page. We find the movement titled Tickets and transfers.
+  on_screen_action: Open /ticket
+  trail_step: trails/ticket-transfer.trail.yaml#transfer-02
+  expected_ui:
+    route: /ticket
+    title: Ticket · the event
+    visible_labels:
+    - Tickets and transfers
+    - Keep a copy for this device
+    - Send a copy to a friend’s ZID
+  video_slots:
+  - id: transfer-02-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/ticket-transfer/transfer-02-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: transfer-02-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/ticket-transfer/transfer-02-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: transfer-02-web-mobile
+    to: transfer-02-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 5.6
+  word_count: 13
+  audio_render:
+    tts_path: docs/guides/narration/audio/ticket-transfer/tts/transfer-02.aiff
+    human_path: docs/guides/narration/audio/ticket-transfer/human/transfer-02.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: TicketPage
+  producer_note: null
+- id: transfer-03
+  status: complete
+  narration_ste: We select Keep a copy for this device if we have not sealed this ticket yet.
+    We confirm the passkey prompt.
+  on_screen_action: Select Keep a copy for this device
+  trail_step: trails/ticket-transfer.trail.yaml#transfer-03
+  expected_ui:
+    route: /ticket
+    title: Ticket · the event
+    visible_labels:
+    - Keep a copy for this device
+    - This ticket can be opened again with your passkey.
+  video_slots:
+  - id: transfer-03-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/ticket-transfer/transfer-03-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: transfer-03-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/ticket-transfer/transfer-03-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: transfer-03-wallet
+    type: mobile-wallet-capture
+    source_app: platform-passkey
+    source_device: browser-or-phone
+    duration_seconds: 5.0
+    path: docs/guides/shots/ticket-transfer/transfer-03-wallet.png
+    status: placeholder
+    capture_checklist:
+    - Capture the platform passkey prompt only. Do not capture the passkey secret.
+  transitions:
+  - from: transfer-03-web-mobile
+    to: transfer-03-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  - from: transfer-03-web-desktop
+    to: transfer-03-wallet
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.0
+  word_count: 21
+  audio_render:
+    tts_path: docs/guides/narration/audio/ticket-transfer/tts/transfer-03.aiff
+    human_path: docs/guides/narration/audio/ticket-transfer/human/transfer-03.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Seal
+  producer_note: null
+- id: transfer-04
+  status: complete
+  narration_ste: We enter the friend's ZID pubkey in the field labeled Send a copy to a friend's
+    ZID. We select Send copy.
+  on_screen_action: Enter Friend ZID pubkey and select Send copy
+  trail_step: trails/ticket-transfer.trail.yaml#transfer-04
+  expected_ui:
+    route: /ticket
+    title: Ticket · the event
+    visible_labels:
+    - Send a copy to a friend’s ZID
+    - Friend ZID pubkey
+    - Send copy
+  video_slots:
+  - id: transfer-04-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/ticket-transfer/transfer-04-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: transfer-04-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/ticket-transfer/transfer-04-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: transfer-04-web-mobile
+    to: transfer-04-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.0
+  word_count: 21
+  audio_render:
+    tts_path: docs/guides/narration/audio/ticket-transfer/tts/transfer-04.aiff
+    human_path: docs/guides/narration/audio/ticket-transfer/human/transfer-04.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Send
+  producer_note: null
+- id: transfer-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: A sealed copy is on its way. The original ticket still works on this device.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Envelope
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: transfer-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/ticket-transfer/transfer-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 6.4
+  word_count: 15
+  audio_render:
+    tts_path: docs/guides/narration/audio/ticket-transfer/tts/transfer-outro.aiff
+    human_path: docs/guides/narration/audio/ticket-transfer/human/transfer-outro.wav
+    take: null
+producer_note: 'Recorder: do not speak seeded event names. The friend field is a pubkey only.'

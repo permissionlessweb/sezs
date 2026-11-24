@@ -1,0 +1,27 @@
+%% Transfer a ticket
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-ticket-vault.mmd (TicketVault)
+%% - apps/sezs/src/event/TicketVault.tsx (Keep a copy for this device, Send copy)
+%% - apps/sezs/pages/ticket.tsx
+%% Gaps:
+%% - Transfer is a sealed copy via ZID, not a chain move of the nullifier.
+%% - The door intent of TicketVault hides the transfer fields.
+flowchart TB
+
+    TicketPage["pages/ticket.tsx · Ticket"]:::web --> Vault["TicketVault intent=full"]:::web
+    Vault --> Seal["Select Keep a copy for this device"]:::web
+    Seal --> Passkey["Confirm the passkey prompt"]:::wallet
+    Vault --> Friend["Enter Friend ZID pubkey"]:::web
+    Friend --> Send["Select Send copy"]:::web
+    Send --> Envelope["postEnvelope / fetchEnvelopes"]:::web
+    OpenQr["Select Open QR"]:::web --> DoorQr["TicketQr label Door ticket"]:::web
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

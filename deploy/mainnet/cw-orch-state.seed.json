@@ -1,0 +1,17 @@
+{
+  "morocco-1": {
+    "code_ids": {
+      "cw4_group": 61,
+      "dao_calendar": 102,
+      "dao_dao_core": 23,
+      "dao_proposal_single": 24,
+      "dao_voting_cw4": 56,
+      "nftfi_raffle": 94,
+      "terp_beacon": 107
+    },
+    "default": {
+      "nftfi_raffle": "terp1wwpepd34quxkn8hxfsa9ss5lgp5lyh0emghyhu92h0evmhcpvsxsw7p3k2",
+      "terp_beacon": "terp13t68qn7dlu30rw9rdevwh6a3a97ym454t4rq2vfjycn3kya934nqlyh609"
+    }
+  }
+}

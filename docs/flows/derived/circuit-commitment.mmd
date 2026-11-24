@@ -1,0 +1,189 @@
+flowchart TB
+    src_lib_commitment["commitment, function, CC=1"]
+    src_lib_p3["p3, function, CC=1"]
+    src_bin_fixture_main["main, function, CC=4"]
+    tests_consume_setup["setup, function, CC=4"]
+    proxy_unresolved_Hash______P128Pow5T3__ConstantLength_3__3__2___init__hash["Hash::<_, P128Pow5T3, ConstantLength<3>, 3, 2>::init().hash, proxy"]
+    proxy_unresolved_Hash______P128Pow5T3__ConstantLength_3__3__2___init["Hash::<_, P128Pow5T3, ConstantLength<3>, 3, 2>::init, proxy"]
+    src_circuit_ask["ask, function, CC=1"]
+    src_circuit_Witness_leaf["leaf, method, CC=1"]
+    proxy_unresolved_std__env__args___skip_1___filter_map_s__s_split_once__map_k__v___k_to_string__v_to_string___collect["std::env::args()
+        .skip(1)
+        .filter_map(|s| s.split_once('=').map(|(k, v)| (k.to_string(), v.to_string())))
+        .collect, proxy"]
+    proxy_unresolved_std__env__args___skip_1___filter_map["std::env::args()
+        .skip(1)
+        .filter_map, proxy"]
+    proxy_unresolved_std__env__args___skip["std::env::args()
+        .skip, proxy"]
+    proxy_unresolved_std__env__args["std::env::args, proxy"]
+    proxy_unresolved_s_split_once__map["s.split_once('=').map, proxy"]
+    proxy_unresolved_s_split_once["s.split_once, proxy"]
+    proxy_unresolved_k_to_string["k.to_string, proxy"]
+    proxy_unresolved_v_to_string["v.to_string, proxy"]
+    proxy_unresolved_a_get_k__cloned__unwrap_or_else["a.get(k).cloned().unwrap_or_else, proxy"]
+    proxy_unresolved_a_get_k__cloned["a.get(k).cloned, proxy"]
+    proxy_unresolved_a_get["a.get, proxy"]
+    proxy_unresolved_d_to_string["d.to_string, proxy"]
+    proxy_unresolved_src_bin_fixture_main__binding_g["src.bin.fixture:main.$binding.g, proxy"]
+    proxy_unresolved_g_issued_at___0__parse__unwrap["g(#quot;issued_at#quot;, #quot;0#quot;).parse().unwrap, proxy"]
+    proxy_unresolved_g_issued_at___0__parse["g(#quot;issued_at#quot;, #quot;0#quot;).parse, proxy"]
+    proxy_unresolved_g_leaves___37__parse__unwrap["g(#quot;leaves#quot;, #quot;37#quot;).parse().unwrap, proxy"]
+    proxy_unresolved_g_leaves___37__parse["g(#quot;leaves#quot;, #quot;37#quot;).parse, proxy"]
+    proxy_unresolved_g_index___23__parse__unwrap["g(#quot;index#quot;, #quot;23#quot;).parse().unwrap, proxy"]
+    proxy_unresolved_g_index___23__parse["g(#quot;index#quot;, #quot;23#quot;).parse, proxy"]
+    proxy_unresolved_event_id_fp_event__unwrap["event_id_fp(&event).unwrap, proxy"]
+    src_encode_event_id_fp["event_id_fp, function, CC=1"]
+    src_encode_domain_fp["domain_fp, function, CC=1"]
+    proxy_unresolved_sku_fp_sku__unwrap["sku_fp(&sku).unwrap, proxy"]
+    src_encode_sku_fp["sku_fp, function, CC=1"]
+    src_lib_os_rng["os_rng, function, CC=1"]
+    proxy_unresolved_pallas__Base__random["pallas::Base::random, proxy"]
+    proxy_unresolved_GuestTree__new["GuestTree::new, proxy"]
+    proxy_unresolved_tree_append_if_i___index___c___else___pallas__Base__random_mut_rng____unwrap["tree.append(if i == index { c } else { pallas::Base::random(&mut rng) }).unwrap, proxy"]
+    proxy_unresolved_tree_append["tree.append, proxy"]
+    proxy_unresolved_tree_path_index__unwrap["tree.path(index).unwrap, proxy"]
+    proxy_unresolved_tree_path["tree.path, proxy"]
+    proxy_unresolved_Instant__now["Instant::now, proxy"]
+    proxy_unresolved_sezs_ticket_v2__keys__get["sezs_ticket_v2::keys::get, proxy"]
+    proxy_unresolved_t_elapsed__as_millis["t.elapsed().as_millis, proxy"]
+    proxy_unresolved_t_elapsed["t.elapsed, proxy"]
+    proxy_unresolved_bundle__prove_ProveInput___secret__sku__s__event_id__e__domain__d__path__alpha_nonce__rand_nonce_mut_rng_____mut_rng__unwrap["bundle::prove(&ProveInput { secret, sku: s, event_id: e, domain: d, path, alpha_nonce: rand_nonce(&mut rng) }, &mut rng).unwrap, proxy"]
+    proxy_unresolved_bundle__prove["bundle::prove, proxy"]
+    src_bin_fixture_rand_nonce["rand_nonce, function, CC=1"]
+    proxy_unresolved_bundle__verify_proven_bundle__e__d__unwrap["bundle::verify(&proven.bundle, e, d).unwrap, proxy"]
+    proxy_unresolved_bundle__verify["bundle::verify, proxy"]
+    proxy_unresolved_rand_core__Rng__fill_bytes["rand_core::Rng::fill_bytes, proxy"]
+    proxy_unresolved_consent__LiveChallenge__new_e__d__nonce__issued_at___usher__to_bytes["consent::LiveChallenge::new(e, d, nonce, issued_at, &usher).to_bytes, proxy"]
+    proxy_unresolved_consent__LiveChallenge__new["consent::LiveChallenge::new, proxy"]
+    proxy_unresolved_consent__sign_proven_rsk___ch___mut_rng__unwrap["consent::sign(&proven.rsk, &ch, &mut rng).unwrap, proxy"]
+    proxy_unresolved_consent__sign["consent::sign, proxy"]
+    proxy_unresolved_consent__printed_message_e__d___proven_bundle_nullifier__door_as_bytes__unwrap["consent::printed_message(e, d, &proven.bundle.nullifier, door.as_bytes()).unwrap, proxy"]
+    proxy_unresolved_consent__printed_message["consent::printed_message, proxy"]
+    proxy_unresolved_door_as_bytes["door.as_bytes, proxy"]
+    proxy_unresolved_consent__sign_proven_rsk___pmsg___mut_rng__unwrap["consent::sign(&proven.rsk, &pmsg, &mut rng).unwrap, proxy"]
+    proxy_unresolved_proven_bundle_rk["proven.bundle.rk, proxy"]
+    proxy_unresolved_b_instance_e__d__unwrap["b.instance(e, d).unwrap, proxy"]
+    proxy_unresolved_b_instance["b.instance, proxy"]
+    proxy_unresolved_tree_leaves__iter__map_x__format__to_hex_sezs_ticket_v2__fp_to_le_x__collect["tree.leaves().iter().map(|x| format!(#quot;\#quot;{}\#quot;#quot;, to_hex(&sezs_ticket_v2::fp_to_le(x)))).collect, proxy"]
+    proxy_unresolved_tree_leaves__iter__map["tree.leaves().iter().map, proxy"]
+    proxy_unresolved_tree_leaves__iter["tree.leaves().iter, proxy"]
+    proxy_unresolved_tree_leaves["tree.leaves, proxy"]
+    proxy_unresolved_std__fs__write_out__json__unwrap["std::fs::write(&out, json).unwrap, proxy"]
+    proxy_unresolved_std__fs__write["std::fs::write, proxy"]
+    proxy_unresolved_sezs_ticket_v2__blob__build__unwrap["sezs_ticket_v2::blob::build().unwrap, proxy"]
+    proxy_unresolved_sezs_ticket_v2__blob__build["sezs_ticket_v2::blob::build, proxy"]
+    proxy_unresolved_sezs_ticket_v2__blob__host_verify_sc_blob___b_proof___inst__unwrap["sezs_ticket_v2::blob::host_verify(&sc.blob, &b.proof, &inst).unwrap, proxy"]
+    proxy_unresolved_sezs_ticket_v2__blob__host_verify["sezs_ticket_v2::blob::host_verify, proxy"]
+    proxy_unresolved_event_id_fp_speakez_sessions__unwrap["event_id_fp(#quot;speakez-sessions#quot;).unwrap, proxy"]
+    proxy_unresolved_sku_fp_ga__unwrap["sku_fp(#quot;ga#quot;).unwrap, proxy"]
+    proxy_unresolved_t_append_if_i___6___commitment_secret__s__e____else___pallas__Base__random_mut_rng____unwrap["t.append(if i == 6 { commitment(secret, s, e) } else { pallas::Base::random(&mut rng) }).unwrap, proxy"]
+    proxy_unresolved_t_append["t.append, proxy"]
+    tests_consume_mock_prover_accepts_and_rejects["mock_prover_accepts_and_rejects, function, CC=2"]
+    tests_consume_tree_paths_and_rk_encoding["tree_paths_and_rk_encoding, function, CC=2"]
+    tests_consume_prove_verify_sign_roundtrip["prove_verify_sign_roundtrip, function, CC=1"]
+    tests_consume_host_contract_module_accepts_real_bundle["contract_module_accepts_real_bundle, function, CC=1"]
+    src_lib_commitment --> src_lib_p3
+    src_bin_fixture_main -.-> src_lib_commitment
+    tests_consume_setup -.-> src_lib_commitment
+    src_lib_p3 -.-> proxy_unresolved_Hash______P128Pow5T3__ConstantLength_3__3__2___init__hash
+    src_lib_p3 -.-> proxy_unresolved_Hash______P128Pow5T3__ConstantLength_3__3__2___init
+    src_circuit_ask -.-> src_lib_p3
+    src_circuit_Witness_leaf -.-> src_lib_p3
+    src_lib_commitment --> src_lib_p3
+    src_bin_fixture_main -.-> proxy_unresolved_std__env__args___skip_1___filter_map_s__s_split_once__map_k__v___k_to_string__v_to_string___collect
+    src_bin_fixture_main -.-> proxy_unresolved_std__env__args___skip_1___filter_map
+    src_bin_fixture_main -.-> proxy_unresolved_std__env__args___skip
+    src_bin_fixture_main -.-> proxy_unresolved_std__env__args
+    src_bin_fixture_main -.-> proxy_unresolved_s_split_once__map
+    src_bin_fixture_main -.-> proxy_unresolved_s_split_once
+    src_bin_fixture_main -.-> proxy_unresolved_k_to_string
+    src_bin_fixture_main -.-> proxy_unresolved_v_to_string
+    src_bin_fixture_main -.-> proxy_unresolved_a_get_k__cloned__unwrap_or_else
+    src_bin_fixture_main -.-> proxy_unresolved_a_get_k__cloned
+    src_bin_fixture_main -.-> proxy_unresolved_a_get
+    src_bin_fixture_main -.-> proxy_unresolved_d_to_string
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -.-> proxy_unresolved_g_issued_at___0__parse__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_g_issued_at___0__parse
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -.-> proxy_unresolved_g_leaves___37__parse__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_g_leaves___37__parse
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -.-> proxy_unresolved_g_index___23__parse__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_g_index___23__parse
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -..-> proxy_unresolved_src_bin_fixture_main__binding_g
+    src_bin_fixture_main -.-> proxy_unresolved_event_id_fp_event__unwrap
+    src_bin_fixture_main -.-> src_encode_event_id_fp
+    src_bin_fixture_main -.-> src_encode_domain_fp
+    src_bin_fixture_main -.-> proxy_unresolved_sku_fp_sku__unwrap
+    src_bin_fixture_main -.-> src_encode_sku_fp
+    src_bin_fixture_main -.-> src_lib_os_rng
+    src_bin_fixture_main -.-> proxy_unresolved_pallas__Base__random
+    src_bin_fixture_main -.-> src_lib_commitment
+    src_bin_fixture_main -.-> proxy_unresolved_GuestTree__new
+    src_bin_fixture_main -.-> proxy_unresolved_tree_append_if_i___index___c___else___pallas__Base__random_mut_rng____unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_tree_append
+    src_bin_fixture_main -.-> proxy_unresolved_pallas__Base__random
+    src_bin_fixture_main -.-> proxy_unresolved_tree_path_index__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_tree_path
+    src_bin_fixture_main -.-> proxy_unresolved_Instant__now
+    src_bin_fixture_main -.-> proxy_unresolved_sezs_ticket_v2__keys__get
+    src_bin_fixture_main -.-> proxy_unresolved_t_elapsed__as_millis
+    src_bin_fixture_main -.-> proxy_unresolved_t_elapsed
+    src_bin_fixture_main -.-> proxy_unresolved_Instant__now
+    src_bin_fixture_main -.-> proxy_unresolved_bundle__prove_ProveInput___secret__sku__s__event_id__e__domain__d__path__alpha_nonce__rand_nonce_mut_rng_____mut_rng__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_bundle__prove
+    src_bin_fixture_main --> src_bin_fixture_rand_nonce
+    src_bin_fixture_main -.-> proxy_unresolved_t_elapsed__as_millis
+    src_bin_fixture_main -.-> proxy_unresolved_t_elapsed
+    src_bin_fixture_main -.-> proxy_unresolved_Instant__now
+    src_bin_fixture_main -.-> proxy_unresolved_bundle__verify_proven_bundle__e__d__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_bundle__verify
+    src_bin_fixture_main -.-> proxy_unresolved_t_elapsed__as_millis
+    src_bin_fixture_main -.-> proxy_unresolved_t_elapsed
+    src_bin_fixture_main -.-> proxy_unresolved_rand_core__Rng__fill_bytes
+    src_bin_fixture_main -.-> proxy_unresolved_consent__LiveChallenge__new_e__d__nonce__issued_at___usher__to_bytes
+    src_bin_fixture_main -.-> proxy_unresolved_consent__LiveChallenge__new
+    src_bin_fixture_main -.-> proxy_unresolved_consent__sign_proven_rsk___ch___mut_rng__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_consent__sign
+    src_bin_fixture_main -.-> proxy_unresolved_consent__printed_message_e__d___proven_bundle_nullifier__door_as_bytes__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_consent__printed_message
+    src_bin_fixture_main -.-> proxy_unresolved_door_as_bytes
+    src_bin_fixture_main -.-> proxy_unresolved_consent__sign_proven_rsk___pmsg___mut_rng__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_consent__sign
+    src_bin_fixture_main -.-> proxy_unresolved_proven_bundle_rk
+    src_bin_fixture_main -.-> proxy_unresolved_b_instance_e__d__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_b_instance
+    src_bin_fixture_main -.-> proxy_unresolved_tree_leaves__iter__map_x__format__to_hex_sezs_ticket_v2__fp_to_le_x__collect
+    src_bin_fixture_main -.-> proxy_unresolved_tree_leaves__iter__map
+    src_bin_fixture_main -.-> proxy_unresolved_tree_leaves__iter
+    src_bin_fixture_main -.-> proxy_unresolved_tree_leaves
+    src_bin_fixture_main -.-> proxy_unresolved_std__fs__write_out__json__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_std__fs__write
+    src_bin_fixture_main -.-> proxy_unresolved_sezs_ticket_v2__blob__build__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_sezs_ticket_v2__blob__build
+    src_bin_fixture_main -.-> proxy_unresolved_Instant__now
+    src_bin_fixture_main -.-> proxy_unresolved_sezs_ticket_v2__blob__host_verify_sc_blob___b_proof___inst__unwrap
+    src_bin_fixture_main -.-> proxy_unresolved_sezs_ticket_v2__blob__host_verify
+    tests_consume_setup -.-> src_lib_os_rng
+    tests_consume_setup -.-> proxy_unresolved_event_id_fp_speakez_sessions__unwrap
+    tests_consume_setup -.-> src_encode_event_id_fp
+    tests_consume_setup -.-> src_encode_domain_fp
+    tests_consume_setup -.-> proxy_unresolved_sku_fp_ga__unwrap
+    tests_consume_setup -.-> src_encode_sku_fp
+    tests_consume_setup -.-> proxy_unresolved_pallas__Base__random
+    tests_consume_setup -.-> proxy_unresolved_GuestTree__new
+    tests_consume_setup -.-> proxy_unresolved_t_append_if_i___6___commitment_secret__s__e____else___pallas__Base__random_mut_rng____unwrap
+    tests_consume_setup -.-> proxy_unresolved_t_append
+    tests_consume_setup -.-> src_lib_commitment
+    tests_consume_setup -.-> proxy_unresolved_pallas__Base__random
+    tests_consume_mock_prover_accepts_and_rejects --> tests_consume_setup
+    tests_consume_tree_paths_and_rk_encoding --> tests_consume_setup
+    tests_consume_prove_verify_sign_roundtrip --> tests_consume_setup
+    tests_consume_host_contract_module_accepts_real_bundle --> tests_consume_setup

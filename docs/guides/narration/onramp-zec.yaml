@@ -1,0 +1,204 @@
+schema_version: 1.1.0
+id: onramp-zec
+title: Onramp ZEC
+status: has_gaps
+audience: A guest who has a ZIP-321 wallet but does not yet hold shielded ZEC for checkout.
+prerequisites:
+- The install guide is complete.
+- A ZIP-321 wallet is on the guest phone or in Zafu.
+user_constraints:
+- The app has no buy-ZEC or exchange screen. Do not invent one.
+- A passkey session is not a ticket.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+flow_graph: docs/flows/surfaces/onramp-zec.mmd
+derived_graphs:
+- docs/flows/derived/app-pay-module-deps.mmd
+- docs/flows/derived/app-checkout.mmd
+surfaces:
+- apps/sezs/pages/tickets.tsx
+- apps/sezs/src/pay/zec.ts
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 22.2
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: pending
+    engine: null
+    voice: null
+    path: docs/guides/narration/audio/onramp-zec/tts/
+    notes: Leave empty until a local offline TTS take is rendered.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/onramp-zec/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: onramp-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's talk about getting shielded ZEC before we buy a ticket.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: NeedZec
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: onramp-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/onramp-zec/onramp-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 4.7
+  word_count: 11
+  audio_render:
+    tts_path: docs/guides/narration/audio/onramp-zec/tts/onramp-intro.aiff
+    human_path: docs/guides/narration/audio/onramp-zec/human/onramp-intro.wav
+    take: null
+- id: onramp-02
+  status: gap
+  narration_ste: This app has no onramp screen. We obtain shielded ZEC in the ZIP-321 wallet outside
+    this app.
+  on_screen_action: No in-app onramp surface
+  trail_step: trails/onramp-zec.trail.yaml#onramp-02
+  expected_ui:
+    route: null
+    title: null
+    visible_labels: []
+  video_slots:
+  - id: onramp-02-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 4
+    path: docs/guides/shots/onramp-zec/onramp-02-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: event name, guide title, and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+  - id: onramp-02-wallet
+    type: mobile-wallet-capture
+    source_app: zashi-or-ywallet-or-zafu
+    source_device: phone-or-extension
+    duration_seconds: 6
+    path: docs/guides/shots/onramp-zec/onramp-02-wallet.png
+    status: placeholder
+    capture_checklist:
+    - Capture only a receiving address or funded shielded balance in the guest wallet.
+    - Do not show an exchange account, a bank link, or a seed.
+    - Redact amounts if the guest prefers.
+  transitions:
+  - from: onramp-02-title
+    to: onramp-02-wallet
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 7.7
+  word_count: 18
+  audio_render:
+    tts_path: docs/guides/narration/audio/onramp-zec/tts/onramp-02.aiff
+    human_path: docs/guides/narration/audio/onramp-zec/human/onramp-02.wav
+    take: null
+  gap: No in-app ZEC onramp, buy, or exchange UI exists in the current routes.
+  role: step
+  flow_node: NoOnramp
+  producer_note: null
+- id: onramp-03
+  status: complete
+  narration_ste: We return to the Tickets page when the wallet holds ZEC.
+  on_screen_action: Open /tickets after the wallet holds ZEC
+  trail_step: trails/onramp-zec.trail.yaml#onramp-03
+  expected_ui:
+    route: /tickets
+    title: Tickets · the event
+    visible_labels:
+    - Choose a payment method
+    - ZEC
+    - Penumbra
+    - Continue to checkout
+  video_slots:
+  - id: onramp-03-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/onramp-zec/onramp-03-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: onramp-03-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/onramp-zec/onramp-03-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: onramp-03-web-mobile
+    to: onramp-03-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 4.7
+  word_count: 11
+  audio_render:
+    tts_path: docs/guides/narration/audio/onramp-zec/tts/onramp-03.aiff
+    human_path: docs/guides/narration/audio/onramp-zec/human/onramp-03.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Tickets
+  producer_note: null
+- id: onramp-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: When the wallet holds ZEC, we are ready to buy a ticket.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Checkout
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: onramp-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/onramp-zec/onramp-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 5.1
+  word_count: 12
+  audio_render:
+    tts_path: docs/guides/narration/audio/onramp-zec/tts/onramp-outro.aiff
+    human_path: docs/guides/narration/audio/onramp-zec/human/onramp-outro.wav
+    take: null
+producer_note: 'Recorder: checkout quotes a request for the event on this origin only. Do not
+  speak local infra or seeded prices.'

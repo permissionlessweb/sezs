@@ -1,0 +1,31 @@
+%% Admin signing and payments (FROST and DAO)
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-frost-module-deps.mmd
+%% - apps/sezs/pages/admin.tsx (Holders, Participants, Rotate the group key, Inbox job)
+%% - apps/sezs/src/frost/ParticipantsPanel.tsx (Propose batch, Sign with FROST, Execute payouts)
+%% - packages/sezs-orch/src/suite.rs (instantiate_dao exists in deploy, not a guest UI)
+%% Gaps:
+%% - No DAO payout screen is in the current app. FROST batch sign-and-execute is the present coordinator path.
+%% - instantiate_dao is a deploy-time orch function, not an admin page.
+flowchart TB
+
+    Admin["pages/admin.tsx · Admin · The event"]:::usher --> Holders["Holders tab · group key"]:::usher
+    Admin --> ParticipantsTab["Participants tab"]:::usher
+    ParticipantsTab --> Issue["Issue a registration key"]:::usher
+    ParticipantsTab --> Batch["Payout batch · Propose batch"]:::usher
+    Batch --> FrostSign["Select Sign with FROST"]:::wallet
+    FrostSign --> ExecutePay["Select Execute payouts"]:::chain
+    FrostSign -.-> Bouncer["Local bouncer 2-of-3 FROST"]:::chain
+    ExecutePay --> Done["Batch status executed"]:::chain
+    Dao["DAO payout UI"]:::gap -.-> ParticipantsTab
+    Rotate["Rotate the group key form"]:::usher --> Holders
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

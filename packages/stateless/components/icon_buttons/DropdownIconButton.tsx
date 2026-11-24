@@ -1,0 +1,37 @@
+import { ArrowDropDown } from '@mui/icons-material'
+import clsx from 'clsx'
+import { forwardRef } from 'react'
+
+import { IconButtonProps } from '@dao-dao/types'
+
+import { IconButton } from './IconButton'
+
+export interface DropdownIconButtonProps
+  extends Partial<Omit<IconButtonProps, 'onClick' | 'Icon'>> {
+  open: boolean
+  toggle: () => void
+}
+
+export const DropdownIconButton = forwardRef<
+  HTMLButtonElement,
+  DropdownIconButtonProps
+>(function DropdownIconButton(
+  { open, toggle, iconClassName, size = 'sm', ...props },
+  ref
+) {
+  return (
+    <IconButton
+      Icon={ArrowDropDown}
+      iconClassName={clsx(
+        '!transition-transform',
+        open ? 'rotate-0' : '-rotate-90',
+        iconClassName
+      )}
+      onClick={toggle}
+      size={size}
+      variant="ghost"
+      {...props}
+      ref={ref}
+    />
+  )
+})

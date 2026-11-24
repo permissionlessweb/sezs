@@ -1,0 +1,98 @@
+name: sezs-ste-lexicon
+version: 1.1.0
+notes: A small starter list, not the official ASD-STE100 dictionary. First-person plural is preferred in narration.
+approved_imperative_verbs:
+- accept
+- add
+- admit
+- attach
+- authorize
+- buy
+- check
+- choose
+- close
+- complete
+- confirm
+- connect
+- copy
+- create
+- decline
+- enter
+- execute
+- find
+- go
+- hash
+- hide
+- hold
+- install
+- issue
+- keep
+- leave
+- open
+- paste
+- pick
+- point
+- present
+- print
+- propose
+- read
+- record
+- redact
+- refuse
+- register
+- remove
+- return
+- review
+- rotate
+- save
+- scan
+- select
+- send
+- set
+- share
+- show
+- sign
+- skip
+- start
+- stop
+- transfer
+- treat
+- type
+- unlock
+- use
+- wait
+- walk
+banned:
+- basically
+- click here
+- currently
+- ensure
+- facilitate
+- go ahead
+- gonna
+- in order to
+- ipsum
+- just
+- kinda
+- leverage
+- lorem
+- make sure
+- maybe
+- might
+- perhaps
+- please
+- proceed to
+- really
+- should
+- simply
+- tbd
+- todo
+- utilize
+- very
+- wanna
+- we recommend
+- you'll want
+limits:
+  descriptive_words: 25
+  procedural_words: 20
+  words_per_minute: 140

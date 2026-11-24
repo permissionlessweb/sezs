@@ -1,0 +1,88 @@
+import JSON5 from 'json5'
+import { nanoid } from 'nanoid'
+import { NextApiRequest, NextApiResponse } from 'next'
+
+import { parseForm, uploadToFilebase } from '../server'
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  try {
+    // Parse form fields and image.
+    const {
+      fields: { name, description = '', extra: _extra },
+      fileData: imageData,
+      fileExtension: imageExtension,
+      mimetype,
+    } = await parseForm(req, {
+      requireFile: false,
+      allowedFiletype: 'image',
+    })
+
+    // Make sure name is not empty.
+    if (!name?.trim()) {
+      throw new Error('Name cannot be empty.')
+    }
+
+    // Parse additional metadata if present.
+    let extra: Record<string, any> = {}
+    if (_extra) {
+      try {
+        extra = JSON5.parse(_extra)
+      } catch {
+        throw new Error('Invalid extra metadata.')
+      }
+    }
+
+    // Ensure image has extension if exists.
+    if (imageData && !imageExtension) {
+      throw new Error('No image extension found.')
+    }
+
+    const folder = nanoid()
+
+    const imageCid = imageData
+      ? await uploadToFilebase(
+          imageData,
+          `${folder}/image.${imageExtension}`,
+          mimetype
+        )
+      : undefined
+
+    const metadata = {
+      ...extra,
+
+      // Ensure name, description, and image are set (overriding extra).
+      name,
+      // In case description is empty, use extra.description if present.
+      description: description || extra.description || '',
+
+      // Add image if present.
+      ...(imageCid && { image: `ipfs://${imageCid}` }),
+    }
+
+    const cid = await uploadToFilebase(
+      JSON.stringify(metadata, null, 2),
+      `${folder}/metadata.json`,
+      'application/json'
+    )
+    const metadataUrl = `ipfs://${cid}`
+    const imageUrl = metadata.image
+
+    res.status(200).json({
+      cid,
+      metadataUrl,
+      imageUrl,
+    })
+  } catch (err) {
+    res.status(400).json({ error: err instanceof Error ? err.message : err })
+  }
+}
+
+// Disable default body parser since Formidable parses for us.
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}

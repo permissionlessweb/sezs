@@ -1,0 +1,25 @@
+[package]
+name = "sezs-v2-probe"
+description = "Lab-only test contract: calls sezs-ticket-v2-verify (proof_instance_verify + redpallas_spendauth_verify) from a crates.io cosmwasm-std 2.2 contract, the same std cw-event-manifold uses."
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[workspace]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+cosmwasm-std = { version = "2.2.2", features = ["cosmwasm_1_2"] }
+cosmwasm-schema = "2.2.2"
+cw-storage-plus = "2.0.0"
+sezs-ticket-v2-verify = { path = "../../cw-ave/packages/sezs-ticket-v2-verify" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+debug = false
+overflow-checks = true

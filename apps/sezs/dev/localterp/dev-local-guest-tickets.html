@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex" />
+  <title>Load local guest tickets</title>
+  <style>
+    body { font: 16px/1.4 system-ui, sans-serif; margin: 2rem; max-width: 36rem; }
+    p { color: #222; }
+  </style>
+</head>
+<body>
+  <p id="status">Loading the four local guest tickets into this browser, then opening the ticket page…</p>
+  <script>
+    (async () => {
+      const status = document.getElementById('status')
+      try {
+        const res = await fetch('/api/dev-local-guest-tickets', {
+          headers: { accept: 'application/json' },
+          credentials: 'same-origin',
+          cache: 'no-store',
+        })
+        const data = await res.json()
+        if (!res.ok || !data.ok || !Array.isArray(data.tickets) || !data.tickets.length) {
+          throw new Error('could not load tickets')
+        }
+        const STORE = 'sezs-ticket-v2'
+        const STORE_V1 = 'sezs-ticket-v1'
+        let existing = []
+        try {
+          const v2 = JSON.parse(localStorage.getItem(STORE) || 'null')
+          const list = Array.isArray(v2) ? v2 : v2 && v2.tickets
+          if (Array.isArray(list)) existing = list
+        } catch {}
+        const byC = new Map(existing.map((t) => [t.commitmentHex, t]))
+        for (const t of data.tickets) byC.set(t.commitmentHex, t)
+        const list = Array.from(byC.values())
+        localStorage.setItem(STORE, JSON.stringify({ version: 2, tickets: list }))
+        localStorage.setItem(STORE_V1, JSON.stringify(list[list.length - 1]))
+        location.replace('/ticket/')
+      } catch (e) {
+        status.textContent = 'Could not load the local guest tickets into this browser.'
+      }
+    })()
+  </script>
+</body>
+</html>

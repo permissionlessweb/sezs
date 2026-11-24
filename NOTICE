@@ -1,0 +1,18 @@
+Speak-Ez Sessions (SEZS)
+
+This repository contains code derived from DAO DAO UI
+(https://github.com/DA0-DA0/dao-dao-ui), Copyright (c) 2022 DAO DAO
+Contributors. The packages under packages/ (config, i18n, math, state,
+stateful, stateless, storybook, types, utils) keep their original
+license, The Clear BSD License, in each package's LICENSE file.
+
+apps/sezs is licensed under the GNU Affero General Public License v3.0
+only (apps/sezs/LICENSE).
+
+Event contracts are not vendored here. They live in
+https://github.com/permissionlessweb/cw-ave, a PermissionlessWeb project
+(not an official DAO DAO repository), licensed separately under the
+Apache License, Version 2.0.
+
+Fonts under apps/sezs/public and websites/sezs-docs/public carry their
+own NOTICE.txt files.

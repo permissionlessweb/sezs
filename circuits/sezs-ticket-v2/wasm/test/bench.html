@@ -1,0 +1,27 @@
+<!doctype html><meta charset="utf-8"><title>sezs v2 prover bench</title>
+<script type="module">
+import init, * as w from '../pkg-web/sezs_ticket_v2_wasm.js'
+const rnd = (n) => crypto.getRandomValues(new Uint8Array(n))
+const ms = (t) => Math.round(performance.now() - t)
+window.bench = async () => {
+  const out = {}
+  let t = performance.now(); await init(); out.wasm_init_ms = ms(t)
+  t = performance.now(); w.warmUp(); out.keygen_ms = ms(t)
+  const E = 'speakez-sessions', S = 'ga', D = 'http://127.0.0.1:3051'
+  const secret = w.fitSecret(rnd(32)), C = w.commitment(secret, S, E)
+  const all = new Uint8Array(64 * 32)
+  for (let i = 0; i < 64; i++) all.set(i === 9 ? C : w.fitSecret(rnd(32)), i * 32)
+  out.prove_ms = []
+  let p
+  for (let i = 0; i < 3; i++) { t = performance.now(); p = w.prove(secret, S, E, D, all, rnd(32)); out.prove_ms.push(ms(t)) }
+  t = performance.now(); out.verify_ok = w.verifyBundle(p.bundle, E, D); out.verify_ms = ms(t)
+  const ch = w.liveChallenge(E, D, rnd(16), BigInt(Math.floor(Date.now() / 1000)), 'terp1usher')
+  t = performance.now(); const sig = w.signLive(secret, E, D, p.alphaNonce, ch, rnd(32)); out.sign_ms = ms(t)
+  out.sig_ok = w.verifyConsent(Uint8Array.from(JSON.parse(w.bundleFields(p.bundle)).rk.match(/../g).map((h) => parseInt(h, 16))), ch, sig)
+  out.bundle_bytes = p.bundle.length
+  out.ua = navigator.userAgent
+  out.cores = navigator.hardwareConcurrency
+  return out
+}
+window.ready = true
+</script>

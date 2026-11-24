@@ -1,0 +1,581 @@
+schema_version: 1.1.0
+id: registration-and-purchase
+title: Registration and ticket purchase
+status: complete
+audience: A guest who buys a ticket with shielded ZEC, and an artist or vendor who registers payout
+  addresses.
+prerequisites:
+- The install guide is complete.
+- The guest wallet holds shielded ZEC.
+- 'For the registration half: a coordinator has issued a one-time registration key.'
+user_constraints:
+- Each ticket is a separate payment with a fresh ticket secret.
+- The payment memo carries the commitment only. Signing in is not a ticket.
+- The door uses the ticket QR, not the payment receipt.
+- A passkey session is not a ticket.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+flow_graph: docs/flows/surfaces/registration-and-purchase.mmd
+derived_graphs:
+- docs/flows/derived/app-checkout.mmd
+- docs/flows/derived/app-pay-module-deps.mmd
+- docs/flows/derived/sezs-orch-curate.mmd
+surfaces:
+- apps/sezs/pages/tickets.tsx
+- apps/sezs/src/event/CheckoutPanel.tsx
+- apps/sezs/pages/register.tsx
+- apps/sezs/pages/ticket.tsx
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 95.2
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: pending
+    engine: null
+    voice: null
+    path: docs/guides/narration/audio/registration-and-purchase/tts/
+    notes: Leave empty until a local offline TTS take is rendered.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/registration-and-purchase/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: purchase-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's walk through buying a ticket with shielded ZEC. We will also register an
+    artist or vendor payout wallet.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Tickets
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: purchase-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/registration-and-purchase/purchase-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 8.1
+  word_count: 19
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-intro.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-intro.wav
+    take: null
+- id: purchase-02
+  status: complete
+  narration_ste: We open the Tickets page. We read the event and the ticket tiers.
+  on_screen_action: Open /tickets
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-02
+  expected_ui:
+    route: /tickets
+    title: Tickets · the event
+    visible_labels:
+    - Choose a payment method
+    - ZEC
+    - Penumbra
+    - Cash at the door
+    - Number of tickets
+    notes: Seeded Floor list price is 40.00 dollars. Gallery is 25.00 dollars. Cash at the door
+      is 55.00 dollars.
+  video_slots:
+  - id: purchase-02-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-02-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: purchase-02-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-02-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: purchase-02-web-mobile
+    to: purchase-02-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 5.6
+  word_count: 13
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-02.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-02.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Tickets
+  producer_note: null
+- id: purchase-03
+  status: complete
+  narration_ste: We select ZEC as the payment method. We only need one method. We set Number of
+    tickets to 1.
+  on_screen_action: Select ZEC and set quantity to 1
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-03
+  expected_ui:
+    route: /tickets
+    title: Tickets · the event
+    visible_labels:
+    - ZEC
+    - Number of tickets
+    - Continue to checkout
+  video_slots:
+  - id: purchase-03-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/registration-and-purchase/purchase-03-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: purchase-03-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/registration-and-purchase/purchase-03-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: purchase-03-web-mobile
+    to: purchase-03-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 8.1
+  word_count: 19
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-03.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-03.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Rail
+  producer_note: null
+- id: purchase-04
+  status: complete
+  narration_ste: We select Continue to checkout. The heading shows Shielded ZEC and the price
+    for the ticket tier.
+  on_screen_action: Select Continue to checkout
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-04
+  expected_ui:
+    route: /tickets
+    title: Tickets · the event
+    visible_labels:
+    - Shielded ZEC
+    - Make a ZEC request for Zafu
+  video_slots:
+  - id: purchase-04-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-04-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id001
+    - A still of /tickets is on disk at this path, but the headless click did not open Shielded
+      ZEC checkout or a ZIP-321 request.
+    - Recapture after selecting Continue to checkout, then after Make a ZEC request for Zafu.
+    - Do not use any test-only shortcut on the checkout row. Do not send mainnet funds.
+  - id: purchase-04-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-04-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id001
+  transitions:
+  - from: purchase-04-web-mobile
+    to: purchase-04-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 7.3
+  word_count: 17
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-04.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-04.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Checkout
+  producer_note: null
+- id: purchase-05
+  status: complete
+  narration_ste: We select Make a ZEC request for Zafu. The page shows a ZIP-321 payment request.
+  on_screen_action: Select Make a ZEC request for Zafu
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-05
+  expected_ui:
+    route: /tickets
+    title: Tickets · the event
+    visible_labels:
+    - ZIP-321 payment request
+    - Open in Zafu
+    - Check for payment
+    notes: This step creates a ticket secret in the browser. Use a disposable profile. Do not
+      authorize a consume.
+  video_slots:
+  - id: purchase-05-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-05-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id002
+    - A still of /tickets is on disk at this path, but the headless click did not open Shielded
+      ZEC checkout or a ZIP-321 request.
+    - Recapture after selecting Continue to checkout, then after Make a ZEC request for Zafu.
+    - Do not use any test-only shortcut on the checkout row. Do not send mainnet funds.
+  - id: purchase-05-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-05-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id002
+  transitions:
+  - from: purchase-05-web-mobile
+    to: purchase-05-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 6.9
+  word_count: 16
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-05.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-05.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: MakeReq
+  producer_note: null
+- id: purchase-06
+  status: complete
+  narration_ste: We open the request in Zafu. We can also scan the request with a ZIP-321 wallet
+    such as Zashi or Ywallet. We confirm the payment in that wallet.
+  on_screen_action: Open in Zafu, or scan the ZIP-321 request
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-06
+  expected_ui:
+    route: /tickets
+    title: Tickets · the event
+    visible_labels:
+    - Open in Zafu
+    - ZIP-321 payment request
+  video_slots:
+  - id: purchase-06-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 3
+    path: docs/guides/shots/registration-and-purchase/purchase-06-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id003
+    - A still of /tickets is on disk at this path, but the headless click did not open Shielded
+      ZEC checkout or a ZIP-321 request.
+    - Recapture after selecting Continue to checkout, then after Make a ZEC request for Zafu.
+    - Do not use any test-only shortcut on the checkout row. Do not send mainnet funds.
+  - id: purchase-06-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 3
+    path: docs/guides/shots/registration-and-purchase/purchase-06-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id003
+  - id: purchase-06-wallet
+    type: mobile-wallet-capture
+    source_app: zafu-or-zashi-or-ywallet
+    source_device: phone-or-extension
+    duration_seconds: 8
+    path: docs/guides/shots/registration-and-purchase/purchase-06-wallet.png
+    status: placeholder
+    capture_checklist:
+    - On the phone or in the Zafu extension, open the ZIP-321 request from the Tickets page.
+    - Frame the request amount, destination, and memo. Hide any seed or spending key.
+    - Capture the confirm step, then the accepted state.
+    - Do not show a mainnet spend. Use the local event request only.
+  transitions:
+  - from: purchase-06-web-mobile
+    to: purchase-06-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  - from: purchase-06-web-desktop
+    to: purchase-06-wallet
+    type: cut
+    duration_seconds: 0.5
+  estimated_speech_seconds: 12.4
+  word_count: 29
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-06.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-06.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: OpenZafu
+  producer_note: null
+- id: purchase-07
+  status: complete
+  narration_ste: We return to the Tickets page. We select Check for payment. We wait until the
+    page says Payment is on the guest list.
+  on_screen_action: Select Check for payment
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-07
+  expected_ui:
+    route: /tickets
+    title: Tickets · the event
+    visible_labels:
+    - Check for payment
+    - Payment is on the guest list
+    - Open the printable ticket
+  video_slots:
+  - id: purchase-07-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-07-web-mobile-390.png
+    status: placeholder
+    capture_checklist: &id004
+    - A still of /tickets is on disk at this path, but the headless click did not open Shielded
+      ZEC checkout or a ZIP-321 request.
+    - Recapture after selecting Continue to checkout, then after Make a ZEC request for Zafu.
+    - Do not use any test-only shortcut on the checkout row. Do not send mainnet funds.
+  - id: purchase-07-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-07-web-desktop-1440.png
+    status: placeholder
+    capture_checklist: *id004
+  transitions:
+  - from: purchase-07-web-mobile
+    to: purchase-07-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.9
+  word_count: 23
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-07.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-07.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: CheckPay
+  producer_note: null
+- id: purchase-08
+  status: complete
+  narration_ste: We open the printable ticket. We save or print the ticket QR. The door uses that
+    QR, not the receipt.
+  on_screen_action: Open /ticket and save the Door ticket QR
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-08
+  expected_ui:
+    route: /ticket
+    title: Ticket · the event
+    visible_labels:
+    - Hold this
+    - Your ticket
+    - Show this at the door
+    - Door ticket
+  video_slots:
+  - id: purchase-08-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-08-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: purchase-08-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 5
+    path: docs/guides/shots/registration-and-purchase/purchase-08-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: purchase-08-web-mobile
+    to: purchase-08-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 8.6
+  word_count: 20
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-08.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-08.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Printable
+  producer_note: null
+- id: purchase-09
+  status: complete
+  narration_ste: We now register an artist or vendor. We open Register to take part. We enter
+    the one-time registration key. We enter Name or act.
+  on_screen_action: Open /register and enter the key and name
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-09
+  expected_ui:
+    route: /register
+    title: Register to take part
+    visible_labels:
+    - Registration
+    - One-time registration key
+    - Name or act
+  video_slots:
+  - id: purchase-09-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/registration-and-purchase/purchase-09-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: purchase-09-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/registration-and-purchase/purchase-09-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: purchase-09-web-mobile
+    to: purchase-09-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 10.7
+  word_count: 25
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-09.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-09.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: RegisterPage
+  producer_note: null
+- id: purchase-10
+  status: complete
+  narration_ste: We enter the ZEC unified or shielded address. We enter the UM address that starts
+    with penumbra1. We select Register.
+  on_screen_action: Enter payout addresses and select Register
+  trail_step: trails/registration-and-purchase.trail.yaml#purchase-10
+  expected_ui:
+    route: /register
+    title: Register to take part
+    visible_labels:
+    - ZEC unified or shielded address
+    - UM address (penumbra1…)
+    - Register
+  video_slots:
+  - id: purchase-10-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/registration-and-purchase/purchase-10-web-mobile-390.png
+    status: captured
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: purchase-10-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/registration-and-purchase/purchase-10-web-desktop-1440.png
+    status: captured
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: purchase-10-web-mobile
+    to: purchase-10-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 8.6
+  word_count: 20
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-10.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-10.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: RegisterBtn
+  producer_note: null
+- id: purchase-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: We have a ticket QR for the door. We also registered payout addresses when we
+    needed that half of the flow.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Printable
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: purchase-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/registration-and-purchase/purchase-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 9.0
+  word_count: 21
+  audio_render:
+    tts_path: docs/guides/narration/audio/registration-and-purchase/tts/purchase-outro.aiff
+    human_path: docs/guides/narration/audio/registration-and-purchase/human/purchase-outro.wav
+    take: null
+producer_note: 'Recorder: do not use any shortcut on the checkout row. Do not speak seeded event
+  names, venues, or list prices.'

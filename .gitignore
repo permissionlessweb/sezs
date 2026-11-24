@@ -1,0 +1,102 @@
+*.log
+*.pem
+*.tsbuildinfo
+.DS_Store
+.idea/
+.next/
+.pnp.js
+.turbo/
+.vercel/
+/.pnp
+coverage/
+dist/
+node_modules/
+out/
+
+.env
+.env*.local
+
+*.swo
+*.swp
+*.~undo-tree
+*~
+.\#*
+\#*\#
+
+.turbo
+
+# playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+
+.hermes-kanban-artifacts
+.env.local.*
+workspaces/*
+*.lab-logs
+*.lab-sentry
+.grok
+# local lab constant backups
+packages/utils/constants/chains.ts.bak*
+
+# Session and lab state (never commit)
+.splash/
+**/.splash/
+admin-frost/
+**/admin-frost/
+ticket-dests.env
+**/ticket-dests.env
+**/dealer.json
+**/payout-recipient.json
+**/key-secrets/
+**/terp-boot.json
+apps/sezs/dev/localterp/boot.json
+/tmp/
+**/sezs-session*/
+*.session-root
+logs/
+apps/sezs/logs/
+
+# Local rust build products
+**/target/
+
+# Circuit/params may be large but are source artifacts; do not ignore
+# contracts/**/artifacts/*.wasm is reproducible from source
+
+# local minirelay runtime (never commit)
+minirelay.sqlite
+minirelay.sqlite-*
+
+/artifacts/
+
+scripts/env/node_modules/
+
+# Remotion walkthrough renders (large mp4s) and local package build products
+docs/guides/renders/
+e2e/walkthroughs/out/
+e2e/walkthroughs/public/audio-cache/
+e2e/walkthroughs/public/timelines/
+e2e/walkthroughs/.cache/
+
+# Never commit secrets or host state
+.env*
+!.env.example
+*.env
+!*.env.example
+*.key
+*.mnemonic
+*mnemonic*
+keyring*/
+.localterp/
+*.sqlite
+*.sqlite-*
+server.log
+**/artifacts/*.params
+**/artifacts/*.vkbody
+
+# Email auth local runtime (never commit)
+**/email-auth.sqlite
+**/email-auth.sqlite-*
+**/email-outbox/

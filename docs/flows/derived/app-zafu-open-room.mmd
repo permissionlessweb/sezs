@@ -1,0 +1,46 @@
+flowchart TB
+    zirc_lab_openLabRoom["openLabRoom, function, CC=2"]
+    zirc_lab_labRelayUrl["labRelayUrl, function, CC=1"]
+    relay_guard_assertLocalRelay["assertLocalRelay, function, CC=2"]
+    zirc_lab_loadZafuPackages["loadZafuPackages, function, CC=1"]
+    zirc_lab_ed25519RoomIdentity["ed25519RoomIdentity, function, CC=1"]
+    proxy_unresolved_room_createRoomSecret["room.createRoomSecret, proxy"]
+    proxy_unresolved_relayHttp_createHttpRelayTransport["relayHttp.createHttpRelayTransport, proxy"]
+    proxy_unresolved_room_encodeInvite["room.encodeInvite, proxy"]
+    proxy_unresolved_url_replace["url.replace, proxy"]
+    relay_guard_refuseRelayEndpoint["refuseRelayEndpoint, function, CC=4"]
+    zirc_lab_zafuRoot["zafuRoot, function, CC=1"]
+    proxy_unresolved_zirc_lab_loadZafuPackages__binding_ensureZafuLabBundle["zirc-lab:loadZafuPackages.$binding.ensureZafuLabBundle, proxy"]
+    proxy_unresolved_zirc_lab_pathToFileURL["zirc-lab:pathToFileURL, proxy"]
+    proxy_unresolved_crypto_subtle_generateKey["crypto.subtle.generateKey, proxy"]
+    proxy_unresolved_crypto_subtle_exportKey["crypto.subtle.exportKey, proxy"]
+    zirc_lab_toHex["toHex, function, CC=1"]
+    zirc_lab_ed25519RoomIdentity__object_34_9_sign["$object@34_9.sign, function, CC=1"]
+    zirc_lab_ed25519RoomIdentity__object_34_9_verify["$object@34_9.verify, function, CC=1"]
+    zirc_lab_openLabRoom --> zirc_lab_labRelayUrl
+    zirc_lab_openLabRoom -.-> relay_guard_assertLocalRelay
+    zirc_lab_openLabRoom --> zirc_lab_loadZafuPackages
+    zirc_lab_openLabRoom --> zirc_lab_ed25519RoomIdentity
+    zirc_lab_openLabRoom -.-> proxy_unresolved_room_createRoomSecret
+    zirc_lab_openLabRoom -.-> proxy_unresolved_relayHttp_createHttpRelayTransport
+    zirc_lab_openLabRoom -.-> proxy_unresolved_room_encodeInvite
+    zirc_lab_labRelayUrl -.-> relay_guard_assertLocalRelay
+    zirc_lab_labRelayUrl -.-> proxy_unresolved_url_replace
+    zirc_lab_openLabRoom --> zirc_lab_labRelayUrl
+    relay_guard_assertLocalRelay --> relay_guard_refuseRelayEndpoint
+    zirc_lab_labRelayUrl -.-> relay_guard_assertLocalRelay
+    zirc_lab_openLabRoom -.-> relay_guard_assertLocalRelay
+    zirc_lab_loadZafuPackages --> zirc_lab_zafuRoot
+    zirc_lab_loadZafuPackages -..-> proxy_unresolved_zirc_lab_loadZafuPackages__binding_ensureZafuLabBundle
+    zirc_lab_loadZafuPackages --> proxy_unresolved_zirc_lab_pathToFileURL
+    zirc_lab_loadZafuPackages --> proxy_unresolved_zirc_lab_pathToFileURL
+    zirc_lab_openLabRoom --> zirc_lab_loadZafuPackages
+    zirc_lab_ed25519RoomIdentity -.-> proxy_unresolved_crypto_subtle_generateKey
+    zirc_lab_ed25519RoomIdentity -.-> proxy_unresolved_crypto_subtle_exportKey
+    zirc_lab_ed25519RoomIdentity --> zirc_lab_toHex
+    zirc_lab_ed25519RoomIdentity -..-> zirc_lab_ed25519RoomIdentity__object_34_9_sign
+    zirc_lab_ed25519RoomIdentity -..-> zirc_lab_ed25519RoomIdentity__object_34_9_verify
+    zirc_lab_openLabRoom --> zirc_lab_ed25519RoomIdentity
+    zirc_lab_openLabRoom -.-> proxy_unresolved_room_createRoomSecret
+    zirc_lab_openLabRoom -.-> proxy_unresolved_relayHttp_createHttpRelayTransport
+    zirc_lab_openLabRoom -.-> proxy_unresolved_room_encodeInvite

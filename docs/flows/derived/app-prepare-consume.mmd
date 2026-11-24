@@ -1,0 +1,104 @@
+flowchart TB
+    door_v3_prepareConsumeV3["prepareConsumeV3, function, CC=1"]
+    proxy_unresolved_door_v3_fetch["door-v3:fetch, proxy"]
+    proxy_unresolved_JSON_stringify["JSON.stringify, proxy"]
+    proxy_unresolved_res_json["res.json, proxy"]
+    UsherDoor_UsherDoor_authorize["authorize, function, CC=12"]
+    door_v3_submitConsumeV3["submitConsumeV3, function, CC=1"]
+    TicketProve_TicketProve_prove["prove, function, CC=11"]
+    TicketProve_TicketProve_approveLive["approveLive, function, CC=6"]
+    TicketVault_postEnvelope["postEnvelope, function, CC=1"]
+    UsherChat_UsherChat_onRegister["onRegister, function, CC=4"]
+    UsherChat_UsherChat_onRotate["onRotate, function, CC=2"]
+    UsherChat_UsherChat_onSend["onSend, function, CC=3"]
+    client_snake["snake, function, CC=1"]
+    door_v2_submitConsumeV2["submitConsumeV2, function, CC=1"]
+    door_b64json["b64json, function, CC=2"]
+    TicketConsent_TicketConsent__lambda_39_12__lambda_42_6["$lambda@42_6, function, CC=6"]
+    TicketVault_fetchEnvelopes["fetchEnvelopes, function, CC=1"]
+    UsherChat_api["api, function, CC=1"]
+    door_v2_fetchDoorV2Config["fetchDoorV2Config, function, CC=1"]
+    proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setBusy["UsherDoor:UsherDoor.authorize.$binding.setBusy, proxy"]
+    UsherDoor_zafuOf["zafuOf, function, CC=3"]
+    proxy_unresolved_zafu_enable["zafu.enable, proxy"]
+    proxy_unresolved_zafu_getKey["zafu.getKey, proxy"]
+    proxy_unresolved_zafu_signArbitrary["zafu.signArbitrary, proxy"]
+    proxy_unresolved_zafu_signAmino["zafu.signAmino, proxy"]
+    proxy_unresolved__window_as_unknown_as___zafuSign__Function___zafuSign["(window as unknown as { zafuSign: Function }).zafuSign, proxy"]
+    proxy_unresolved_UsherDoor_toHex["UsherDoor:toHex, proxy"]
+    proxy_unresolved_new_TextEncoder__encode["new TextEncoder().encode, proxy"]
+    proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setAdmitted["UsherDoor:UsherDoor.authorize.$binding.setAdmitted, proxy"]
+    proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setRefused["UsherDoor:UsherDoor.authorize.$binding.setRefused, proxy"]
+    proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setStage["UsherDoor:UsherDoor.authorize.$binding.setStage, proxy"]
+    proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setNote["UsherDoor:UsherDoor.authorize.$binding.setNote, proxy"]
+    proxy_unresolved_UsherDoor_fetch["UsherDoor:fetch, proxy"]
+    UsherDoor_UsherDoor_refusedNote["refusedNote, function, CC=6"]
+    UsherDoor_UsherDoor__lambda_348_77["$lambda@348_77, function, CC=1"]
+    UsherDoor_UsherDoor["UsherDoor, function, CC=10"]
+    door_v3_prepareConsumeV3 --> proxy_unresolved_door_v3_fetch
+    door_v3_prepareConsumeV3 -.-> proxy_unresolved_JSON_stringify
+    door_v3_prepareConsumeV3 -.-> proxy_unresolved_res_json
+    UsherDoor_UsherDoor_authorize -.-> door_v3_prepareConsumeV3
+    UsherDoor_UsherDoor_authorize -.-> door_v3_prepareConsumeV3
+    door_v3_prepareConsumeV3 --> proxy_unresolved_door_v3_fetch
+    door_v3_submitConsumeV3 --> proxy_unresolved_door_v3_fetch
+    TicketProve_TicketProve_prove -.-> proxy_unresolved_JSON_stringify
+    TicketProve_TicketProve_prove -.-> proxy_unresolved_JSON_stringify
+    TicketProve_TicketProve_approveLive -.-> proxy_unresolved_JSON_stringify
+    TicketVault_postEnvelope -.-> proxy_unresolved_JSON_stringify
+    UsherChat_UsherChat_onRegister -.-> proxy_unresolved_JSON_stringify
+    UsherChat_UsherChat_onRotate -.-> proxy_unresolved_JSON_stringify
+    UsherChat_UsherChat_onSend -.-> proxy_unresolved_JSON_stringify
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_JSON_stringify
+    client_snake -.-> proxy_unresolved_JSON_stringify
+    door_v2_submitConsumeV2 -.-> proxy_unresolved_JSON_stringify
+    door_v3_prepareConsumeV3 -.-> proxy_unresolved_JSON_stringify
+    door_v3_submitConsumeV3 -.-> proxy_unresolved_JSON_stringify
+    door_b64json -.-> proxy_unresolved_JSON_stringify
+    TicketConsent_TicketConsent__lambda_39_12__lambda_42_6 -.-> proxy_unresolved_res_json
+    TicketVault_postEnvelope -.-> proxy_unresolved_res_json
+    TicketVault_fetchEnvelopes -.-> proxy_unresolved_res_json
+    UsherChat_api -.-> proxy_unresolved_res_json
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_res_json
+    door_v2_fetchDoorV2Config -.-> proxy_unresolved_res_json
+    door_v2_submitConsumeV2 -.-> proxy_unresolved_res_json
+    door_v3_prepareConsumeV3 -.-> proxy_unresolved_res_json
+    door_v3_submitConsumeV3 -.-> proxy_unresolved_res_json
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setBusy
+    UsherDoor_UsherDoor_authorize --> UsherDoor_zafuOf
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_zafu_enable
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_zafu_getKey
+    UsherDoor_UsherDoor_authorize -.-> door_v3_prepareConsumeV3
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_zafu_signArbitrary
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_zafu_signAmino
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved__window_as_unknown_as___zafuSign__Function___zafuSign
+    UsherDoor_UsherDoor_authorize --> proxy_unresolved_UsherDoor_toHex
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_new_TextEncoder__encode
+    UsherDoor_UsherDoor_authorize -.-> door_v3_prepareConsumeV3
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setAdmitted
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setRefused
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setStage
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setNote
+    UsherDoor_UsherDoor_authorize --> proxy_unresolved_UsherDoor_fetch
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_JSON_stringify
+    UsherDoor_UsherDoor_authorize -.-> proxy_unresolved_res_json
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setAdmitted
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setRefused
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setStage
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setNote
+    UsherDoor_UsherDoor_authorize -.-> door_v3_submitConsumeV3
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setStage
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setAdmitted
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setRefused
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setNote
+    UsherDoor_UsherDoor_authorize --> UsherDoor_UsherDoor_refusedNote
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setAdmitted
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setRefused
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setNote
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setStage
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setAdmitted
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setRefused
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setNote
+    UsherDoor_UsherDoor_authorize -..-> proxy_unresolved_UsherDoor_UsherDoor_authorize__binding_setBusy
+    UsherDoor_UsherDoor__lambda_348_77 --> UsherDoor_UsherDoor_authorize
+    UsherDoor_UsherDoor -..-> UsherDoor_UsherDoor_authorize

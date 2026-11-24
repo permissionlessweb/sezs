@@ -1,0 +1,3827 @@
+{
+  "contract_name": "cw-event-manifold",
+  "contract_version": "0.0.1",
+  "idl_version": "1.0.0",
+  "instantiate": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "InstantiateMsg",
+    "type": "object",
+    "required": [
+      "coordinators",
+      "domain",
+      "end",
+      "id",
+      "name",
+      "start",
+      "status",
+      "timezone"
+    ],
+    "properties": {
+      "content": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "coordinators": {
+        "description": "cw420 (cw4) group address. Principal admin / FROST coordinator set. Required.",
+        "type": "string"
+      },
+      "curator": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "cw_ave": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "d_tag": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "domain": {
+        "description": "Origin URL (scheme + host + optional port) for ZID and ticket signatures.",
+        "type": "string"
+      },
+      "domain_fp": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/HexBinary"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "door_auth_pubkey": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/HexBinary"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "end": {
+        "$ref": "#/definitions/Timestamp"
+      },
+      "event_id_fp": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/HexBinary"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "geohash": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "guest_root_vk": {
+        "description": "32-byte admin FROST verifying key. Required before the first UpdateGuestRoot.",
+        "anyOf": [
+          {
+            "$ref": "#/definitions/HexBinary"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "id": {
+        "type": "string"
+      },
+      "image": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "kind": {
+        "description": "NIP-52 kind. Defaults to 31923 (time-based) when omitted.",
+        "type": [
+          "integer",
+          "null"
+        ],
+        "format": "uint16",
+        "minimum": 0.0
+      },
+      "location": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "metadata_hash": {
+        "anyOf": [
+          {
+            "$ref": "#/definitions/HexBinary"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "metadata_uri": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "name": {
+        "type": "string"
+      },
+      "randomness": {
+        "description": "Pluggable randomness contract. Leave unset until the user points at theirs.",
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "service_key": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "start": {
+        "$ref": "#/definitions/Timestamp"
+      },
+      "status": {
+        "$ref": "#/definitions/EventStatus"
+      },
+      "summary": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "tags": {
+        "type": [
+          "array",
+          "null"
+        ],
+        "items": {
+          "type": "string"
+        }
+      },
+      "timezone": {
+        "type": "string"
+      },
+      "usher_group": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "venue_label": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "zkid": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "format": "uint64",
+        "minimum": 0.0
+      }
+    },
+    "additionalProperties": false,
+    "definitions": {
+      "EventStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "announced",
+          "onsale",
+          "live",
+          "closed",
+          "settled"
+        ]
+      },
+      "HexBinary": {
+        "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+        "type": "string"
+      },
+      "Timestamp": {
+        "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+        "allOf": [
+          {
+            "$ref": "#/definitions/Uint64"
+          }
+        ]
+      },
+      "Uint64": {
+        "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+        "type": "string"
+      }
+    }
+  },
+  "execute": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "ExecuteMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "update_event_info"
+        ],
+        "properties": {
+          "update_event_info": {
+            "type": "object",
+            "properties": {
+              "content": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "end": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Timestamp"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "start": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Timestamp"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "status": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/EventStatus"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "summary": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "timezone": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Write the NIP-52-shaped event definition (title is `name`).",
+        "type": "object",
+        "required": [
+          "set_nip52"
+        ],
+        "properties": {
+          "set_nip52": {
+            "type": "object",
+            "required": [
+              "body"
+            ],
+            "properties": {
+              "body": {
+                "$ref": "#/definitions/Nip52Body"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Optional off-chain metadata pointer. On-chain fields stay authoritative.",
+        "type": "object",
+        "required": [
+          "set_metadata"
+        ],
+        "properties": {
+          "set_metadata": {
+            "type": "object",
+            "required": [
+              "uri"
+            ],
+            "properties": {
+              "content_hash": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/HexBinary"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "uri": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "set_venue"
+        ],
+        "properties": {
+          "set_venue": {
+            "type": "object",
+            "required": [
+              "label"
+            ],
+            "properties": {
+              "label": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "set_cw_ave"
+        ],
+        "properties": {
+          "set_cw_ave": {
+            "type": "object",
+            "properties": {
+              "addr": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "set_coordinators"
+        ],
+        "properties": {
+          "set_coordinators": {
+            "type": "object",
+            "required": [
+              "addr"
+            ],
+            "properties": {
+              "addr": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "set_randomness"
+        ],
+        "properties": {
+          "set_randomness": {
+            "type": "object",
+            "properties": {
+              "addr": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Coordinator-gated. Binds ZID keys and ticket signatures to this origin.",
+        "type": "object",
+        "required": [
+          "set_domain"
+        ],
+        "properties": {
+          "set_domain": {
+            "type": "object",
+            "required": [
+              "domain"
+            ],
+            "properties": {
+              "domain": {
+                "type": "string"
+              },
+              "door_auth_pubkey": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/HexBinary"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Principal admin (coordinator group or curator). Points the backend runtime key.",
+        "type": "object",
+        "required": [
+          "set_service_key"
+        ],
+        "properties": {
+          "set_service_key": {
+            "type": "object",
+            "properties": {
+              "addr": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Principal admin. Lower-authority ushers may ConsumeTicket only.",
+        "type": "object",
+        "required": [
+          "set_usher_group"
+        ],
+        "properties": {
+          "set_usher_group": {
+            "type": "object",
+            "properties": {
+              "addr": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Principal admin. Circuit id; 0 is fail-closed.",
+        "type": "object",
+        "required": [
+          "set_zkid"
+        ],
+        "properties": {
+          "set_zkid": {
+            "type": "object",
+            "required": [
+              "zkid"
+            ],
+            "properties": {
+              "domain_fp": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/HexBinary"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "event_id_fp": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/HexBinary"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "zkid": {
+                "type": "integer",
+                "format": "uint64",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Principal admin. Register or rotate the admin FROST verifying key.",
+        "type": "object",
+        "required": [
+          "set_guest_root_vk"
+        ],
+        "properties": {
+          "set_guest_root_vk": {
+            "type": "object",
+            "required": [
+              "vk"
+            ],
+            "properties": {
+              "vk": {
+                "$ref": "#/definitions/HexBinary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Broadcast by the backend. Authorized by a 2-of-3 admin FROST signature, not by the lab service key.",
+        "type": "object",
+        "required": [
+          "update_guest_root"
+        ],
+        "properties": {
+          "update_guest_root": {
+            "type": "object",
+            "required": [
+              "epoch",
+              "frost_signature",
+              "leaf_count",
+              "root"
+            ],
+            "properties": {
+              "epoch": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "frost_signature": {
+                "$ref": "#/definitions/HexBinary"
+              },
+              "leaf_count": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "root": {
+                "$ref": "#/definitions/HexBinary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Usher-only. Halo2 proof + RedPallas consent via zk-wasmvm.",
+        "type": "object",
+        "required": [
+          "consume_ticket"
+        ],
+        "properties": {
+          "consume_ticket": {
+            "type": "object",
+            "required": [
+              "consent",
+              "domain",
+              "event_id",
+              "nullifier",
+              "proof",
+              "rk_x",
+              "rk_y",
+              "root"
+            ],
+            "properties": {
+              "consent": {
+                "$ref": "#/definitions/Consent"
+              },
+              "domain": {
+                "$ref": "#/definitions/HexBinary"
+              },
+              "event_id": {
+                "$ref": "#/definitions/HexBinary"
+              },
+              "nullifier": {
+                "$ref": "#/definitions/HexBinary"
+              },
+              "proof": {
+                "$ref": "#/definitions/Binary"
+              },
+              "rk_x": {
+                "$ref": "#/definitions/HexBinary"
+              },
+              "rk_y": {
+                "$ref": "#/definitions/HexBinary"
+              },
+              "root": {
+                "$ref": "#/definitions/HexBinary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "upsert_faq"
+        ],
+        "properties": {
+          "upsert_faq": {
+            "type": "object",
+            "required": [
+              "item"
+            ],
+            "properties": {
+              "item": {
+                "$ref": "#/definitions/FaqItem"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_faq"
+        ],
+        "properties": {
+          "remove_faq": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "upsert_lineup_slot"
+        ],
+        "properties": {
+          "upsert_lineup_slot": {
+            "type": "object",
+            "required": [
+              "slot"
+            ],
+            "properties": {
+              "slot": {
+                "$ref": "#/definitions/LineupSlot"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_lineup_slot"
+        ],
+        "properties": {
+          "remove_lineup_slot": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "upsert_timeline_item"
+        ],
+        "properties": {
+          "upsert_timeline_item": {
+            "type": "object",
+            "required": [
+              "item"
+            ],
+            "properties": {
+              "item": {
+                "$ref": "#/definitions/TimelineItem"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_timeline_item"
+        ],
+        "properties": {
+          "remove_timeline_item": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "upsert_sponsor"
+        ],
+        "properties": {
+          "upsert_sponsor": {
+            "type": "object",
+            "required": [
+              "sponsor"
+            ],
+            "properties": {
+              "sponsor": {
+                "$ref": "#/definitions/Sponsor"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_sponsor"
+        ],
+        "properties": {
+          "remove_sponsor": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "upsert_tier"
+        ],
+        "properties": {
+          "upsert_tier": {
+            "type": "object",
+            "required": [
+              "tier"
+            ],
+            "properties": {
+              "tier": {
+                "$ref": "#/definitions/TicketTier"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "remove_tier"
+        ],
+        "properties": {
+          "remove_tier": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "record_sale"
+        ],
+        "properties": {
+          "record_sale": {
+            "type": "object",
+            "required": [
+              "count",
+              "tier_id"
+            ],
+            "properties": {
+              "count": {
+                "type": "integer",
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "tier_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "register_paid_leaf"
+        ],
+        "properties": {
+          "register_paid_leaf": {
+            "type": "object",
+            "required": [
+              "commitment"
+            ],
+            "properties": {
+              "commitment": {
+                "$ref": "#/definitions/HexBinary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "register_raffle_prize"
+        ],
+        "properties": {
+          "register_raffle_prize": {
+            "type": "object",
+            "required": [
+              "prize"
+            ],
+            "properties": {
+              "prize": {
+                "$ref": "#/definitions/RafflePrize"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "close_raffle"
+        ],
+        "properties": {
+          "close_raffle": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "request_draw"
+        ],
+        "properties": {
+          "request_draw": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Accepted only from the configured randomness address.",
+        "type": "object",
+        "required": [
+          "randomness_receive"
+        ],
+        "properties": {
+          "randomness_receive": {
+            "type": "object",
+            "required": [
+              "job_id",
+              "randomness"
+            ],
+            "properties": {
+              "job_id": {
+                "type": "string"
+              },
+              "randomness": {
+                "$ref": "#/definitions/Binary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "Knowledge proof of the ticket secret for the winning leaf. Scaffold is pending.",
+        "type": "object",
+        "required": [
+          "claim_prize"
+        ],
+        "properties": {
+          "claim_prize": {
+            "type": "object",
+            "required": [
+              "id",
+              "proof",
+              "raffle_nullifier"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "proof": {
+                "$ref": "#/definitions/Binary"
+              },
+              "raffle_nullifier": {
+                "$ref": "#/definitions/HexBinary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "definitions": {
+      "Binary": {
+        "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+        "type": "string"
+      },
+      "Consent": {
+        "oneOf": [
+          {
+            "description": "Live phone-to-usher handshake. `sig` is over the door challenge under rk.",
+            "type": "object",
+            "required": [
+              "live"
+            ],
+            "properties": {
+              "live": {
+                "type": "object",
+                "required": [
+                  "challenge",
+                  "sig"
+                ],
+                "properties": {
+                  "challenge": {
+                    "$ref": "#/definitions/Binary"
+                  },
+                  "sig": {
+                    "$ref": "#/definitions/Binary"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "description": "Printed pre-authorized admit. The contract recomputes the message (`sezs-print-v2` ‖ event ‖ domain ‖ N ‖ door_auth_pubkey); the client sends only `sig`.",
+            "type": "object",
+            "required": [
+              "printed"
+            ],
+            "properties": {
+              "printed": {
+                "type": "object",
+                "required": [
+                  "sig"
+                ],
+                "properties": {
+                  "sig": {
+                    "$ref": "#/definitions/Binary"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "EventStatus": {
+        "type": "string",
+        "enum": [
+          "draft",
+          "announced",
+          "onsale",
+          "live",
+          "closed",
+          "settled"
+        ]
+      },
+      "FaqItem": {
+        "type": "object",
+        "required": [
+          "answer",
+          "id",
+          "question"
+        ],
+        "properties": {
+          "answer": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "HexBinary": {
+        "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+        "type": "string"
+      },
+      "LineupSlot": {
+        "type": "object",
+        "required": [
+          "duration_min",
+          "handle",
+          "id",
+          "index",
+          "lane",
+          "role",
+          "start"
+        ],
+        "properties": {
+          "duration_min": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          },
+          "handle": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          },
+          "lane": {
+            "type": "string"
+          },
+          "reference": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "role": {
+            "$ref": "#/definitions/SlotRole"
+          },
+          "start": {
+            "$ref": "#/definitions/Timestamp"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Nip52Body": {
+        "type": "object",
+        "required": [
+          "content",
+          "d_tag",
+          "end",
+          "kind",
+          "location",
+          "start",
+          "summary",
+          "tags",
+          "timezone",
+          "title"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "d_tag": {
+            "type": "string"
+          },
+          "end": {
+            "$ref": "#/definitions/Timestamp"
+          },
+          "geohash": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "image": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kind": {
+            "type": "integer",
+            "format": "uint16",
+            "minimum": 0.0
+          },
+          "location": {
+            "type": "string"
+          },
+          "start": {
+            "$ref": "#/definitions/Timestamp"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RaffleDraw": {
+        "type": "object",
+        "required": [
+          "job_id",
+          "oracle"
+        ],
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "oracle": {
+            "type": "string"
+          },
+          "proof_href": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "randomness": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "winner_index": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        },
+        "additionalProperties": false
+      },
+      "RafflePrize": {
+        "type": "object",
+        "required": [
+          "entries",
+          "id",
+          "status",
+          "title"
+        ],
+        "properties": {
+          "draw": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/RaffleDraw"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "entries": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          },
+          "id": {
+            "type": "string"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "$ref": "#/definitions/RaffleStatus"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RaffleStatus": {
+        "type": "string",
+        "enum": [
+          "open",
+          "closed",
+          "drawn"
+        ]
+      },
+      "Rail": {
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": [
+              "zec",
+              "penumbra"
+            ]
+          },
+          {
+            "description": "Kept in the enum so historical records decode. Rejected on write in v2.",
+            "type": "string",
+            "enum": [
+              "eth"
+            ]
+          },
+          {
+            "description": "Kept in the enum so historical records decode. Rejected on write in v2.",
+            "type": "string",
+            "enum": [
+              "base"
+            ]
+          }
+        ]
+      },
+      "SlotRole": {
+        "type": "string",
+        "enum": [
+          "dj",
+          "vj",
+          "flow",
+          "vendor",
+          "host",
+          "other"
+        ]
+      },
+      "Sponsor": {
+        "type": "object",
+        "required": [
+          "handle",
+          "id"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string"
+          },
+          "href": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "note": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "TicketTier": {
+        "type": "object",
+        "required": [
+          "discounts_bps",
+          "id",
+          "label",
+          "list_cents",
+          "rails",
+          "sold",
+          "supply"
+        ],
+        "properties": {
+          "discounts_bps": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": [
+                {
+                  "$ref": "#/definitions/Rail"
+                },
+                {
+                  "type": "integer",
+                  "format": "uint16",
+                  "minimum": 0.0
+                }
+              ],
+              "maxItems": 2,
+              "minItems": 2
+            }
+          },
+          "guest_weight": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "format": "uint64",
+            "minimum": 0.0
+          },
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "list_cents": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          },
+          "rails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Rail"
+            }
+          },
+          "sold": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          },
+          "supply": {
+            "type": "integer",
+            "format": "uint32",
+            "minimum": 0.0
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimelineItem": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "start",
+          "untimed"
+        ],
+        "properties": {
+          "end": {
+            "anyOf": [
+              {
+                "$ref": "#/definitions/Timestamp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "lane": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "slot_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "start": {
+            "$ref": "#/definitions/Timestamp"
+          },
+          "untimed": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Timestamp": {
+        "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+        "allOf": [
+          {
+            "$ref": "#/definitions/Uint64"
+          }
+        ]
+      },
+      "Uint64": {
+        "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+        "type": "string"
+      }
+    }
+  },
+  "query": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "QueryMsg",
+    "oneOf": [
+      {
+        "type": "object",
+        "required": [
+          "api_version"
+        ],
+        "properties": {
+          "api_version": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "description": "One query: the full deterministic event view plus versioned schema.",
+        "type": "object",
+        "required": [
+          "event_view"
+        ],
+        "properties": {
+          "event_view": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "event_info"
+        ],
+        "properties": {
+          "event_info": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "venue"
+        ],
+        "properties": {
+          "venue": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "venue_for_holder"
+        ],
+        "properties": {
+          "venue_for_holder": {
+            "type": "object",
+            "required": [
+              "commitment",
+              "proof"
+            ],
+            "properties": {
+              "commitment": {
+                "$ref": "#/definitions/HexBinary"
+              },
+              "proof": {
+                "$ref": "#/definitions/Binary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "lineup"
+        ],
+        "properties": {
+          "lineup": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "start_after": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "timeline"
+        ],
+        "properties": {
+          "timeline": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "start_after": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "sponsors"
+        ],
+        "properties": {
+          "sponsors": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "start_after": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "tiers"
+        ],
+        "properties": {
+          "tiers": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "raffles"
+        ],
+        "properties": {
+          "raffles": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "start_after": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "raffle"
+        ],
+        "properties": {
+          "raffle": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "faq"
+        ],
+        "properties": {
+          "faq": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "paid_leaves"
+        ],
+        "properties": {
+          "paid_leaves": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              },
+              "start_after": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "format": "uint32",
+                "minimum": 0.0
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "winning_leaf"
+        ],
+        "properties": {
+          "winning_leaf": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "roles"
+        ],
+        "properties": {
+          "roles": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "roots"
+        ],
+        "properties": {
+          "roots": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "nullifier_spent"
+        ],
+        "properties": {
+          "nullifier_spent": {
+            "type": "object",
+            "required": [
+              "nullifier"
+            ],
+            "properties": {
+              "nullifier": {
+                "$ref": "#/definitions/HexBinary"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "required": [
+          "consume_config"
+        ],
+        "properties": {
+          "consume_config": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    ],
+    "definitions": {
+      "Binary": {
+        "description": "Binary is a wrapper around Vec<u8> to add base64 de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is only needed as serde-json-{core,wasm} has a horrible encoding for Vec<u8>. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+        "type": "string"
+      },
+      "HexBinary": {
+        "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+        "type": "string"
+      }
+    }
+  },
+  "migrate": null,
+  "sudo": null,
+  "responses": {
+    "api_version": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ApiVersionResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "schema"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "cw_ave": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Addr"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schema": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        }
+      }
+    },
+    "consume_config": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ConsumeConfigResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "domain",
+        "domain_fp",
+        "door_auth_pubkey",
+        "epoch",
+        "event_id_fp",
+        "guest_root",
+        "leaf_count",
+        "schema",
+        "verifier",
+        "zkid"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "domain": {
+          "type": "string"
+        },
+        "domain_fp": {
+          "$ref": "#/definitions/HexBinary"
+        },
+        "door_auth_pubkey": {
+          "$ref": "#/definitions/HexBinary"
+        },
+        "epoch": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "event_id_fp": {
+          "$ref": "#/definitions/HexBinary"
+        },
+        "guest_root": {
+          "$ref": "#/definitions/HexBinary"
+        },
+        "leaf_count": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "schema": {
+          "type": "string"
+        },
+        "service_key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "usher_group": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "verifier": {
+          "description": "`\"zk-wasmvm\"` once zkid is set; consume still fails closed when zkid is 0.",
+          "type": "string"
+        },
+        "zkid": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "HexBinary": {
+          "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        }
+      }
+    },
+    "event_info": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "EventInfoResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "content",
+        "d_tag",
+        "domain",
+        "door_auth_pubkey",
+        "end",
+        "geohash",
+        "id",
+        "image",
+        "kind",
+        "location",
+        "metadata_hash",
+        "metadata_uri",
+        "name",
+        "schema",
+        "start",
+        "status",
+        "summary",
+        "tags",
+        "timezone"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "content": {
+          "type": "string"
+        },
+        "cw_ave": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Addr"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "d_tag": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "door_auth_pubkey": {
+          "$ref": "#/definitions/HexBinary"
+        },
+        "end": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "geohash": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "location": {
+          "type": "string"
+        },
+        "metadata_hash": {
+          "$ref": "#/definitions/HexBinary"
+        },
+        "metadata_uri": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "status": {
+          "$ref": "#/definitions/EventStatus"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "timezone": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "EventStatus": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "announced",
+            "onsale",
+            "live",
+            "closed",
+            "settled"
+          ]
+        },
+        "HexBinary": {
+          "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        },
+        "Timestamp": {
+          "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint64"
+            }
+          ]
+        },
+        "Uint64": {
+          "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "event_view": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "EventView",
+      "description": "Full deterministic event document. The front end instantiates from this plus chain config (contract address, LCD, chain id).",
+      "type": "object",
+      "required": [
+        "api",
+        "consume",
+        "event",
+        "faq",
+        "lineup",
+        "raffles",
+        "roles",
+        "roots",
+        "schema",
+        "sponsors",
+        "tiers",
+        "timeline",
+        "venue"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "consume": {
+          "$ref": "#/definitions/ConsumeConfigResponse"
+        },
+        "event": {
+          "$ref": "#/definitions/EventInfoResponse"
+        },
+        "faq": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FaqItem"
+          }
+        },
+        "lineup": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LineupSlot"
+          }
+        },
+        "raffles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RafflePrize"
+          }
+        },
+        "roles": {
+          "$ref": "#/definitions/RolesResponse"
+        },
+        "roots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RootRecord"
+          }
+        },
+        "schema": {
+          "type": "string"
+        },
+        "sponsors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        },
+        "tiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TicketTier"
+          }
+        },
+        "timeline": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimelineItem"
+          }
+        },
+        "venue": {
+          "$ref": "#/definitions/VenueView"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Addr": {
+          "description": "A human readable address.\n\nIn Cosmos, this is typically bech32 encoded. But for multi-chain smart contracts no assumptions should be made other than being UTF-8 encoded and of reasonable length.\n\nThis type represents a validated address. It can be created in the following ways 1. Use `Addr::unchecked(input)` 2. Use `let checked: Addr = deps.api.addr_validate(input)?` 3. Use `let checked: Addr = deps.api.addr_humanize(canonical_addr)?` 4. Deserialize from JSON. This must only be done from JSON that was validated before such as a contract's state. `Addr` must not be used in messages sent by the user because this would result in unvalidated instances.\n\nThis type is immutable. If you really need to mutate it (Really? Are you sure?), create a mutable copy using `let mut mutable = Addr::to_string()` and operate on that `String` instance.",
+          "type": "string"
+        },
+        "ConsumeConfigResponse": {
+          "type": "object",
+          "required": [
+            "api",
+            "domain",
+            "domain_fp",
+            "door_auth_pubkey",
+            "epoch",
+            "event_id_fp",
+            "guest_root",
+            "leaf_count",
+            "schema",
+            "verifier",
+            "zkid"
+          ],
+          "properties": {
+            "api": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "domain": {
+              "type": "string"
+            },
+            "domain_fp": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "door_auth_pubkey": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "epoch": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "event_id_fp": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "guest_root": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "leaf_count": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "schema": {
+              "type": "string"
+            },
+            "service_key": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "usher_group": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "verifier": {
+              "description": "`\"zk-wasmvm\"` once zkid is set; consume still fails closed when zkid is 0.",
+              "type": "string"
+            },
+            "zkid": {
+              "type": "integer",
+              "format": "uint64",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        "EventInfoResponse": {
+          "type": "object",
+          "required": [
+            "api",
+            "content",
+            "d_tag",
+            "domain",
+            "door_auth_pubkey",
+            "end",
+            "geohash",
+            "id",
+            "image",
+            "kind",
+            "location",
+            "metadata_hash",
+            "metadata_uri",
+            "name",
+            "schema",
+            "start",
+            "status",
+            "summary",
+            "tags",
+            "timezone"
+          ],
+          "properties": {
+            "api": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "content": {
+              "type": "string"
+            },
+            "cw_ave": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Addr"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "d_tag": {
+              "type": "string"
+            },
+            "domain": {
+              "type": "string"
+            },
+            "door_auth_pubkey": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "end": {
+              "$ref": "#/definitions/Timestamp"
+            },
+            "geohash": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "kind": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "location": {
+              "type": "string"
+            },
+            "metadata_hash": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "metadata_uri": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "schema": {
+              "type": "string"
+            },
+            "start": {
+              "$ref": "#/definitions/Timestamp"
+            },
+            "status": {
+              "$ref": "#/definitions/EventStatus"
+            },
+            "summary": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "timezone": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "EventStatus": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "announced",
+            "onsale",
+            "live",
+            "closed",
+            "settled"
+          ]
+        },
+        "FaqItem": {
+          "type": "object",
+          "required": [
+            "answer",
+            "id",
+            "question"
+          ],
+          "properties": {
+            "answer": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "question": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "HexBinary": {
+          "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        },
+        "LineupSlot": {
+          "type": "object",
+          "required": [
+            "duration_min",
+            "handle",
+            "id",
+            "index",
+            "lane",
+            "role",
+            "start"
+          ],
+          "properties": {
+            "duration_min": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "handle": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "index": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "lane": {
+              "type": "string"
+            },
+            "reference": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "role": {
+              "$ref": "#/definitions/SlotRole"
+            },
+            "start": {
+              "$ref": "#/definitions/Timestamp"
+            }
+          },
+          "additionalProperties": false
+        },
+        "RaffleDraw": {
+          "type": "object",
+          "required": [
+            "job_id",
+            "oracle"
+          ],
+          "properties": {
+            "job_id": {
+              "type": "string"
+            },
+            "oracle": {
+              "type": "string"
+            },
+            "proof_href": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "randomness": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "winner_index": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        "RafflePrize": {
+          "type": "object",
+          "required": [
+            "entries",
+            "id",
+            "status",
+            "title"
+          ],
+          "properties": {
+            "draw": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RaffleDraw"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "entries": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "id": {
+              "type": "string"
+            },
+            "note": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "status": {
+              "$ref": "#/definitions/RaffleStatus"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "RaffleStatus": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed",
+            "drawn"
+          ]
+        },
+        "Rail": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "zec",
+                "penumbra"
+              ]
+            },
+            {
+              "description": "Kept in the enum so historical records decode. Rejected on write in v2.",
+              "type": "string",
+              "enum": [
+                "eth"
+              ]
+            },
+            {
+              "description": "Kept in the enum so historical records decode. Rejected on write in v2.",
+              "type": "string",
+              "enum": [
+                "base"
+              ]
+            }
+          ]
+        },
+        "RolesResponse": {
+          "type": "object",
+          "required": [
+            "api",
+            "coordinators",
+            "coordinators_group",
+            "curators",
+            "ushers"
+          ],
+          "properties": {
+            "api": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "coordinators": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "coordinators_group": {
+              "type": "string"
+            },
+            "curators": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "service_key": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "usher_group": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "ushers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "RootRecord": {
+          "type": "object",
+          "required": [
+            "epoch",
+            "leaf_count",
+            "root",
+            "time"
+          ],
+          "properties": {
+            "epoch": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "leaf_count": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "root": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "time": {
+              "$ref": "#/definitions/Timestamp"
+            }
+          },
+          "additionalProperties": false
+        },
+        "SlotRole": {
+          "type": "string",
+          "enum": [
+            "dj",
+            "vj",
+            "flow",
+            "vendor",
+            "host",
+            "other"
+          ]
+        },
+        "Sponsor": {
+          "type": "object",
+          "required": [
+            "handle",
+            "id"
+          ],
+          "properties": {
+            "handle": {
+              "type": "string"
+            },
+            "href": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "note": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "TicketTier": {
+          "type": "object",
+          "required": [
+            "discounts_bps",
+            "id",
+            "label",
+            "list_cents",
+            "rails",
+            "sold",
+            "supply"
+          ],
+          "properties": {
+            "discounts_bps": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": [
+                  {
+                    "$ref": "#/definitions/Rail"
+                  },
+                  {
+                    "type": "integer",
+                    "format": "uint16",
+                    "minimum": 0.0
+                  }
+                ],
+                "maxItems": 2,
+                "minItems": 2
+              }
+            },
+            "guest_weight": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "list_cents": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "rails": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Rail"
+              }
+            },
+            "sold": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "supply": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        "TimelineItem": {
+          "type": "object",
+          "required": [
+            "id",
+            "label",
+            "start",
+            "untimed"
+          ],
+          "properties": {
+            "end": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "lane": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "slot_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "start": {
+              "$ref": "#/definitions/Timestamp"
+            },
+            "untimed": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Timestamp": {
+          "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint64"
+            }
+          ]
+        },
+        "Uint64": {
+          "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+          "type": "string"
+        },
+        "VenueView": {
+          "type": "object",
+          "required": [
+            "api",
+            "note",
+            "revealed"
+          ],
+          "properties": {
+            "api": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            },
+            "label": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "note": {
+              "type": "string"
+            },
+            "revealed": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "faq": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FaqResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "items",
+        "total"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FaqItem"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "FaqItem": {
+          "type": "object",
+          "required": [
+            "answer",
+            "id",
+            "question"
+          ],
+          "properties": {
+            "answer": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "question": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "lineup": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "LineupResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "items",
+        "total"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LineupSlot"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "LineupSlot": {
+          "type": "object",
+          "required": [
+            "duration_min",
+            "handle",
+            "id",
+            "index",
+            "lane",
+            "role",
+            "start"
+          ],
+          "properties": {
+            "duration_min": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "handle": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "index": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "lane": {
+              "type": "string"
+            },
+            "reference": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "role": {
+              "$ref": "#/definitions/SlotRole"
+            },
+            "start": {
+              "$ref": "#/definitions/Timestamp"
+            }
+          },
+          "additionalProperties": false
+        },
+        "SlotRole": {
+          "type": "string",
+          "enum": [
+            "dj",
+            "vj",
+            "flow",
+            "vendor",
+            "host",
+            "other"
+          ]
+        },
+        "Timestamp": {
+          "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint64"
+            }
+          ]
+        },
+        "Uint64": {
+          "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "nullifier_spent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "NullifierSpentResponse",
+      "type": "object",
+      "required": [
+        "spent"
+      ],
+      "properties": {
+        "height": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "spent": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "paid_leaves": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PaidLeavesResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "items",
+        "total"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HexBinary"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "HexBinary": {
+          "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        }
+      }
+    },
+    "raffle": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "RafflePrize",
+      "type": "object",
+      "required": [
+        "entries",
+        "id",
+        "status",
+        "title"
+      ],
+      "properties": {
+        "draw": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RaffleDraw"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "entries": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "id": {
+          "type": "string"
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "$ref": "#/definitions/RaffleStatus"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "RaffleDraw": {
+          "type": "object",
+          "required": [
+            "job_id",
+            "oracle"
+          ],
+          "properties": {
+            "job_id": {
+              "type": "string"
+            },
+            "oracle": {
+              "type": "string"
+            },
+            "proof_href": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "randomness": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "winner_index": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        "RaffleStatus": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed",
+            "drawn"
+          ]
+        }
+      }
+    },
+    "raffles": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "RafflesResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "items",
+        "total"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RafflePrize"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "RaffleDraw": {
+          "type": "object",
+          "required": [
+            "job_id",
+            "oracle"
+          ],
+          "properties": {
+            "job_id": {
+              "type": "string"
+            },
+            "oracle": {
+              "type": "string"
+            },
+            "proof_href": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "randomness": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "winner_index": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        "RafflePrize": {
+          "type": "object",
+          "required": [
+            "entries",
+            "id",
+            "status",
+            "title"
+          ],
+          "properties": {
+            "draw": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/RaffleDraw"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "entries": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "id": {
+              "type": "string"
+            },
+            "note": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "status": {
+              "$ref": "#/definitions/RaffleStatus"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "RaffleStatus": {
+          "type": "string",
+          "enum": [
+            "open",
+            "closed",
+            "drawn"
+          ]
+        }
+      }
+    },
+    "roles": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "RolesResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "coordinators",
+        "coordinators_group",
+        "curators",
+        "ushers"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "coordinators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "coordinators_group": {
+          "type": "string"
+        },
+        "curators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "service_key": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "usher_group": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ushers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "roots": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "RootsResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "current_epoch",
+        "current_leaf_count",
+        "current_root",
+        "items"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "current_epoch": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "current_leaf_count": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        },
+        "current_root": {
+          "$ref": "#/definitions/HexBinary"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RootRecord"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "HexBinary": {
+          "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        },
+        "RootRecord": {
+          "type": "object",
+          "required": [
+            "epoch",
+            "leaf_count",
+            "root",
+            "time"
+          ],
+          "properties": {
+            "epoch": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "leaf_count": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "root": {
+              "$ref": "#/definitions/HexBinary"
+            },
+            "time": {
+              "$ref": "#/definitions/Timestamp"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Timestamp": {
+          "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint64"
+            }
+          ]
+        },
+        "Uint64": {
+          "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "sponsors": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SponsorsResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "items",
+        "total"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Sponsor": {
+          "type": "object",
+          "required": [
+            "handle",
+            "id"
+          ],
+          "properties": {
+            "handle": {
+              "type": "string"
+            },
+            "href": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "note": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "tiers": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TiersResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "items"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TicketTier"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "Rail": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "zec",
+                "penumbra"
+              ]
+            },
+            {
+              "description": "Kept in the enum so historical records decode. Rejected on write in v2.",
+              "type": "string",
+              "enum": [
+                "eth"
+              ]
+            },
+            {
+              "description": "Kept in the enum so historical records decode. Rejected on write in v2.",
+              "type": "string",
+              "enum": [
+                "base"
+              ]
+            }
+          ]
+        },
+        "TicketTier": {
+          "type": "object",
+          "required": [
+            "discounts_bps",
+            "id",
+            "label",
+            "list_cents",
+            "rails",
+            "sold",
+            "supply"
+          ],
+          "properties": {
+            "discounts_bps": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": [
+                  {
+                    "$ref": "#/definitions/Rail"
+                  },
+                  {
+                    "type": "integer",
+                    "format": "uint16",
+                    "minimum": 0.0
+                  }
+                ],
+                "maxItems": 2,
+                "minItems": 2
+              }
+            },
+            "guest_weight": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "format": "uint64",
+              "minimum": 0.0
+            },
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "list_cents": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "rails": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Rail"
+              }
+            },
+            "sold": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            },
+            "supply": {
+              "type": "integer",
+              "format": "uint32",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "timeline": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TimelineResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "items",
+        "total"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimelineItem"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "TimelineItem": {
+          "type": "object",
+          "required": [
+            "id",
+            "label",
+            "start",
+            "untimed"
+          ],
+          "properties": {
+            "end": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Timestamp"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "lane": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "slot_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "start": {
+              "$ref": "#/definitions/Timestamp"
+            },
+            "untimed": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Timestamp": {
+          "description": "A point in time in nanosecond precision.\n\nThis type can represent times from 1970-01-01T00:00:00Z to 2554-07-21T23:34:33Z.\n\n## Examples\n\n``` # use cosmwasm_std::Timestamp; let ts = Timestamp::from_nanos(1_000_000_202); assert_eq!(ts.nanos(), 1_000_000_202); assert_eq!(ts.seconds(), 1); assert_eq!(ts.subsec_nanos(), 202);\n\nlet ts = ts.plus_seconds(2); assert_eq!(ts.nanos(), 3_000_000_202); assert_eq!(ts.seconds(), 3); assert_eq!(ts.subsec_nanos(), 202); ```",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uint64"
+            }
+          ]
+        },
+        "Uint64": {
+          "description": "A thin wrapper around u64 that is using strings for JSON encoding/decoding, such that the full u64 range can be used for clients that convert JSON numbers to floats, like JavaScript and jq.\n\n# Examples\n\nUse `from` to create instances of this and `u64` to get the value out:\n\n``` # use cosmwasm_std::Uint64; let a = Uint64::from(42u64); assert_eq!(a.u64(), 42);\n\nlet b = Uint64::from(70u32); assert_eq!(b.u64(), 70); ```",
+          "type": "string"
+        }
+      }
+    },
+    "venue": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "VenueView",
+      "type": "object",
+      "required": [
+        "api",
+        "note",
+        "revealed"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": "string"
+        },
+        "revealed": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "venue_for_holder": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "VenueView",
+      "type": "object",
+      "required": [
+        "api",
+        "note",
+        "revealed"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": "string"
+        },
+        "revealed": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "winning_leaf": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "WinningLeafResponse",
+      "type": "object",
+      "required": [
+        "api",
+        "id"
+      ],
+      "properties": {
+        "api": {
+          "type": "integer",
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "commitment": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HexBinary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "winner_index": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint32",
+          "minimum": 0.0
+        }
+      },
+      "additionalProperties": false,
+      "definitions": {
+        "HexBinary": {
+          "description": "This is a wrapper around Vec<u8> to add hex de/serialization with serde. It also adds some helper methods to help encode inline.\n\nThis is similar to `cosmwasm_std::Binary` but uses hex. See also <https://github.com/CosmWasm/cosmwasm/blob/main/docs/MESSAGE_TYPES.md>.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

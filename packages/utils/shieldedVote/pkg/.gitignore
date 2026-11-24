@@ -1,0 +1,4 @@
+# Commit built nodejs wasm for FE vitest / local use.
+# Rebuild: see ../README.md
+# Ignore only editor junk:
+.DS_Store

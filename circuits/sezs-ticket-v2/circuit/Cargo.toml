@@ -1,0 +1,49 @@
+[package]
+name = "sezs-ticket-v2"
+description = "sezs_consume_v2: Halo2 (zakura fork) ticket consume circuit, standard P128Pow5T3 Poseidon, RedPallas rk consent. Prover, native verifier, store-circuit blob."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+license.workspace = true
+
+[features]
+default = []
+# Native multi-thread proving.
+multicore = ["halo2_proofs/multicore"]
+# Store-circuit blob packing + host-identical validation through zk-cosmwasm (native only).
+keygen = ["dep:zk-cosmwasm"]
+# Re-run the ~100 s fixed-base table search instead of using src/tables.bin.
+search-tables = []
+
+[dependencies]
+ff = { workspace = true }
+group = { workspace = true }
+halo2_gadgets = { workspace = true }
+halo2_poseidon = { workspace = true }
+halo2_proofs = { workspace = true }
+pasta_curves = { workspace = true }
+reddsa = { workspace = true }
+rand = { workspace = true }
+rand_core = { workspace = true }
+sha2 = { workspace = true }
+zk-cosmwasm = { path = "../../../../terp-core/crates/cosmwasm/packages/zk", default-features = false, optional = true }
+
+[[bin]]
+name = "sezs-v2-dump-tables"
+path = "src/bin/dump_tables.rs"
+required-features = ["search-tables"]
+
+[[bin]]
+name = "sezs-v2-keygen"
+path = "src/bin/keygen.rs"
+required-features = ["keygen"]
+
+[[bin]]
+name = "sezs-v2-fixture"
+path = "src/bin/fixture.rs"
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+getrandom = { version = "0.4", features = ["sys_rng"] }
+
+[dev-dependencies]
+sezs-ticket-v2-verify = { path = "../../../contracts/cw-ave/packages/sezs-ticket-v2-verify" }

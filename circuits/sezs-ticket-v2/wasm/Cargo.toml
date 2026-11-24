@@ -1,0 +1,18 @@
+[package]
+name = "sezs-ticket-v2-wasm"
+description = "Browser + Node bindings: sezs_consume_v2 prover, guest tree, rk consent signing. Built with wasm-bindgen for web and nodejs."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+sezs-ticket-v2 = { path = "../circuit" }
+ff = { workspace = true }
+pasta_curves = { workspace = true }
+sha2 = { workspace = true }
+wasm-bindgen = "=0.2.122"
+rand = { workspace = true }

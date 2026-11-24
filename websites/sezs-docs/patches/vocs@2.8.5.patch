@@ -1,0 +1,34 @@
+diff --git a/dist/react/ScrollRestoration.js b/dist/react/ScrollRestoration.js
+index e542e19efaf293a262fbf1e2edc114f195bffe25..1e04999846110c96a0745c25dd30f69d3eee3fe5 100644
+--- a/dist/react/ScrollRestoration.js
++++ b/dist/react/ScrollRestoration.js
+@@ -36,10 +36,10 @@ export function ScrollRestoration() {
+             }
+         }
+         window.addEventListener('popstate', handlePopstate);
+-        events.on('start', handleNavigateStart);
++        events?.on?.('start', handleNavigateStart);
+         return () => {
+             window.removeEventListener('popstate', handlePopstate);
+-            events.off('start', handleNavigateStart);
++            events?.off?.('start', handleNavigateStart);
+             window.history.scrollRestoration = 'auto';
+         };
+     }, [events]);
+diff --git a/src/react/ScrollRestoration.tsx b/src/react/ScrollRestoration.tsx
+index 9a6f4a4fb06b5c178d8bff24d2dc3713d4d67de8..837326f2424b5a6973d7a0564299822b7bdfbb6f 100644
+--- a/src/react/ScrollRestoration.tsx
++++ b/src/react/ScrollRestoration.tsx
+@@ -42,10 +42,10 @@ export function ScrollRestoration() {
+     }
+ 
+     window.addEventListener('popstate', handlePopstate)
+-    events.on('start', handleNavigateStart)
++    events?.on?.('start', handleNavigateStart)
+     return () => {
+       window.removeEventListener('popstate', handlePopstate)
+-      events.off('start', handleNavigateStart)
++      events?.off?.('start', handleNavigateStart)
+       window.history.scrollRestoration = 'auto'
+     }
+   }, [events])

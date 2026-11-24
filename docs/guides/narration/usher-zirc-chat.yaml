@@ -1,0 +1,367 @@
+schema_version: 1.1.0
+id: usher-zirc-chat
+title: Usher zirc chat
+status: has_gaps
+audience: Door staff who need a sealed staff channel during check-in.
+prerequisites:
+- An usher or coordinator session is open.
+user_constraints:
+- Do not send a ticket secret in the usher channel.
+- A passkey session is not a ticket.
+- Do not print keys, passwords, or tokens on a frame or in a spoken line.
+flow_graph: docs/flows/surfaces/usher-zirc-chat.mmd
+derived_graphs:
+- docs/flows/derived/app-zafu-open-room.mmd
+surfaces:
+- apps/sezs/src/event/UsherChat.tsx
+- apps/sezs/src/zafu/zirc-lab.mjs
+- apps/sezs/pages/admin.tsx
+event:
+  name: Speak-Ez Sessions
+  venue: the venue
+  source: event record
+timing:
+  estimated_speech_seconds: 51.1
+  words_per_minute: 140
+  notes: Estimate at 140 words each minute. Adjust after the human take.
+audio:
+  tts:
+    status: pending
+    engine: null
+    voice: null
+    path: docs/guides/narration/audio/usher-zirc-chat/tts/
+    notes: Leave empty until a local offline TTS take is rendered.
+  human:
+    status: pending
+    engine: human
+    voice: null
+    path: docs/guides/narration/audio/usher-zirc-chat/human/
+    notes: Record one take for each step tomorrow. Keep room tone consistent.
+steps:
+- id: zirc-intro
+  status: complete
+  role: intro
+  gap: null
+  narration_ste: Let's open the sealed usher channel for door staff.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Admin
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: zirc-intro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-intro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 3.9
+  word_count: 9
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-zirc-chat/tts/zirc-intro.aiff
+    human_path: docs/guides/narration/audio/usher-zirc-chat/human/zirc-intro.wav
+    take: null
+- id: zirc-02
+  status: complete
+  narration_ste: We open Admin. We open the movement titled Usher chat. The panel heading is Usher
+    channel.
+  on_screen_action: Open /admin and find Usher chat
+  trail_step: trails/usher-zirc-chat.trail.yaml#zirc-02
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Usher chat
+    - Usher channel
+    - Sign in with ZID
+  video_slots:
+  - id: zirc-02-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-02-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: zirc-02-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-02-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: zirc-02-web-mobile
+    to: zirc-02-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 6.9
+  word_count: 16
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-zirc-chat/tts/zirc-02.aiff
+    human_path: docs/guides/narration/audio/usher-zirc-chat/human/zirc-02.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Admin
+  producer_note: null
+- id: zirc-03
+  status: complete
+  narration_ste: We select Sign in with ZID. We enter the Usher seat. We select Register ZID on
+    the usher set.
+  on_screen_action: Sign in with ZID and register the seat
+  trail_step: trails/usher-zirc-chat.trail.yaml#zirc-03
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Sign in with ZID
+    - Usher seat
+    - Register ZID on the usher set
+  video_slots:
+  - id: zirc-03-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-03-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: zirc-03-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-03-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: zirc-03-wallet
+    type: mobile-wallet-capture
+    source_app: zafu-zid
+    source_device: desktop-extension-or-phone
+    duration_seconds: 5.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-03-wallet.png
+    status: placeholder
+    capture_checklist:
+    - Capture the ZID sign-in prompt only. Do not capture the ZID secret.
+  transitions:
+  - from: zirc-03-web-mobile
+    to: zirc-03-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  - from: zirc-03-web-desktop
+    to: zirc-03-wallet
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 8.1
+  word_count: 19
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-zirc-chat/tts/zirc-03.aiff
+    human_path: docs/guides/narration/audio/usher-zirc-chat/human/zirc-03.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Zid
+  producer_note: null
+- id: zirc-04
+  status: complete
+  narration_ste: We select Create or rotate sealed room. We wait until the panel shows a current
+    room.
+  on_screen_action: Select Create or rotate sealed room
+  trail_step: trails/usher-zirc-chat.trail.yaml#zirc-04
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Create or rotate sealed room
+    - Room is current
+    notes: openLabRoom in apps/sezs/src/zafu/zirc-lab.mjs. Membership change means a new room.
+  video_slots:
+  - id: zirc-04-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-04-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: zirc-04-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-04-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: zirc-04-web-mobile
+    to: zirc-04-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 6.9
+  word_count: 16
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-zirc-chat/tts/zirc-04.aiff
+    human_path: docs/guides/narration/audio/usher-zirc-chat/human/zirc-04.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Room
+  producer_note: null
+- id: zirc-05
+  status: complete
+  narration_ste: We enter an Usher message. We select Send. We read the message in the usher log.
+    We do not send a ticket secret.
+  on_screen_action: Enter Usher message and select Send
+  trail_step: trails/usher-zirc-chat.trail.yaml#zirc-05
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Usher message
+    - Send
+  video_slots:
+  - id: zirc-05-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-05-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: zirc-05-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-05-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: zirc-05-web-mobile
+    to: zirc-05-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.9
+  word_count: 23
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-zirc-chat/tts/zirc-05.aiff
+    human_path: docs/guides/narration/audio/usher-zirc-chat/human/zirc-05.wav
+    take: null
+  gap: null
+  role: step
+  flow_node: Send
+  producer_note: null
+- id: zirc-06
+  status: gap
+  narration_ste: A later method can keep the room secret out of the page. For now, we treat this
+    page as trusted staff-only.
+  on_screen_action: No in-app close of the page-held room secret
+  trail_step: trails/usher-zirc-chat.trail.yaml#zirc-06
+  expected_ui:
+    route: /admin
+    title: Admin · The event
+    visible_labels:
+    - Usher channel
+  video_slots:
+  - id: zirc-06-web-mobile
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-mobile-390
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-06-web-mobile-390.png
+    status: placeholder
+    capture_checklist:
+    - Load the local app at 127.0.0.1 on the walkthrough or a sibling session.
+    - Set the viewport to 390 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  - id: zirc-06-web-desktop
+    type: still-screenshot
+    source_app: sezs-web
+    source_device: web-desktop-1440
+    duration_seconds: 4.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-06-web-desktop-1440.png
+    status: placeholder
+    capture_checklist:
+    - Load the same route at 1440 css pixels wide.
+    - Do not submit a payment or authorize a consume.
+  transitions:
+  - from: zirc-06-web-mobile
+    to: zirc-06-web-desktop
+    type: cut
+    duration_seconds: 0.4
+  estimated_speech_seconds: 9.4
+  word_count: 22
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-zirc-chat/tts/zirc-06.aiff
+    human_path: docs/guides/narration/audio/usher-zirc-chat/human/zirc-06.wav
+    take: null
+  gap: When this page opens a sealed invite, the page holds the room secret. No current control
+    moves that secret into the wallet.
+  role: step
+  flow_node: OpenRoom
+  producer_note: null
+- id: zirc-outro
+  status: complete
+  role: outro
+  gap: null
+  narration_ste: The usher channel is open. We can send staff messages here during the event.
+  on_screen_action: Title card
+  producer_note: null
+  flow_node: Log
+  trail_step: null
+  expected_ui:
+    route: null
+    title: the event
+    visible_labels: []
+  video_slots:
+  - id: zirc-outro-title
+    type: title-card
+    source_app: sezs-titles
+    source_device: title-card
+    duration_seconds: 3.0
+    path: docs/guides/shots/usher-zirc-chat/zirc-outro-title.svg
+    status: placeholder
+    capture_checklist:
+    - 'Set the card in the product type: guide title and step id.'
+    - 'Use the dark field background #07070a and hot accent #ffb347.'
+    - Do not put a seeded event name or a list price on the card.
+  transitions: []
+  estimated_speech_seconds: 6.0
+  word_count: 14
+  audio_render:
+    tts_path: docs/guides/narration/audio/usher-zirc-chat/tts/zirc-outro.aiff
+    human_path: docs/guides/narration/audio/usher-zirc-chat/human/zirc-outro.wav
+    take: null
+producer_note: 'Recorder: when the page opens a sealed invite, the page holds the room secret.
+  Do not speak lab room helpers or local infra.'

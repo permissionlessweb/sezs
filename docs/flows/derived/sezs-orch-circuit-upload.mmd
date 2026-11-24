@@ -1,0 +1,87 @@
+flowchart TB
+    src_suite_SezsSuite_compile_and_upload_circuit["compile_and_upload_circuit, method, CC=1"]
+    proxy_unresolved_sezs_circuit_orch__prepare_artifacts___map_err["sezs_circuit_orch::prepare_artifacts()
+            .map_err, proxy"]
+    proxy_unresolved_sezs_circuit_orch__prepare_artifacts["sezs_circuit_orch::prepare_artifacts, proxy"]
+    proxy_unresolved_CwEnvError__StdErr["CwEnvError::StdErr, proxy"]
+    proxy_unresolved_self_circuit_upload_circuit["self.circuit.upload_circuit, proxy"]
+    proxy_unresolved_resp__uploaded_zk_id___or_else____self_circuit_zk_id___map_err["resp
+            .uploaded_zk_id()
+            .or_else(|_| self.circuit.zk_id())
+            .map_err, proxy"]
+    proxy_unresolved_resp__uploaded_zk_id___or_else["resp
+            .uploaded_zk_id()
+            .or_else, proxy"]
+    proxy_unresolved_resp__uploaded_zk_id["resp
+            .uploaded_zk_id, proxy"]
+    proxy_unresolved_self_circuit_zk_id["self.circuit.zk_id, proxy"]
+    proxy_unresolved_e_to_string["e.to_string, proxy"]
+    proxy_unresolved_self_circuit_set_zk_id["self.circuit.set_zk_id, proxy"]
+    proxy_unresolved_src_suite_Some["src.suite:Some, proxy"]
+    proxy_unresolved_src_suite_Ok["src.suite:Ok, proxy"]
+    src_suite_SezsSuite_deploy_on["deploy_on, method, CC=10"]
+    src_suite_into_env["into_env, function, CC=1"]
+    src_suite_SezsSuite_load_from["load_from, method, CC=2"]
+    src_suite_guest_root_vk_hex["guest_root_vk_hex, function, CC=3"]
+    src_suite_instantiate_dao["instantiate_dao, function, CC=7"]
+    src_suite_instantiate_randomness["instantiate_randomness, function, CC=8"]
+    src_suite_SezsSuite_store_sezs_contracts["store_sezs_contracts, method, CC=5"]
+    src_suite_SezsSuite_store_on["store_on, method, CC=8"]
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_sezs_circuit_orch__prepare_artifacts___map_err
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_sezs_circuit_orch__prepare_artifacts
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_self_circuit_upload_circuit
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_resp__uploaded_zk_id___or_else____self_circuit_zk_id___map_err
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_resp__uploaded_zk_id___or_else
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_resp__uploaded_zk_id
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_self_circuit_zk_id
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_e_to_string
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_self_circuit_set_zk_id
+    src_suite_SezsSuite_compile_and_upload_circuit --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_compile_and_upload_circuit --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_sezs_circuit_orch__prepare_artifacts___map_err
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_sezs_circuit_orch__prepare_artifacts
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_into_env -.-> proxy_unresolved_CwEnvError__StdErr
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_self_circuit_upload_circuit
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_resp__uploaded_zk_id___or_else____self_circuit_zk_id___map_err
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_resp__uploaded_zk_id___or_else
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_resp__uploaded_zk_id
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_self_circuit_zk_id
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_e_to_string
+    src_suite_SezsSuite_deploy_on -.-> proxy_unresolved_e_to_string
+    src_suite_into_env -.-> proxy_unresolved_e_to_string
+    src_suite_SezsSuite_compile_and_upload_circuit -.-> proxy_unresolved_self_circuit_set_zk_id
+    src_suite_SezsSuite_compile_and_upload_circuit --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_load_from --> proxy_unresolved_src_suite_Some
+    src_suite_guest_root_vk_hex --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Some
+    src_suite_SezsSuite_store_sezs_contracts --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_compile_and_upload_circuit --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_store_on --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_deploy_on --> proxy_unresolved_src_suite_Ok
+    src_suite_SezsSuite_load_from --> proxy_unresolved_src_suite_Ok
+    src_suite_instantiate_dao --> proxy_unresolved_src_suite_Ok
+    src_suite_instantiate_randomness --> proxy_unresolved_src_suite_Ok

@@ -1,0 +1,32 @@
+%% Usher zirc chat
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-zafu-open-room.mmd (openLabRoom)
+%% - apps/sezs/src/event/UsherChat.tsx
+%% - apps/sezs/src/zafu/zirc-lab.mjs
+%% - apps/sezs/pages/admin.tsx (Usher chat movement)
+%% Gaps:
+%% - This is a sealed zirc room, not a public IRC network. No standalone IRC client lives in the repo.
+%% - When the page opens a sealed invite, the page holds the room secret. A later wallet method that keeps the secret out of the page is not in the current UI.
+%% - Membership change means a new room. There is no automatic rotation in zirc today.
+flowchart TB
+
+    Admin["pages/admin.tsx · Usher chat movement"]:::usher --> Chat["UsherChat"]:::usher
+    Chat --> Allowed{"Coordinator or usher session open?"}
+    Allowed -->|no| Block["Sign in with a ZID on this page after an usher session is open"]:::usher
+    Allowed -->|yes| Zid["Select Sign in with ZID"]:::wallet
+    Zid --> Seat["Enter Usher seat"]:::usher
+    Seat --> Reg["Select Register ZID on the usher set"]:::usher
+    Reg --> Room["Select Create or rotate sealed room"]:::usher
+    Room --> OpenRoom["zafu/zirc-lab.mjs openLabRoom"]:::chain
+    OpenRoom --> Send["Enter Usher message and select Send"]:::usher
+    Send --> Log["Usher channel log"]:::usher
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

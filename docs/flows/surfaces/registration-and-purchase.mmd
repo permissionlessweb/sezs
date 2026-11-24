@@ -1,0 +1,41 @@
+%% Registration and ticket purchase
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-checkout.mmd (CheckoutPanel)
+%% - docs/flows/derived/app-pay-module-deps.mmd
+%% - docs/flows/derived/sezs-orch-curate.mmd (Lantern Night upsert_tier)
+%% - apps/sezs/pages/tickets.tsx
+%% - apps/sezs/pages/register.tsx
+%% - apps/sezs/src/frost/ParticipantsPanel.tsx
+%% Gaps:
+%% - Trailmark call-graph for CheckoutPanel is shallow (component-as-module).
+%% - Do not narrate any test-only shortcut on the checkout row.
+flowchart TB
+
+    Tickets["pages/tickets.tsx · Tickets"]:::web --> Rail["Select ZEC or Penumbra"]:::web
+    Rail --> Qty["Set Number of tickets"]:::web
+    Qty --> Continue["Select Continue to checkout"]:::web
+    Continue --> Checkout["CheckoutPanel.start · Shielded ZEC"]:::web
+    Checkout --> MakeReq["Select Make a ZEC request for Zafu"]:::web
+    MakeReq --> ZipQr["TicketQr ZIP-321 payment request"]:::web
+    ZipQr --> OpenZafu["Select Open in Zafu"]:::wallet
+    ZipQr --> ScanWallet["Scan the request in Zashi or Ywallet"]:::wallet
+    OpenZafu --> ConfirmPay["Confirm payment in the wallet"]:::wallet
+    ScanWallet --> ConfirmPay
+    ConfirmPay --> CheckPay["Select Check for payment"]:::web
+    CheckPay --> Paid["Payment is on the guest list"]:::web
+    Paid --> Printable["Link Open the printable ticket · /ticket"]:::web
+    RegisterPage["pages/register.tsx · Register to take part"]:::web --> KeyField["Enter One-time registration key"]:::web
+    KeyField --> NameField["Enter Name or act"]:::web
+    NameField --> Addr["Enter ZEC and UM addresses"]:::web
+    Addr --> RegisterBtn["Select Register"]:::web
+    AdminIssue["ParticipantsPanel · Issue a registration key"]:::usher --> RegisterPage
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

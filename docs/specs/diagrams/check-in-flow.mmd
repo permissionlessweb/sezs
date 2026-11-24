@@ -1,0 +1,66 @@
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "darkMode": true,
+    "background": "#07070a",
+    "fontFamily": "Iowan Old Style, Palatino Linotype, Palatino, Book Antiqua, Georgia, serif",
+    "fontSize": "16px",
+    "primaryColor": "#0c0c10",
+    "primaryTextColor": "#ece6dc",
+    "primaryBorderColor": "#ffb347",
+    "secondaryColor": "#101014",
+    "secondaryTextColor": "#f7d9a8",
+    "secondaryBorderColor": "#c4aa78",
+    "tertiaryColor": "#101014",
+    "lineColor": "#f7d9a8",
+    "textColor": "#ece6dc",
+    "mainBkg": "#0c0c10",
+    "nodeBorder": "#ffb347",
+    "clusterBkg": "#101014",
+    "clusterBorder": "#c4aa78",
+    "titleColor": "#fff1c9",
+    "edgeLabelBackground": "#07070a",
+    "arrowheadColor": "#ffb347"
+  }
+}}%%
+flowchart TB
+  classDef surface fill:#0c0c10,stroke:#ffb347,stroke-width:1.5px,color:#ece6dc
+  classDef guest fill:#101014,stroke:#c4aa78,stroke-width:1px,color:#f7d9a8
+  classDef usher fill:#101014,stroke:#ffb347,stroke-width:1.5px,color:#fff1c9
+  classDef chain fill:#0c0c10,stroke:#9fd8b0,stroke-width:1.5px,color:#9fd8b0
+  classDef refuse fill:#0c0c10,stroke:#f09a86,stroke-width:1.5px,color:#f09a86
+  classDef note fill:#101014,stroke:#6b5a3c,color:#ece6dc
+
+  subgraph GuestDevice["Guest"]
+    G1["Paid ticket on device, passkey copy, or paper QR"]
+    G2["Show compact sezs3 QR at the door"]
+  end
+
+  subgraph UsherDevice["Usher · /check-in"]
+    U0["Signed in and listed on the event usher set"]
+    U1["Scan or load the guest QR"]
+    U2["Fetch public leaves and guest-list root"]
+    U3["Build membership and nullifier proof in-browser"]
+    U4["Authorize consume in Zafu"]
+  end
+
+  subgraph Relay["App relay"]
+    R1["POST signed ConsumeTicket"]
+  end
+
+  subgraph Chain["Event contract"]
+    C1{"Nullifier unspent and proof checks?"}
+    C2["Admit · nullifier spent"]
+    C3["Refuse · already admitted or bad proof"]
+  end
+
+  G1 --> G2 --> U1
+  U0 --> U1 --> U2 --> U3 --> U4 --> R1 --> C1
+  C1 -->|yes| C2
+  C1 -->|no| C3
+
+  class G1,G2 guest
+  class U0,U1,U2,U3,U4 usher
+  class R1 surface
+  class C1,C2 chain
+  class C3 refuse

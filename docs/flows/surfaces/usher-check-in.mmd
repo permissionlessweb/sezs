@@ -1,0 +1,45 @@
+%% Usher check-in
+%% Curated product flow. Grounded in Trailmark-derived graphs and the current UI.
+%% Trail of Bits skill:
+%% https://github.com/trailofbits/skills/blob/main/plugins/trailmark/skills/diagramming-code/SKILL.md
+%% Derived graphs:
+%% - docs/flows/derived/app-usher-door.mmd (UsherDoor module; no callees at depth 2)
+%% - docs/flows/derived/app-prepare-consume.mmd (prepareConsumeV3)
+%% - docs/flows/derived/app-submit-consume.mmd (submitConsumeV3)
+%% - docs/flows/derived/circuit-prove.mmd (prove)
+%% - docs/flows/derived/manifold-execute.mmd (execute)
+%% - docs/flows/derived/manifold-verify.mmd (verify_ticket_proof)
+%% - apps/sezs/src/event/UsherDoor.tsx
+%% - apps/sezs/pages/check-in.tsx
+%% - apps/sezs/pages/door.tsx
+%% Gaps:
+%% - Trailmark's TypeScript graph treats UsherDoor as a module node without edges. The authorize path is in UsherDoor and door-v3.ts; confirm against those sources.
+%% - A passkey session alone is not a ticket. Unpaid tickets, second uses, and removed ushers are refused.
+flowchart TB
+
+    GuestTicket["pages/ticket.tsx · Your ticket QR"]:::guest --> ShowQr["Guest shows Door ticket QR"]:::guest
+    UsherPage["pages/check-in.tsx · Check-in"]:::usher --> Gate["isSignedInUsher / CheckInPanel"]:::usher
+    Gate --> Door["UsherDoor stages: scan, proving, authorize, done"]:::usher
+    Door --> Cam["Select Open camera"]:::usher
+    Door --> Photo["Select Scan a ticket photo"]:::usher
+    Cam --> Scan["scanFile / startCamera reads the QR"]:::usher
+    Photo --> Scan
+    ShowQr --> Scan
+    Scan --> ProveUi["Building the door proof…"]:::usher
+    ProveUi --> Prepare["prepareConsumeV3"]:::usher
+    Prepare --> CircuitProve["circuits/sezs-ticket-v2 prove"]:::chain
+    CircuitProve --> Authorize["Select Authorize with Zafu"]:::wallet
+    Authorize --> Submit["submitConsumeV3"]:::usher
+    Submit --> Execute["cw-event-manifold execute ConsumeTicket"]:::chain
+    Execute --> Verify["verify_ticket_proof"]:::chain
+    Verify --> Admitted["Door note: admitted"]:::chain
+    Verify --> Refused["Door note: refused"]:::chain
+    Admitted --> Next["Select Next guest"]:::usher
+    Refused --> Next
+
+classDef guest fill:#0c0c10,stroke:#ffb347,color:#ece6dc
+classDef usher fill:#101014,stroke:#c4aa78,color:#f7d9a8
+classDef wallet fill:#0c0c10,stroke:#6b8f71,color:#ece6dc
+classDef chain fill:#101014,stroke:#6b5a3c,color:#ece6dc
+classDef gap fill:#1a1010,stroke:#a85a4a,color:#ece6dc
+classDef web fill:#101014,stroke:#f7d9a8,color:#ece6dc

@@ -1,0 +1,40 @@
+---
+title: Buy a ticket
+description: Invoice, memo, backup, and the door — plus when a refund applies
+---
+
+# Buy a ticket
+
+Read the [disclaimers](/disclaimers) before you pay. Ticket sales are final, unless the venue is at capacity when you arrive at the door, in which case you receive a full refund. This software has not been audited.
+
+Buy only from the official event site, [permissionless.money/alpha/sezs](https://permissionless.money/alpha/sezs/). Do not pay an invoice from a forwarded screenshot alone.
+
+## Before you start
+
+- A ZEC wallet you control, preferably [Zafu](https://zafu.pro), with enough ZEC to cover the tier plus network fees. See [Buy ZEC for the first time](/guides/general/purchasing-zec) if you do not hold any yet.
+
+## Pay the invoice
+
+On the event page, choose a tier. The page derives a ticket secret on your device and shows a v2 invoice: a shielded ZEC address and a memo that is only the commitment (the `sezs1:` prefix plus hex). The invoice does not include a ticket public key or a nullifier.
+
+Send the payment with that memo attached exactly. If the memo is missing or changed, the organizers may not be able to match the payment to your commitment.
+
+The backend can see the memo. It does not learn the secret, and it must not be given the secret. That rule is part of the [ticketing spec](/specs/ticketing).
+
+## Back up the ticket
+
+When the page offers a backup, save it somewhere you control — printed, or stored offline. Anyone who has the secret can prove the ticket. If you lose the secret and have no backup, the backend cannot rebuild it for you.
+
+You can move the backup to another device you control before the door. Treat it like a key.
+
+## At the door
+
+Show the ticket QR from this browser, from a passkey-unlocked copy, or from a paper printout of the same code. You do not build a proof on your phone. An event usher scans the code, their device builds the proof, and they authorize the consume with Zafu. A second scan is refused.
+
+See [Check in at the door](/guides/general/check-in) for the payload, the trust model, and what the usher does.
+
+## If something goes wrong
+
+- If the venue is at capacity when you arrive with a valid ticket, you are owed a full refund, as stated in the [disclaimers](/disclaimers).
+- If you paid without the memo, contact the organizers through the channel they publish, and do not send the secret in that message.
+- If a page or a person asks you to paste the ticket secret to a server, stop.

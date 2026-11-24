@@ -1,0 +1,74 @@
+flowchart TB
+    src_bundle_prove["prove, function, CC=1"]
+    src_bundle_derive_alpha["derive_alpha, function, CC=1"]
+    proxy_unresolved_w_public_inputs["w.public_inputs, proxy"]
+    proxy_unresolved_keys__get["keys::get, proxy"]
+    proxy_unresolved_Blake2bWrite______vesta__Affine__Challenge255_____init["Blake2bWrite::<_, vesta::Affine, Challenge255<_>>::init, proxy"]
+    proxy_unresolved_create_proof_k_params___k_pk___w_circuit___pi___mut__rng___mut_tr___map_err["create_proof(&k.params, &k.pk, &[w.circuit()], &[&[&pi]], &mut *rng, &mut tr)
+        .map_err, proxy"]
+    proxy_unresolved_src_bundle_create_proof["src.bundle:create_proof, proxy"]
+    proxy_unresolved_w_circuit["w.circuit, proxy"]
+    proxy_unresolved_tr_finalize["tr.finalize, proxy"]
+    proxy_unresolved_crate__encode__fp_to_le["crate::encode::fp_to_le, proxy"]
+    proxy_unresolved_src_bundle_Ok["src.bundle:Ok, proxy"]
+    proxy_unresolved_src_bundle_prove__binding_le["src.bundle:prove.$binding.le, proxy"]
+    proxy_unresolved_w_rsk["w.rsk, proxy"]
+    proxy_unresolved_Sha512__new["Sha512::new, proxy"]
+    proxy_unresolved_h_update["h.update, proxy"]
+    proxy_unresolved_secret_to_repr["secret.to_repr, proxy"]
+    proxy_unresolved_h_finalize__into["h.finalize().into, proxy"]
+    proxy_unresolved_h_finalize["h.finalize, proxy"]
+    proxy_unresolved_pallas__Scalar__from_uniform_bytes["pallas::Scalar::from_uniform_bytes, proxy"]
+    src_bundle_rsk["rsk, function, CC=1"]
+    tests_consume_mock_prover_accepts_and_rejects["mock_prover_accepts_and_rejects, function, CC=2"]
+    src_blob_build["build, function, CC=1"]
+    src_bundle_verify["verify, function, CC=1"]
+    src_bundle_Bundle_from_bytes["from_bytes, method, CC=2"]
+    src_bundle_Bundle_instance["instance, method, CC=1"]
+    src_bundle_Bundle_public_inputs["public_inputs, method, CC=1"]
+    src_bundle_prove --> src_bundle_derive_alpha
+    src_bundle_prove -.-> proxy_unresolved_w_public_inputs
+    src_bundle_prove -.-> proxy_unresolved_keys__get
+    src_bundle_prove -.-> proxy_unresolved_Blake2bWrite______vesta__Affine__Challenge255_____init
+    src_bundle_prove -.-> proxy_unresolved_create_proof_k_params___k_pk___w_circuit___pi___mut__rng___mut_tr___map_err
+    src_bundle_prove --> proxy_unresolved_src_bundle_create_proof
+    src_bundle_prove -.-> proxy_unresolved_w_circuit
+    src_bundle_prove -.-> proxy_unresolved_tr_finalize
+    src_bundle_prove -.-> proxy_unresolved_crate__encode__fp_to_le
+    src_bundle_prove --> proxy_unresolved_src_bundle_Ok
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -.-> proxy_unresolved_w_rsk
+    src_bundle_derive_alpha -.-> proxy_unresolved_Sha512__new
+    src_bundle_derive_alpha -.-> proxy_unresolved_h_update
+    src_bundle_derive_alpha -.-> proxy_unresolved_h_update
+    src_bundle_derive_alpha -.-> proxy_unresolved_secret_to_repr
+    src_bundle_derive_alpha -.-> proxy_unresolved_h_update
+    src_bundle_derive_alpha -.-> proxy_unresolved_h_finalize__into
+    src_bundle_derive_alpha -.-> proxy_unresolved_h_finalize
+    src_bundle_derive_alpha -.-> proxy_unresolved_pallas__Scalar__from_uniform_bytes
+    src_bundle_rsk --> src_bundle_derive_alpha
+    src_bundle_prove --> src_bundle_derive_alpha
+    src_bundle_prove -.-> proxy_unresolved_w_public_inputs
+    tests_consume_mock_prover_accepts_and_rejects -.-> proxy_unresolved_w_public_inputs
+    src_blob_build -.-> proxy_unresolved_keys__get
+    src_bundle_prove -.-> proxy_unresolved_keys__get
+    src_bundle_verify -.-> proxy_unresolved_keys__get
+    src_bundle_prove -.-> proxy_unresolved_Blake2bWrite______vesta__Affine__Challenge255_____init
+    src_bundle_prove -.-> proxy_unresolved_create_proof_k_params___k_pk___w_circuit___pi___mut__rng___mut_tr___map_err
+    src_bundle_prove --> proxy_unresolved_src_bundle_create_proof
+    src_bundle_prove -.-> proxy_unresolved_w_circuit
+    tests_consume_mock_prover_accepts_and_rejects -.-> proxy_unresolved_w_circuit
+    src_bundle_prove -.-> proxy_unresolved_tr_finalize
+    src_bundle_prove -.-> proxy_unresolved_crate__encode__fp_to_le
+    src_bundle_Bundle_from_bytes --> proxy_unresolved_src_bundle_Ok
+    src_bundle_Bundle_instance --> proxy_unresolved_src_bundle_Ok
+    src_bundle_Bundle_public_inputs --> proxy_unresolved_src_bundle_Ok
+    src_bundle_prove --> proxy_unresolved_src_bundle_Ok
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -..-> proxy_unresolved_src_bundle_prove__binding_le
+    src_bundle_prove -.-> proxy_unresolved_w_rsk

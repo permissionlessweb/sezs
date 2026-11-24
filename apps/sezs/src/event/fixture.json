@@ -1,0 +1,303 @@
+{
+  "api": 2,
+  "event": {
+    "api": 2,
+    "name": "Speakez Sessions",
+    "status": "announced",
+    "start": "2027-01-17T00:00:00Z",
+    "end": "2027-01-17T07:00:00Z",
+    "timezone": "America/New_York",
+    "id": "speakez-sessions",
+    "domain": "http://127.0.0.1:3051",
+    "schema": "sezs-event-v2",
+    "kind": 31923,
+    "dTag": "speakez-sessions",
+    "summary": "Music until late. Ink, food, a quiet alcove, work on the wall.",
+    "tags": [
+      "music",
+      "night"
+    ]
+  },
+  "venue": {
+    "api": 2,
+    "revealed": false,
+    "note": "Location is shared with ticket holders."
+  },
+  "lineup": [
+    {
+      "id": "slot-doors",
+      "index": 1,
+      "role": "host",
+      "handle": "Doors",
+      "start": "2027-01-16T19:00:00-05:00",
+      "durationMin": 60,
+      "lane": "door"
+    },
+    {
+      "id": "slot-artist-01",
+      "index": 2,
+      "role": "dj",
+      "handle": "Artist 01",
+      "start": "2027-01-16T20:00:00-05:00",
+      "durationMin": 50,
+      "lane": "cellar"
+    },
+    {
+      "id": "slot-artist-02",
+      "index": 3,
+      "role": "dj",
+      "handle": "Artist 02",
+      "start": "2027-01-16T20:50:00-05:00",
+      "durationMin": 50,
+      "lane": "cellar"
+    },
+    {
+      "id": "slot-artist-03",
+      "index": 4,
+      "role": "dj",
+      "handle": "Artist 03",
+      "start": "2027-01-16T21:40:00-05:00",
+      "durationMin": 50,
+      "lane": "cellar"
+    },
+    {
+      "id": "slot-artist-04",
+      "index": 5,
+      "role": "dj",
+      "handle": "Artist 04",
+      "start": "2027-01-16T22:30:00-05:00",
+      "durationMin": 50,
+      "lane": "cellar"
+    },
+    {
+      "id": "slot-artist-05",
+      "index": 6,
+      "role": "dj",
+      "handle": "Artist 05",
+      "start": "2027-01-16T23:20:00-05:00",
+      "durationMin": 40,
+      "lane": "cellar"
+    },
+    {
+      "id": "slot-artist-06",
+      "index": 7,
+      "role": "dj",
+      "handle": "Artist 06",
+      "start": "2027-01-17T00:00:00-05:00",
+      "durationMin": 50,
+      "lane": "floor"
+    },
+    {
+      "id": "slot-artist-07",
+      "index": 8,
+      "role": "dj",
+      "handle": "Artist 07",
+      "start": "2027-01-17T00:50:00-05:00",
+      "durationMin": 50,
+      "lane": "cellar"
+    },
+    {
+      "id": "slot-vendor-01",
+      "index": 9,
+      "role": "vendor",
+      "handle": "Vendor 01",
+      "start": "2027-01-16T19:00:00-05:00",
+      "durationMin": 420,
+      "lane": "alcove"
+    },
+    {
+      "id": "slot-flow-01",
+      "index": 10,
+      "role": "flow",
+      "handle": "Flow 01",
+      "start": "2027-01-16T19:00:00-05:00",
+      "durationMin": 420,
+      "lane": "alcove"
+    },
+    {
+      "id": "slot-live-work",
+      "index": 11,
+      "role": "other",
+      "handle": "Live work",
+      "start": "2027-01-16T19:00:00-05:00",
+      "durationMin": 420,
+      "lane": "floor"
+    }
+  ],
+  "timeline": [
+    {
+      "id": "tl-slot-doors",
+      "start": "2027-01-16T19:00:00-05:00",
+      "end": "2027-01-16T20:00:00-05:00",
+      "label": "Doors",
+      "lane": "door",
+      "slotId": "slot-doors"
+    },
+    {
+      "id": "tl-slot-artist-01",
+      "start": "2027-01-16T20:00:00-05:00",
+      "end": "2027-01-16T20:50:00-05:00",
+      "label": "Artist 01",
+      "lane": "cellar",
+      "slotId": "slot-artist-01"
+    },
+    {
+      "id": "tl-slot-artist-02",
+      "start": "2027-01-16T20:50:00-05:00",
+      "end": "2027-01-16T21:40:00-05:00",
+      "label": "Artist 02",
+      "lane": "cellar",
+      "slotId": "slot-artist-02"
+    },
+    {
+      "id": "tl-slot-artist-03",
+      "start": "2027-01-16T21:40:00-05:00",
+      "end": "2027-01-16T22:30:00-05:00",
+      "label": "Artist 03",
+      "lane": "cellar",
+      "slotId": "slot-artist-03"
+    },
+    {
+      "id": "tl-slot-artist-04",
+      "start": "2027-01-16T22:30:00-05:00",
+      "end": "2027-01-16T23:20:00-05:00",
+      "label": "Artist 04",
+      "lane": "cellar",
+      "slotId": "slot-artist-04"
+    },
+    {
+      "id": "tl-slot-artist-05",
+      "start": "2027-01-16T23:20:00-05:00",
+      "end": "2027-01-17T00:00:00-05:00",
+      "label": "Artist 05",
+      "lane": "cellar",
+      "slotId": "slot-artist-05"
+    },
+    {
+      "id": "tl-slot-artist-06",
+      "start": "2027-01-17T00:00:00-05:00",
+      "end": "2027-01-17T00:50:00-05:00",
+      "label": "Artist 06",
+      "lane": "floor",
+      "slotId": "slot-artist-06"
+    },
+    {
+      "id": "tl-slot-artist-07",
+      "start": "2027-01-17T00:50:00-05:00",
+      "end": "2027-01-17T01:40:00-05:00",
+      "label": "Artist 07",
+      "lane": "cellar",
+      "slotId": "slot-artist-07"
+    },
+    {
+      "id": "tl-paint",
+      "start": "2027-01-16T19:00:00-05:00",
+      "label": "Live work on the floor",
+      "lane": "floor",
+      "untimed": true
+    },
+    {
+      "id": "tl-kitchen",
+      "start": "2027-01-16T19:00:00-05:00",
+      "label": "Kitchen",
+      "lane": "back",
+      "untimed": true
+    },
+    {
+      "id": "tl-void",
+      "start": "2027-01-17T01:30:00-05:00",
+      "label": "Late room",
+      "lane": "back",
+      "untimed": true
+    }
+  ],
+  "sponsors": [
+    {
+      "id": "sp-01",
+      "handle": "Sponsor 01",
+      "note": "A collaborator on the night."
+    },
+    {
+      "id": "sp-02",
+      "handle": "Sponsor 02",
+      "note": "A collaborator on the night."
+    },
+    {
+      "id": "sp-03",
+      "handle": "Sponsor 03",
+      "note": "A collaborator on the night."
+    }
+  ],
+  "tiers": [
+    {
+      "id": "ga",
+      "label": "Admission",
+      "guestWeight": 1,
+      "listCents": 4000,
+      "discountsBps": {
+        "zec": 5000,
+        "penumbra": 5000
+      },
+      "supply": 200,
+      "sold": 0,
+      "rails": [
+        "zec",
+        "penumbra"
+      ]
+    }
+  ],
+  "raffles": [
+    {
+      "id": "rf-01",
+      "title": "Prize 01",
+      "note": "One session. One paid ticket is one entry.",
+      "entries": 0,
+      "status": "open"
+    },
+    {
+      "id": "rf-02",
+      "title": "Prize 02",
+      "note": "One session. Same entry pool policy.",
+      "entries": 0,
+      "status": "open"
+    },
+    {
+      "id": "rf-03",
+      "title": "Prize 03",
+      "note": "One session. A configured randomness contract will pick the winning entry when it is live on Terp.",
+      "entries": 0,
+      "status": "open"
+    }
+  ],
+  "roles": {
+    "curators": [],
+    "coordinators": [],
+    "ushers": []
+  },
+  "schema": "sezs-event-v2",
+  "faq": [
+    {
+      "id": "q-doors",
+      "question": "When do doors open?",
+      "answer": "The time is on the event record, under the timeline."
+    },
+    {
+      "id": "q-pay",
+      "question": "How do I pay?",
+      "answer": "Shielded ZEC or shielded Penumbra (UM). Other rails are not offered."
+    },
+    {
+      "id": "q-phone",
+      "question": "What if I do not want to bring a phone?",
+      "answer": "Print the fallback grid of codes before you go. Any five of the codes are enough."
+    }
+  ],
+  "consume": {
+    "zkid": 0,
+    "epoch": 0,
+    "leafCount": 0,
+    "verifier": "zk-wasmvm",
+    "domain": "http://127.0.0.1:3051"
+  },
+  "roots": []
+}

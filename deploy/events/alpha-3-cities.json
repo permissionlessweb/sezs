@@ -1,0 +1,76 @@
+{
+  "events": [
+    {
+      "id": "sezs-baltimore",
+      "name": "Speak-Ez Sessions \u2014 Baltimore",
+      "status": "announced",
+      "start": 1798779600,
+      "end": 1798952340,
+      "timezone": "America/New_York",
+      "venue_label": "Undisclosed venue",
+      "domain": "https://permissionless.money",
+      "summary": "Speak-Ez Sessions in Baltimore, MD.",
+      "content": "",
+      "location": "Baltimore, MD",
+      "curator": "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052",
+      "coordinators": [
+        "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052"
+      ],
+      "ushers": [],
+      "sponsors": [],
+      "lineup": [],
+      "tiers": [],
+      "raffles": [],
+      "faq": [],
+      "metadata_uri": "https://permissionless.money/alpha/sezs/sezs-baltimore-nip52.json"
+    },
+    {
+      "id": "sezs-chicago",
+      "name": "Speak-Ez Sessions \u2014 Chicago",
+      "status": "announced",
+      "start": 1798783200,
+      "end": 1798955940,
+      "timezone": "America/Chicago",
+      "venue_label": "Undisclosed venue",
+      "domain": "https://permissionless.money",
+      "summary": "Speak-Ez Sessions in Chicago, IL.",
+      "content": "",
+      "location": "Chicago, IL",
+      "curator": "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052",
+      "coordinators": [
+        "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052"
+      ],
+      "ushers": [],
+      "sponsors": [],
+      "lineup": [],
+      "tiers": [],
+      "raffles": [],
+      "faq": [],
+      "metadata_uri": "https://permissionless.money/alpha/sezs/sezs-chicago-nip52.json"
+    },
+    {
+      "id": "sezs-philadelphia",
+      "name": "Speak-Ez Sessions \u2014 Philadelphia",
+      "status": "announced",
+      "start": 1798779600,
+      "end": 1798952340,
+      "timezone": "America/New_York",
+      "venue_label": "Undisclosed venue",
+      "domain": "https://permissionless.money",
+      "summary": "Speak-Ez Sessions in Philadelphia, PA.",
+      "content": "",
+      "location": "Philadelphia, PA",
+      "curator": "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052",
+      "coordinators": [
+        "terp1fxccvvhhy43tvet2ah7jqwq4cwl9k3dxmww052"
+      ],
+      "ushers": [],
+      "sponsors": [],
+      "lineup": [],
+      "tiers": [],
+      "raffles": [],
+      "faq": [],
+      "metadata_uri": "https://permissionless.money/alpha/sezs/sezs-philadelphia-nip52.json"
+    }
+  ]
+}
