@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["sezs-orch", "sezs-circuit-orch"]
+members = ["sezs-orch", "sezs-circuit-orch", "sezs-server"]
 
 # Version lines stay on crates.io. The [patch.crates-io] table is generated
 # by `just deps-patch-git` (committed default) or `just deps-patch-local`.
