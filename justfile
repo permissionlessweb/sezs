@@ -249,3 +249,16 @@ walkthrough-preview:
 
 walkthrough-capture-stub:
     cd "{{root}}/e2e/walkthroughs" && pnpm exec tsx scripts/capture-trail-clicks.ts --guide={{GUIDE}}
+
+# ZIP-style specs: typecheck and simulate Quint models (P1, P2, P3).
+# Symbolic verify (`quint verify`) needs Apalache and is optional.
+specs-quint:
+    quint typecheck docs/specs/quint/ticket_lifecycle.qnt
+    quint typecheck docs/specs/quint/usher_authority.qnt
+    quint typecheck docs/specs/quint/door_consume.qnt
+    quint test docs/specs/quint/ticket_lifecycle.qnt
+    quint test docs/specs/quint/usher_authority.qnt
+    quint test docs/specs/quint/door_consume.qnt
+    quint run --invariants P1_admit_at_most_once P1_count_agrees P3_cancel_refund_exclusive --max-steps=30 docs/specs/quint/ticket_lifecycle.qnt
+    quint run --init=initAuth --step=stepAuth --invariants P2_ushers_cannot_issue_or_forge --max-steps=30 docs/specs/quint/usher_authority.qnt
+    quint run --init=initDoor --step=stepDoor --invariants P1_door_consume_once P2_door_not_issued_by_usher --max-steps=30 docs/specs/quint/door_consume.qnt
