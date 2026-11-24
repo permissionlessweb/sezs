@@ -2,6 +2,7 @@
 
 pub mod app;
 pub mod email;
+pub mod payroll;
 pub mod secret_fields;
 pub mod session;
 pub mod ticketing;

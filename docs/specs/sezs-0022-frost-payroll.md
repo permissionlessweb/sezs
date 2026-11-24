@@ -115,3 +115,18 @@ is documentation of what the code already is.
   not fully specified.
 - Mainnet broadcast and confirmation policy is operational and is not
   restated here.
+
+
+## Implementation decisions (Rust port)
+
+- `sezs-frost-payroll` lives in `crates/sezs-frost-payroll` (library +
+  stdin/stdout binary). The Node ceremony still shells out to the binary
+  when one is built; the Rust desk calls `run_ceremony` in-process.
+- `sezs-server` re-exports hash-market `onboard_authz::sezs_frost` as
+  `payroll::itl_frost` and attaches `roster_commit` / `spend_memo_roster`
+  to `/sezs/payroll/batches/frost`. Prefixes remain `itl-frost-*`.
+- `/sezs/payroll/*` is mounted on the one `/sezs` bind. The process does
+  not listen on `HASHMERCHANT_BIND` / `SEZS_FROST_BIND`.
+- Default execute is fail-closed (`chain_unavailable`) until a payout
+  adapter is provided. Coordinator routes require a session cookie;
+  `SEZS_PAYROLL_DEV_COORDINATOR=1` grants the desk role on loopback.

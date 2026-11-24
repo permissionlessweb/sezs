@@ -3,6 +3,16 @@ name = "sezs-frost-payroll"
 version = "0.1.0"
 edition = "2021"
 publish = false
+license = "BSD-3-Clause"
+description = "Loopback FROST t-of-n helper for event payroll (library + stdin/stdout binary)."
+
+[lib]
+name = "sezs_frost_payroll"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sezs-frost-payroll"
+path = "src/bin/sezs-frost-payroll.rs"
 
 [dependencies]
 frost-ed25519 = { version = "2.1.0", features = ["serde"] }
@@ -10,6 +20,3 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 rand = "0.8"
 hex = "0.4"
-
-[workspace]
-members = ["."]

@@ -52,3 +52,17 @@ Email sign-in (`src/email/`) is behind a provider adapter trait. The core
 ships a file sink for dev and never links a vendor SDK. Routes live at
 `/sezs/auth/email/*` and are mounted only when `SEZS_EMAIL_ENABLE=1`, so
 email stays hidden on the public alpha by default.
+
+
+## Payroll
+
+`src/payroll/` is the splash desk (`/sezs/payroll/*`) plus a re-export of
+hash-market `onboard_authz::sezs_frost` as `itl_frost` (the module's
+historical name). Domain and memo prefixes stay `itl-frost-*` until the
+compatibility window in sezs-0022. Ceremony crypto is the
+`sezs-frost-payroll` crate, called in-process; this process does not
+start a second frost-inbox listener. Coordinator-gated routes require a
+session cookie. Loopback desk use can set `SEZS_PAYROLL_DEV_COORDINATOR=1`.
+Execute fails closed with `chain_unavailable` unless a payout adapter is
+supplied. Persist path is `SEZS_PAYROLL_PATH` or `<state>/payroll.json`
+(0700 dir / 0600 file).

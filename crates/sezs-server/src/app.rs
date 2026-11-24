@@ -1,6 +1,7 @@
 //! SezsService implementation: session + ticketing on one router.
 
 use crate::email::{create_email_provider_from_env, EmailAuth, EmailAuthConfig};
+use crate::payroll::{PayrollService, PayrollServiceConfig};
 use crate::secret_fields::refuse_secret_fields;
 use crate::session::http::refuse_non_loopback;
 use crate::session::roles::{parse_contracts, MainnetRoleReader};
@@ -27,6 +28,7 @@ pub struct SezsApp {
     tickets: Arc<TicketV2>,
     door: Arc<Door>,
     email: Option<Arc<EmailAuth>>,
+    payroll: Option<Arc<PayrollService>>,
 }
 
 impl SezsApp {
@@ -76,6 +78,7 @@ impl SezsApp {
             tickets: Arc::new(tickets),
             door: Arc::new(Door::new()),
             email: email_from_env(&state_dir)?,
+            payroll: Some(Arc::new(payroll_from_env(&state_dir)?)),
         })
     }
 
@@ -85,6 +88,7 @@ impl SezsApp {
             tickets: Arc::new(tickets),
             door: Arc::new(Door::new()),
             email: None,
+            payroll: None,
         }
     }
 
@@ -92,6 +96,11 @@ impl SezsApp {
     /// `from_env` only constructs this when `SEZS_EMAIL_ENABLE=1`.
     pub fn with_email(mut self, email: EmailAuth) -> Self {
         self.email = Some(Arc::new(email));
+        self
+    }
+
+    pub fn with_payroll(mut self, payroll: PayrollService) -> Self {
+        self.payroll = Some(Arc::new(payroll));
         self
     }
 
@@ -152,6 +161,13 @@ impl SezsService for SezsApp {
             .route("/auth/email/logout", post(email_dispatch))
             .route("/auth/email/bind-challenge", post(email_dispatch))
             .route("/auth/email/bind", post(email_dispatch))
+            .route("/payroll/state", get(payroll_dispatch))
+            .route("/payroll/invites", post(payroll_dispatch))
+            .route("/payroll/register", post(payroll_dispatch))
+            .route("/payroll/amounts", post(payroll_dispatch))
+            .route("/payroll/batches", post(payroll_dispatch))
+            .route("/payroll/batches/frost", post(payroll_dispatch))
+            .route("/payroll/batches/execute", post(payroll_dispatch))
             .with_state(state)
     }
 }
@@ -161,6 +177,7 @@ struct Handles {
     tickets: Arc<TicketV2>,
     door: Arc<Door>,
     email: Option<Arc<EmailAuth>>,
+    payroll: Option<Arc<PayrollService>>,
 }
 
 impl SezsApp {
@@ -170,6 +187,7 @@ impl SezsApp {
             tickets: self.tickets.clone(),
             door: self.door.clone(),
             email: self.email.clone(),
+            payroll: self.payroll.clone(),
         }
     }
 }
@@ -454,6 +472,53 @@ async fn read_json(req: Request) -> Result<Value, Response> {
             vec![],
         )
     })
+}
+
+fn payroll_from_env(state_dir: &std::path::Path) -> anyhow::Result<PayrollService> {
+    let mut cfg = PayrollServiceConfig::default();
+    cfg.path = std::env::var("SEZS_PAYROLL_PATH")
+        .map(PathBuf::from)
+        .unwrap_or_else(|_| state_dir.join("payroll.json"));
+    cfg.dev_coordinator = matches!(
+        std::env::var("SEZS_PAYROLL_DEV_COORDINATOR")
+            .ok()
+            .as_deref(),
+        Some("1") | Some("true") | Some("yes")
+    );
+    if let Ok(local) = std::env::var("SEZS_SPLASH_APP") {
+        cfg.share_local = local;
+    }
+    PayrollService::new(cfg).map_err(|e| anyhow::anyhow!(e))
+}
+
+async fn payroll_dispatch(State(h): State<Arc<Handles>>, req: Request) -> Response {
+    let Some(payroll) = h.payroll.as_ref() else {
+        return json_response(
+            404,
+            serde_json::json!({"ok": false, "error": "not_found"}),
+            vec![],
+        );
+    };
+    let method = req.method().as_str().to_string();
+    let path = req.uri().path().to_string();
+    let headers = headers_of(req.headers());
+    let mut body = serde_json::json!({});
+    if method == "POST" {
+        match read_json(req).await {
+            Ok(v) => body = v,
+            Err(resp) => return resp,
+        }
+        if let Some(refused) = refuse_secret_fields(&body) {
+            return json_response(400, refused, vec![]);
+        }
+    }
+    let full = if path.starts_with("/sezs/") {
+        path
+    } else {
+        format!("/sezs{path}")
+    };
+    let result = payroll.handle(&method, &full, &headers, &body);
+    json_response(result.status, result.body, result.headers)
 }
 
 const EMAIL_MAX_BODY: usize = 4096;

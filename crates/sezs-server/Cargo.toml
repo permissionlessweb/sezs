@@ -43,6 +43,7 @@ axum = { version = "0.7", default-features = false, features = ["http1", "json",
 tower = "0.4"
 sezs-ticket-v2 = { path = "../../circuits/sezs-ticket-v2/circuit", default-features = false }
 hash-market = { git = "https://github.com/permissionlessweb/terp-rs", rev = "b782ea404049d87fabd4f72510136fd1a16198b4", default-features = false, features = ["sezs"] }
+sezs-frost-payroll = { path = "../sezs-frost-payroll" }
 
 [dev-dependencies]
 hex = "0.4"

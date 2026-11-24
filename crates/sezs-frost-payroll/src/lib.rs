@@ -1,13 +1,15 @@
 //! Loopback FROST t-of-n helper for event payroll.
-//! Reads one JSON object from stdin, writes one JSON object to stdout.
-//! Never log secrets. Not a network service.
-use frost_ed25519 as frost;
+//!
+//! The library exposes the same JSON `op` surface the Node ceremony uses
+//! (`part1`…`verify`, `ping`) plus an in-process `run_ceremony` so the
+//! one-bind SEZS server does not spawn a second process or frost inbox.
+//! Never log secrets. The binary is stdin/stdout only; not a network service.
 use frost::keys::dkg;
 use frost::{Identifier, SigningPackage};
+use frost_ed25519 as frost;
 use rand::rngs::OsRng;
 use serde_json::{json, Map, Value};
 use std::collections::BTreeMap;
-use std::io::{self, Read};
 
 fn ident(id: u16) -> Result<Identifier, String> {
     Identifier::try_from(id).map_err(|e| e.to_string())
@@ -89,8 +91,7 @@ fn part3(req: &Value) -> Result<Value, String> {
         let kid: u16 = k.parse().map_err(|_| "bad round2 id".to_string())?;
         r2.insert(ident(kid)?, to_pkg(v)?);
     }
-    let (key_package, pubkey_package) =
-        dkg::part3(&secret, &r1, &r2).map_err(|e| e.to_string())?;
+    let (key_package, pubkey_package) = dkg::part3(&secret, &r1, &r2).map_err(|e| e.to_string())?;
     Ok(json!({
         "ok": true,
         "id": id,
@@ -125,7 +126,8 @@ fn sign2(req: &Value) -> Result<Value, String> {
         .ok_or("missing message")?;
     let message = hex::decode(msg).map_err(|e| e.to_string())?;
     let sign_package = SigningPackage::new(commitments, &message);
-    let share = frost::round2::sign(&sign_package, &nonces, &key_package).map_err(|e| e.to_string())?;
+    let share =
+        frost::round2::sign(&sign_package, &nonces, &key_package).map_err(|e| e.to_string())?;
     Ok(json!({ "ok": true, "share": js(&share)? }))
 }
 
@@ -148,7 +150,8 @@ fn aggregate(req: &Value) -> Result<Value, String> {
         .ok_or("missing message")?;
     let message = hex::decode(msg).map_err(|e| e.to_string())?;
     let sign_package = SigningPackage::new(commitments, &message);
-    let sig = frost::aggregate(&sign_package, &shares, &pubkey_package).map_err(|e| e.to_string())?;
+    let sig =
+        frost::aggregate(&sign_package, &shares, &pubkey_package).map_err(|e| e.to_string())?;
     pubkey_package
         .verifying_key()
         .verify(&message, &sig)
@@ -203,7 +206,7 @@ fn verify(req: &Value) -> Result<Value, String> {
     Ok(json!({ "ok": true, "valid": true }))
 }
 
-fn dispatch(req: &Value) -> Result<Value, String> {
+pub fn dispatch(req: &Value) -> Result<Value, String> {
     let op = req.get("op").and_then(|x| x.as_str()).ok_or("missing op")?;
     match op {
         "part1" => part1(req),
@@ -219,18 +222,116 @@ fn dispatch(req: &Value) -> Result<Value, String> {
     }
 }
 
-fn main() {
-    let mut buf = String::new();
-    io::stdin().read_to_string(&mut buf).expect("stdin");
-    let req: Value = match serde_json::from_str(&buf) {
-        Ok(v) => v,
-        Err(e) => {
-            println!("{}", json!({ "ok": false, "error": e.to_string() }));
-            return;
+/// Run a 2-of-3 (or `t`-of-`n`) DKG + sign ceremony in-process.
+/// Same ops as the stdin helper; no relay, no network.
+pub fn run_ceremony(message_hex: &str, t: u16, n: u16) -> Result<Value, String> {
+    if t == 0 || n == 0 || t > n {
+        return Err("bad_threshold".into());
+    }
+    hex::decode(message_hex).map_err(|e| e.to_string())?;
+    let mut r1_secret = serde_json::Map::new();
+    let mut r1_packages = serde_json::Map::new();
+    for id in 1u16..=n {
+        let out = part1(&json!({"id": id, "t": t, "n": n}))?;
+        r1_secret.insert(id.to_string(), out["secret"].clone());
+        r1_packages.insert(id.to_string(), out["package"].clone());
+    }
+    let mut r2_secret = serde_json::Map::new();
+    let mut r2_from: BTreeMap<u16, serde_json::Map<String, Value>> = BTreeMap::new();
+    for id in 1u16..=n {
+        let mut packages = serde_json::Map::new();
+        for (k, v) in &r1_packages {
+            if k != &id.to_string() {
+                packages.insert(k.clone(), v.clone());
+            }
         }
+        let out = part2(&json!({
+            "id": id,
+            "n": n,
+            "secret": r1_secret[&id.to_string()],
+            "packages": packages,
+        }))?;
+        r2_secret.insert(id.to_string(), out["secret"].clone());
+        let dests = out
+            .get("packages")
+            .and_then(|v| v.as_object())
+            .cloned()
+            .unwrap_or_default();
+        r2_from.insert(id, dests);
+    }
+    let mut key_packages = serde_json::Map::new();
+    let mut pubkey_package = Value::Null;
+    for id in 1u16..=n {
+        let mut r2 = serde_json::Map::new();
+        for (from, dests) in &r2_from {
+            if *from == id {
+                continue;
+            }
+            if let Some(pkg) = dests.get(&id.to_string()) {
+                r2.insert(from.to_string(), pkg.clone());
+            }
+        }
+        // Node ceremony (payroll-ceremony.mjs) passes only the *other*
+        // participants' round-1 packages, plus the received round-2 packages.
+        let mut r1 = serde_json::Map::new();
+        for (k, v) in &r1_packages {
+            if k != &id.to_string() {
+                r1.insert(k.clone(), v.clone());
+            }
+        }
+        let out = part3(&json!({
+            "id": id,
+            "secret": r2_secret[&id.to_string()],
+            "round1": r1,
+            "round2": r2,
+        }))?;
+        key_packages.insert(id.to_string(), out["key_package"].clone());
+        pubkey_package = out["pubkey_package"].clone();
+    }
+    let signers: Vec<u16> = (1u16..=t).collect();
+    let mut nonces = serde_json::Map::new();
+    let mut commitments = serde_json::Map::new();
+    for id in &signers {
+        let out = sign1(&json!({"key_package": key_packages[&id.to_string()]}))?;
+        nonces.insert(id.to_string(), out["nonces"].clone());
+        commitments.insert(id.to_string(), out["commitments"].clone());
+    }
+    let mut shares = serde_json::Map::new();
+    for id in &signers {
+        let out = sign2(&json!({
+            "key_package": key_packages[&id.to_string()],
+            "nonces": nonces[&id.to_string()],
+            "commitments": commitments,
+            "message": message_hex,
+        }))?;
+        shares.insert(id.to_string(), out["share"].clone());
+    }
+    let agg = aggregate(&json!({
+        "pubkey_package": pubkey_package,
+        "commitments": commitments,
+        "shares": shares,
+        "message": message_hex,
+    }))?;
+    Ok(json!({
+        "ok": true,
+        "sessionId": format!("local-{t}-of-{n}"),
+        "signature": agg["signature"],
+        "verifyingKey": agg["verifying_key"],
+        "signature_hex": agg["signature_hex"],
+        "verifying_key_hex": agg["verifying_key_hex"],
+        "t": t,
+        "n": n,
+        "cipher": "in-process",
+    }))
+}
+
+pub fn run_json_request(raw: &str) -> Value {
+    let req: Value = match serde_json::from_str(raw) {
+        Ok(v) => v,
+        Err(e) => return json!({ "ok": false, "error": e.to_string() }),
     };
     match dispatch(&req) {
-        Ok(v) => println!("{v}"),
-        Err(e) => println!("{}", json!({ "ok": false, "error": e })),
+        Ok(v) => v,
+        Err(e) => json!({ "ok": false, "error": e }),
     }
 }

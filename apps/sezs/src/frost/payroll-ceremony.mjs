@@ -12,7 +12,11 @@ import { createRelayClient, generateRelayIdentity } from './relay-client.mjs'
 import { bindSeal, ensureSeal, openSealed, sealTo } from './seal.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
-const defaultBin = join(here, '../../dev/frost-payroll/target/release/sezs-frost-payroll')
+const defaultBins = [
+  join(here, '../../../../crates/target/release/sezs-frost-payroll'),
+  join(here, '../../dev/frost-payroll/target/release/sezs-frost-payroll'),
+]
+const defaultBin = defaultBins.find((p) => existsSync(p)) || defaultBins[0]
 
 export const frostPayrollBin = () =>
   process.env.SEZS_FROST_PAYROLL_BIN || defaultBin
