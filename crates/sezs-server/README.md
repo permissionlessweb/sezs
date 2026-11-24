@@ -45,3 +45,10 @@ must not be rewritten to match.
 
 The process binds 127.0.0.1 only unless `SEZS_ALLOW_NON_LOOPBACK=1`.
 Default port is 3058 (`SEZS_BIND` or `SEZS_SESSION_PORT`).
+
+## Email
+
+Email sign-in (`src/email/`) is behind a provider adapter trait. The core
+ships a file sink for dev and never links a vendor SDK. Routes live at
+`/sezs/auth/email/*` and are mounted only when `SEZS_EMAIL_ENABLE=1`, so
+email stays hidden on the public alpha by default.

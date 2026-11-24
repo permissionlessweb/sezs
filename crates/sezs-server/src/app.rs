@@ -1,5 +1,6 @@
 //! SezsService implementation: session + ticketing on one router.
 
+use crate::email::{create_email_provider_from_env, EmailAuth, EmailAuthConfig};
 use crate::secret_fields::refuse_secret_fields;
 use crate::session::http::refuse_non_loopback;
 use crate::session::roles::{parse_contracts, MainnetRoleReader};
@@ -25,6 +26,7 @@ pub struct SezsApp {
     session: Arc<SessionService>,
     tickets: Arc<TicketV2>,
     door: Arc<Door>,
+    email: Option<Arc<EmailAuth>>,
 }
 
 impl SezsApp {
@@ -67,12 +69,13 @@ impl SezsApp {
         })?;
         let tickets = TicketV2::new(
             &std::env::var("SEZS_EVENT_ID").unwrap_or_else(|_| DEFAULT_EVENT.into()),
-            Some(state_dir),
+            Some(state_dir.clone()),
         );
         Ok(Self {
             session: Arc::new(session),
             tickets: Arc::new(tickets),
             door: Arc::new(Door::new()),
+            email: email_from_env(&state_dir)?,
         })
     }
 
@@ -81,7 +84,15 @@ impl SezsApp {
             session: Arc::new(session),
             tickets: Arc::new(tickets),
             door: Arc::new(Door::new()),
+            email: None,
         }
+    }
+
+    /// Attach email auth for tests or an explicit enable path. Production
+    /// `from_env` only constructs this when `SEZS_EMAIL_ENABLE=1`.
+    pub fn with_email(mut self, email: EmailAuth) -> Self {
+        self.email = Some(Arc::new(email));
+        self
     }
 
     pub fn door(&self) -> Arc<Door> {
@@ -134,6 +145,13 @@ impl SezsService for SezsApp {
             .route("/pay/poll", get(pay_dispatch))
             .route("/pay/ticket", get(pay_dispatch).post(pay_dispatch))
             .route("/pay/watch", post(pay_dispatch))
+            .route("/auth/email/health", get(email_dispatch))
+            .route("/auth/email/request", post(email_dispatch))
+            .route("/auth/email/verify", post(email_dispatch))
+            .route("/auth/email/session", get(email_dispatch))
+            .route("/auth/email/logout", post(email_dispatch))
+            .route("/auth/email/bind-challenge", post(email_dispatch))
+            .route("/auth/email/bind", post(email_dispatch))
             .with_state(state)
     }
 }
@@ -142,6 +160,7 @@ struct Handles {
     session: Arc<SessionService>,
     tickets: Arc<TicketV2>,
     door: Arc<Door>,
+    email: Option<Arc<EmailAuth>>,
 }
 
 impl SezsApp {
@@ -150,6 +169,7 @@ impl SezsApp {
             session: self.session.clone(),
             tickets: self.tickets.clone(),
             door: self.door.clone(),
+            email: self.email.clone(),
         }
     }
 }
@@ -434,6 +454,103 @@ async fn read_json(req: Request) -> Result<Value, Response> {
             vec![],
         )
     })
+}
+
+const EMAIL_MAX_BODY: usize = 4096;
+
+fn email_from_env(
+    state_dir: &std::path::Path,
+) -> anyhow::Result<Option<std::sync::Arc<EmailAuth>>> {
+    if !matches!(
+        std::env::var("SEZS_EMAIL_ENABLE").ok().as_deref(),
+        Some("1") | Some("true") | Some("yes")
+    ) {
+        return Ok(None);
+    }
+    let env: Vec<(String, String)> = std::env::vars().collect();
+    let env_refs: Vec<(&str, String)> = env.iter().map(|(k, v)| (k.as_str(), v.clone())).collect();
+    let provider = create_email_provider_from_env(&env_refs, Some(&state_dir.join("email-outbox")));
+    let mut cfg = EmailAuthConfig::default();
+    cfg.provider = std::sync::Arc::from(provider);
+    cfg.db_path = std::env::var("SEZS_EMAIL_DB")
+        .unwrap_or_else(|_| state_dir.join("email-auth.sqlite").to_string_lossy().into());
+    cfg.state_dir = Some(state_dir.to_path_buf());
+    cfg.session_secret = std::env::var("SEZS_EMAIL_SESSION_SECRET")
+        .ok()
+        .map(|s| s.into_bytes());
+    cfg.pow_bits = std::env::var("SEZS_EMAIL_POW_BITS")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(0);
+    cfg.trust_proxy = std::env::var("SEZS_TRUST_PROXY").ok().as_deref() == Some("1");
+    if let Ok(origins) = std::env::var("SEZS_EMAIL_ALLOWED_ORIGINS") {
+        cfg.allowed_origins = crate::email::service::parse_allowed_origins(Some(&origins));
+    }
+    Ok(Some(std::sync::Arc::new(EmailAuth::new(cfg)?)))
+}
+
+async fn email_dispatch(State(h): State<Arc<Handles>>, req: Request) -> Response {
+    let Some(email) = h.email.as_ref() else {
+        return json_response(
+            404,
+            serde_json::json!({"ok": false, "error": "not_found"}),
+            vec![],
+        );
+    };
+    let method = req.method().as_str().to_string();
+    let path = req.uri().path().to_string();
+    let headers = headers_of(req.headers());
+    let mut body = serde_json::json!({});
+    if method == "POST" {
+        // 4 KiB cap (Node email-server).
+        if let Some(len) = req
+            .headers()
+            .get(header::CONTENT_LENGTH)
+            .and_then(|v| v.to_str().ok())
+            .and_then(|s| s.parse::<usize>().ok())
+        {
+            if len > EMAIL_MAX_BODY {
+                return json_response(
+                    413,
+                    serde_json::json!({"ok": false, "error": "payload_too_large"}),
+                    vec![("connection".into(), "close".into())],
+                );
+            }
+        }
+        let bytes = axum::body::to_bytes(req.into_body(), EMAIL_MAX_BODY)
+            .await
+            .map_err(|_| ())
+            .ok();
+        let Some(bytes) = bytes else {
+            return json_response(
+                413,
+                serde_json::json!({"ok": false, "error": "payload_too_large"}),
+                vec![("connection".into(), "close".into())],
+            );
+        };
+        if !bytes.is_empty() {
+            match serde_json::from_slice(&bytes) {
+                Ok(v) => body = v,
+                Err(_) => {
+                    return json_response(
+                        400,
+                        serde_json::json!({"ok": false, "error": "bad_json"}),
+                        vec![],
+                    )
+                }
+            }
+            if let Some(refused) = refuse_secret_fields(&body) {
+                return json_response(400, refused, vec![]);
+            }
+        }
+    }
+    let full = if path.starts_with("/sezs/") {
+        path
+    } else {
+        format!("/sezs{path}")
+    };
+    let result = email.handle(&method, &full, &headers, "local", &body);
+    json_response(result.status, result.body, result.headers)
 }
 
 /// One-bind SEZS process: `/sezs` + `/itl` alias, no second frost listener.

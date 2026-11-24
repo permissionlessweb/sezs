@@ -106,4 +106,6 @@ decision and makes the Rust port testable with a memory sink.
   still an operational decision.
 - Whether email sign-in is offered on the public alpha, or only on staff
   surfaces, follows the standing rule that email stays hidden on the
-  alpha; the exact UI treatment is not restated here.
+  alpha. The Rust process mounts `/sezs/auth/email/*` only when
+  `SEZS_EMAIL_ENABLE=1`; the default product bind does not expose it.
+  Delivery uses a provider adapter (file sink in dev; no vendor SDK in core).

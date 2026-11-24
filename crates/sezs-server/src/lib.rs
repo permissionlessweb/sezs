@@ -1,6 +1,7 @@
 //! SEZS backend server library.
 
 pub mod app;
+pub mod email;
 pub mod secret_fields;
 pub mod session;
 pub mod ticketing;
