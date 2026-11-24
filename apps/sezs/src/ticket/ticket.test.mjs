@@ -35,6 +35,11 @@ test('sha256 matches node crypto', () => {
   }
 })
 
+// These C / N / root hex values are from the legacy SEZS-custom Poseidon
+// (SHA256("sezs-poseidon-pallas-t3-v1") constants in poseidon.mjs). They are
+// known stale versus the production P128Pow5T3 suite used by
+// circuits/sezs-ticket-v2 and the Node wasm. Do not rewrite them to match
+// the circuit; keep them as a lock on the legacy JS implementation.
 test('fixed secret produces a 32-byte leaf and a different nullifier', () => {
   const secret = new Uint8Array(32)
   secret[0] = 1

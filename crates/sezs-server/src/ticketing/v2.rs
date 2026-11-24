@@ -66,19 +66,27 @@ fn zip321(address: &str, memo: &str) -> String {
     format!("zcash:{address}?memo={memo}&message=Speakez%20Sessions")
 }
 
-fn tree_root(leaves: &[String]) -> String {
-    // Deterministic public root over the append-only list. Circuit-identical
-    // P128Pow5T3 padding will replace this when the circuit crate is linked.
-    use sha2::{Digest, Sha256};
-    let mut h = Sha256::new();
-    h.update(SUITE.as_bytes());
-    h.update(&[TREE_DEPTH as u8]);
-    for leaf in leaves {
-        if let Ok(bytes) = hex::decode(leaf) {
-            h.update(&bytes);
-        }
+/// Circuit-identical guest-tree root: Poseidon P128Pow5T3, empty leaf = 0,
+/// parent = Poseidon(left, right), depth 10. Delegates to `sezs-ticket-v2`
+/// (same hash the Node wasm `treeRoot` uses). Leaves are 32-byte LE field
+/// elements encoded as hex.
+pub fn tree_root(leaves: &[String]) -> String {
+    use sezs_ticket_v2::{fp_from_le, fp_to_le, tree::GuestTree};
+    let mut fps = Vec::with_capacity(leaves.len());
+    for raw in leaves {
+        let Some(h) = super::leaves::hex32(raw) else {
+            continue;
+        };
+        let Ok(bytes) = hex::decode(&h) else {
+            continue;
+        };
+        let Ok(fp) = fp_from_le(&bytes) else {
+            continue;
+        };
+        fps.push(fp);
     }
-    hex::encode(h.finalize())
+    let tree = GuestTree::from_leaves(fps).unwrap_or_else(|_| GuestTree::new());
+    hex::encode(fp_to_le(&tree.root()))
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

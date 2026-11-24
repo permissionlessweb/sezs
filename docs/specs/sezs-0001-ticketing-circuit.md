@@ -70,6 +70,14 @@ fallback.
 `sezs_consume_v2` is Halo2 IPA on the Pasta curves, `k = 11`, standard
 Poseidon `P128Pow5T3`, Merkle depth 10. The crate is `sezs-ticket-v2`.
 
+The ticketing process (`crates/sezs-server`) MUST compute public tree roots
+by calling this crate's `GuestTree` (standard `P128Pow5T3`, empty leaf `0`,
+parent = `Poseidon(left, right)`). It MUST NOT substitute a different hash.
+The Node wasm `treeRoot` binding is the same function. Vectors in
+`apps/sezs/src/ticket/ticket.test.mjs` were computed with the previous
+SEZS-custom Poseidon constants; they are known stale and MUST be left as
+a lock on that legacy JS module, not updated to look like production roots.
+
 Public inputs, in this order:
 
 `root ‖ N ‖ event_id_fp ‖ domain_fp ‖ rk_x ‖ rk_y`

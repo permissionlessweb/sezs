@@ -129,6 +129,13 @@ nullifiers.
 
 ## Reference Implementation
 
+Public leaf lists advertise a `root` computed by `sezs-ticket-v2::GuestTree`
+(`P128Pow5T3`). The Node wasm `treeRoot` is the same function. The hex
+values in `apps/sezs/src/ticket/ticket.test.mjs` belong to the legacy
+custom Poseidon suite and are known stale; they must not be rewritten to
+the production roots.
+
+
 - Current Node: `apps/sezs/dev/splash/` (ticket-pay, ticket-v2, consume)
   and `apps/sezs/server/` (session)
 - Target Rust: `crates/sezs-server`, traits in hash-market

@@ -5573,6 +5573,7 @@ dependencies = [
  "rusqlite",
  "serde",
  "serde_json",
+ "sezs-ticket-v2",
  "sha2 0.10.9",
  "subtle",
  "tempfile",
@@ -5580,6 +5581,23 @@ dependencies = [
  "tokio",
  "tower 0.4.13",
  "url",
+]
+
+[[package]]
+name = "sezs-ticket-v2"
+version = "0.1.0"
+dependencies = [
+ "ff 0.14.0",
+ "getrandom 0.4.3",
+ "group 0.14.0",
+ "rand 0.10.4",
+ "rand_core 0.10.1",
+ "sha2 0.10.9",
+ "zakura-halo2-gadgets",
+ "zakura-halo2-poseidon",
+ "zakura-halo2-proofs",
+ "zakura-pasta-curves",
+ "zakura-reddsa",
 ]
 
 [[package]]

@@ -38,9 +38,10 @@ without `SEZS_SESSION_SECRET` or `SEZS_SESSION_SECRET_FILE`.
 
 Invoice, payment watch, public leaves, envelopes, and door consume (P1–P3)
 live under `src/ticketing/`. Rust tests follow the splash Node tests and
-are named after the Quint predicates. The public tree root is a
-SHA-256 placeholder until the circuit crate is linked; it is not identical
-to the Node wasm `P128Pow5T3` root.
+are named after the Quint predicates. The public tree root is the circuit-identical Poseidon `P128Pow5T3` hash
+from `circuits/sezs-ticket-v2` (same as the Node wasm `treeRoot`). Legacy
+custom-suite vectors in `apps/sezs/src/ticket/ticket.test.mjs` are stale and
+must not be rewritten to match.
 
 The process binds 127.0.0.1 only unless `SEZS_ALLOW_NON_LOOPBACK=1`.
 Default port is 3058 (`SEZS_BIND` or `SEZS_SESSION_PORT`).
