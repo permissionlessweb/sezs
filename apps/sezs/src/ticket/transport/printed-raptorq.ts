@@ -1,7 +1,7 @@
 /**
  * Printed fallback: a grid of 5–9 static QR codes, Zigner-shaped.
  *
- * Zigner (`~/src/zigner/rust/qrcode_rtx`) uses RaptorQ with CHUNK_SIZE
+ * Zigner uses RaptorQ with CHUNK_SIZE
  * 1072, 5 source + 4 repair, any 5 packets sufficient. This lab framer
  * matches that layout (5 source slices + 4 XOR repair packets) so the print
  * grid and the collect path can be wired now. A holder who scans all 5

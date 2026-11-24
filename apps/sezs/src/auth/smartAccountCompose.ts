@@ -1,6 +1,6 @@
 /**
  * Chain composition for x/smartaccount — types + encode hints.
- * Product add/remove lives in @dao-dao/stateful useSmartAccount.
+ * Product add/remove of account modules lives with the identity stack.
  * Nested AnyOf/AllOf was a 2026-07-19 MVP non-goal; SEZS needs it for devices.
  *
  * Do not broadcast from this module. Passkey is not the chain signer.

@@ -7,44 +7,49 @@ shielded payments, keep the ticket secret in their own browser, and show
 it at the door. Ushers verify the ticket and consume it so it cannot be
 used twice.
 
+Public repository: [permissionlessweb/sezs](https://github.com/permissionlessweb/sezs).
+
 ## Layout
 
 | Path | What it is |
 | --- | --- |
-| `apps/sezs` | The web app (Next.js, static export) and its session server |
-| `packages/` | Shared UI and chain-state packages derived from DAO DAO UI |
-| `packages/sezs-orch` | cw-orch deploy and curate suite for the SEZS contracts |
-| `packages/sezs-circuit-orch` | cw-orch interface for the ticket consume circuit |
+| `apps/sezs` | Web app (Next.js, static export) and session server |
+| `packages/config` | Shared TypeScript, ESLint and Prettier config |
+| `crates/sezs-orch` | cw-orch deploy and curate suite |
+| `crates/sezs-circuit-orch` | cw-orch interface for the ticket consume circuit |
+| `contracts/cw-event-manifold` | Event coordinator CosmWasm contract |
 | `circuits/sezs-ticket-v2` | Halo2 ticket consume circuit, prover and wasm bindings |
-| `websites/sezs-docs` | Public docs site |
-| `deploy/events` | Event definitions |
+| `docs/` | Product and build documentation |
+| `justfile` | The only operator entry point |
 
-## Develop
+Related contracts that this repo **references but does not vendor**:
+
+- [permissionlessweb/cw-ave](https://github.com/permissionlessweb/cw-ave) — `cw-ave`, factory, `cw420`
+- [permissionlessweb/dao-contracts](https://github.com/permissionlessweb/dao-contracts) — DAO modules and `dao-calendar` (calendar stays in that repo)
+- [permissionlessweb/terp-rs](https://github.com/permissionlessweb/terp-rs) — `terp-beacon`, `nftfi-raffle`
+
+## Build
+
+A clean clone is enough. You do not need a sibling monorepo.
 
 ```bash
-pnpm install
-make build   # type-check and build the app
-make test    # app unit tests (needs the prover wasm: apps/sezs/scripts/build-ticket-v2-wasm.sh)
+just install       # Node via .nvmrc + Corepack pnpm, frozen lockfile
+just typecheck
+just build
+just test
+just check-crates
+just optimize      # terp-optimizer (Docker); writes contracts/artifacts/checksums.txt
 ```
 
-Dev servers bind to `127.0.0.1` only. Deploys of contracts and circuits
-go through cw-orch (`packages/sezs-orch`).
+Tooling pins, fork revisions, and artifact environment variables are in
+[`docs/BUILD.md`](docs/BUILD.md).
+
+Optional loopback recipes (`just env-up`, `just deploy-local`, studio and
+walkthroughs) are for local development and are not required to build or
+test.
 
 ## Licenses
 
-See `NOTICE`. `apps/sezs` is AGPL-3.0-only. Packages derived from DAO DAO
-UI keep The Clear BSD License. `contracts/cw-ave` has its own license.
-
-
-## Event contracts
-
-Event contracts live in a separate repository, [permissionlessweb/cw-ave](https://github.com/permissionlessweb/cw-ave).
-That project is maintained by PermissionlessWeb; it is not an official DAO DAO contract suite.
-
-To deploy or curate, build the contract artifacts there and point the orchestrator at them:
-
-```bash
-export CW_AVE_ROOT=/path/to/cw-ave
-# or
-export SEZS_CW_AVE_ARTIFACTS=/path/to/cw-ave/artifacts
-```
+See `NOTICE`. `apps/sezs` is AGPL-3.0-only. `packages/config` (derived from
+DAO DAO UI config) keeps The Clear BSD License. Orchestrator and circuit
+crates are BSD-3-Clause. `contracts/` is Apache-2.0.

@@ -1,6 +1,6 @@
 # Deploying Speak-Ez Sessions
 
-Local deploys go through the terp-core `cw-orchestrator` fork (`cw-orch`
+Local deploys go through the permissionlessweb `cw-orchestrator` fork (`cw-orch`
 0.30 with the `zk` feature). Circuit compilation and registration use
 the same scripting surface as contract wasm: `SezsSuite` implements
 `cw_orch::prelude::Deploy`, prepares the `sezs_consume_v2` store-circuit
@@ -33,7 +33,7 @@ The walkthrough terpd must already be running. This target will not
 start a new chain.
 
 ```sh
-make deploy-local
+just deploy-local
 ```
 
 That runs `scripts/deploy.sh`, which:
@@ -78,7 +78,7 @@ This crate never reads a mnemonic file and never logs signer material.
 ## Fork wiring
 
 The workspace root is `packages/Cargo.toml` (members `sezs-orch` and
-`sezs-circuit-orch`). It path-depends the terp-core `cw-orchestrator`
+`sezs-circuit-orch`). It depends on the permissionlessweb `cw-orchestrator` fork
 crates and uses `[patch.crates-io]` so `cosmwasm-std = 4.1.0` and the
 fork's `cosmrs` (which carries `MsgStoreFullCircuit`) resolve to the
 private path crates, matching `terp-rs` and the intended use of the

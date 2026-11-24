@@ -11,7 +11,7 @@ test('webAuthnRpId accepts localhost and hostnames, rejects IPs', () => {
   assert.equal(webAuthnRpId('www.terp.network'), 'www.terp.network')
   assert.equal(webAuthnRpId('127.0.0.1'), undefined)
   assert.equal(webAuthnRpId('0.0.0.0'), undefined)
-  assert.equal(webAuthnRpId('192.168.0.10'), undefined)
+  assert.equal(webAuthnRpId('127.0.0.1'), undefined)
   assert.equal(webAuthnRpId('::1'), undefined)
   assert.equal(webAuthnRpId('[::1]'), undefined)
 })

@@ -8,5 +8,7 @@ description = "SEZS lab wrapper: Zafu minirelay bound to 127.0.0.1 only"
 
 [dependencies]
 axum = "0.8"
-minirelay = { path = "../../../../../terp-core/crates/zafu/apps/minirelay" }
+# Optional local-dev only. Set SEZS_ZAFU_ROOT and patch, or depend on
+# a published zafu minirelay revision. Not built by default.
+# minirelay = { git = "https://github.com/rotkonetworks/zafu", package = "minirelay" }
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal", "time"] }

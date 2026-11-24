@@ -1,5 +1,5 @@
 {
-  "name": "@dao-dao/sezs",
+  "name": "@sezs/app",
   "version": "0.0.1",
   "private": true,
   "license": "AGPL-3.0-only",
@@ -30,11 +30,6 @@
     "e2e:shots-local-env": "node e2e/shots-local-env.mjs"
   },
   "dependencies": {
-    "@dao-dao/state": "workspace:*",
-    "@dao-dao/stateful": "workspace:*",
-    "@dao-dao/stateless": "workspace:*",
-    "@dao-dao/types": "workspace:*",
-    "@dao-dao/utils": "workspace:*",
     "@noble/curves": "1.9.7",
     "@noble/hashes": "1.8.0",
     "jsqr": "^1.4.0",
@@ -45,10 +40,10 @@
     "@zafu/zid": "0.3.0"
   },
   "devDependencies": {
-    "@dao-dao/config": "workspace:*",
     "@types/node": "^18.11.9",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@sezs/config": "workspace:*"
   }
 }

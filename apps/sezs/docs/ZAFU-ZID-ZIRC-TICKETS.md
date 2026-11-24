@@ -4,7 +4,7 @@ Date: 14 November 2026 (Africa/Dakar, UTC+0).
 
 Phase 1 only: research and design. No large implementation, no deploy, no push, no mainnet. The running SEZS splash/dev server was left alone.
 
-Inspected checkout: `~/src/terp-core/crates/zafu` on build-host, git branch `main`, commit `4e0b9e28` (20 October 2026, 00:35 +0700, “Merge pull request #137 from rotkonetworks/feat/zigner-pczt-only”). Other worktrees exist (`~/src/_worktrees/zafu-airgap-password`, `zafu-issues`, and several mirror trees). They were not treated as the source of truth. Anything not verified in this revision is marked unverified.
+Source of truth for this note was rotkonetworks/zafu `main` at `4e0b9e28` (20 October 2026). Anything not verified in that revision is marked unverified.
 
 This note extends `TICKET-PROOF-DESIGN.md`. It does not replace the leaf format `C = Poseidon(ticketSecret, sku, event_id)` or the payment-memo binding.
 
@@ -30,7 +30,7 @@ Source: `apps/extension/src/state/identity.ts` (header comments and `deriveRoot`
 
 Session vs stable key, verified:
 
-- `@zafu/zid` `zid.connect()` (`packages/zid/src/zid.ts`, `connectWallet`) builds a **fresh random session key** (`createSessionKey` in `packages/zid/src/provider.ts`) and asks the wallet to sign a delegation string `zid:delegate:<sessionPubkey>:<appName>` via `zafu_sign`. `me.pubkey` in that session is the ephemeral session key, not the stable site key.
+- `@zafu/zidzid.connect()` (`packages/zid/src/zid.ts`, `connectWallet`) builds a **fresh random session key** (`createSessionKey` in `packages/zid/src/provider.ts`) and asks the wallet to sign a delegation string `zid:delegate:<sessionPubkey>:<appName>` via `zafu_sign`. `me.pubkey` in that session is the ephemeral session key, not the stable site key.
 - The stable account id for encryption and login-verify is `zafu_zid_pubkey` / `zidPubkey()` (and `publicKey` on a successful `zafu_sign` of a server challenge). Use that for backups, not the session pubkey.
 - `zafu_sign` signs **only** `challengeHex`. The wallet displays the origin but does not bind it into the signed bytes. A relying party must use a fresh, origin-committed nonce (SIWE-style). Documented in `ZafuSignRequest`.
 
@@ -47,7 +47,7 @@ Implemented v1 methods:
 | `ping` | easteregg | Detect wallet / protocol version | none |
 | `zafu_sign` | sign-request | Sign a challenge with the site-scoped ed25519 key (“login with zafu”) | yes (statement shown) |
 | `zafu_zid_pubkey` | external-encryption | Fetch site ed25519 / PQ / KA pubkeys | under `encrypt` capability |
-| `zafu_encrypt` / `zafu_decrypt` | external-encryption | Sealed box (classical X25519→HKDF-SHA256→AES-256-GCM, or hybrid X-Wing when `recipient_pq` is set) | `encrypt` capability; popup via `requestCapabilityApprovalPopup` if not already granted; persistent grant is re-read every call; iframe origins are denied (`external-encryption.ts` `ensureApproved`) |
+| `zafu_encrypt` / `zafu_decrypt` | external-encryption | Sealed box (classical X25519→HKDF-SHA256→AES-256-GCM, or hybrid X-Wing when `recipient_pq` is set) | `encrypt` capability; popup via `requestCapabilityApprovalPopup` if not already granted; persistent grant is re-read every call; iframe origins are denied (`external-encryption.tsensureApproved`) |
 | `zafu_request_capability` | easteregg | Ask for `connect` \| `sign_identity` \| `encrypt` \| `frost` (open-ended string) | popup |
 | `zafu_pick_contacts` | easteregg | Contact picker; handles are app-scoped and unlinkable across apps | picker UI |
 | `zafu_connect` / `zafu_friends` / `zafu_invite_friend` | connect | Introduce two *people using this app*; when both accept, *their wallets* open a private room. The app can later hand a short invite text/path into that room. The app never learns a decline (stays `pending`) | wallet ask on connect |
@@ -55,11 +55,11 @@ Implemented v1 methods:
 | `zafu_request_contact_discovery` | contact-discovery-request | Ask the user to turn that feature on wallet-wide | popup |
 | `zafu_get_fresh_chain_address` / `zafu_open_shield` | easteregg | Chain address / shield-in sheet | per method |
 
-Transport, verified: `@zafu/zid` does **not** go through the Keplr-shaped `window.zafu` (`enable` / `getKey` / `sendTx`). Detection walks `globalThis[Symbol.for('penumbra')]`, pings until a provider answers `{ zafu: true }`, then sends `zafu_*` messages with `chrome.runtime.sendMessage` (`packages/zid/src/provider.ts` `detectZafu`, `packages/zid/src/transport.ts` `createExtensionTransport`). The SEZS app already uses `window.zafu` for Terp sign-in and ZIP-321 for payment. Ticket backup would use `@zafu/zid` / the protocol, not `window.zafu.enable`.
+Transport, verified: `@zafu/zid` does **not** go through the Keplr-shaped `window.zafu` (`enable` / `getKey` / `sendTx`). Detection walks `globalThis[Symbol.for('penumbra')]`, pings until a provider answers `{ zafu: true }`, then sends `zafu_*` messages with `chrome.runtime.sendMessage` (`packages/zid/src/provider.tsdetectZafu`, `packages/zid/src/transport.tscreateExtensionTransport`). The SEZS app already uses `window.zafu` for Terp sign-in and ZIP-321 for payment. Ticket backup would use `@zafu/zid` / the protocol, not `window.zafu.enable`.
 
 Deliberately **not** in v1 (protocol file header): FROST/multisig methods (“fund-safety surface, gated behind explicit capabilities — not for a general SDK”).
 
-**There is no `zafu_zirc_*` method.** A website cannot, in this revision, request “join this zirc room” or “read messages from this room with user approval.” That specific check-in idea is not implementable on the current dapp API. Unverified: whether a future branch in another worktree adds one; it is not in `4e0b9e28` `ZAFU_V1_METHODS`.
+**There is no `zafu_zirc_*` method.** A website cannot, in this revision, request “join this zirc room” or “read messages from this room with user approval.” That specific check-in idea is not implementable on the current dapp API. Unverified: whether a future branch in another worktree adds one; it is not in `4e0b9e28ZAFU_V1_METHODS`.
 
 `zafu_invite_friend` is the closest related primitive (wallet writes a short message into a **pairwise** room the two *users’* wallets opened after `zafu_connect`). It is not a room between an event server and a purchaser, and the dapp does not get to read the room.
 
@@ -78,13 +78,13 @@ A room is N members, **one shared 32-byte room secret**, and a windowed board on
 - No ratchet and no automatic rotation in this revision (design note “Implementation status”; issue #47). Compromising the room secret opens this window and every window derived from it. Removing a member is a new room or a re-invite; it does not unread the past.
 - Plain (unsealed) lane: signed, but readable by the relay and anyone else. Not for ticket material.
 
-A server **can** hold an identity and post into a room — but not by being “a Zafu wallet” on the dapp protocol. Verified path: a Node (or other) process imports `@zafu/zirc/room`, holds an ed25519 `RoomIdentity` (`sign` / `verify`) plus the room secret, and speaks `putBucket` / `getBucket` to a relay (`packages/zid/src/relay-http.ts` `createHttpRelayTransport`). No extension is required on the server side. Unverified: a supported headless “server Zafu” that derives keys from a production mnemonic; this checkout’s first-class wallet is the Chrome extension (and Zigner for seed-side derivation). Putting an event mnemonic in a ticket backend would also collapse ZID and (if the same phrase were ever reused) risk spending-key territory — the derivation is separated, but operationally a server should use a **dedicated room signing key**, not a person’s wallet seed.
+A server **can** hold an identity and post into a room — but not by being “a Zafu wallet” on the dapp protocol. Verified path: a Node (or other) process imports `@zafu/zirc/room`, holds an ed25519 `RoomIdentity` (`sign` / `verify`) plus the room secret, and speaks `putBucket` / `getBucket` to a relay (`packages/zid/src/relay-http.tscreateHttpRelayTransport`). No extension is required on the server side. Unverified: a supported headless “server Zafu” that derives keys from a production mnemonic; this checkout’s first-class wallet is the Chrome extension (and Zigner for seed-side derivation). Putting an event mnemonic in a ticket backend would also collapse ZID and (if the same phrase were ever reused) risk spending-key territory — the derivation is separated, but operationally a server should use a **dedicated room signing key**, not a person’s wallet seed.
 
 ## Persistence and retention
 
 Source: `apps/minirelay/README.md` configuration table, `apps/minirelay/DEPLOY-retention.md`.
 
-- Default `MINIRELAY_RETENTION_SECONDS` is **3600** (one hour). A 60s sweep deletes older rows. Tags rotate every epoch; the README says keeping history only lengthens the window for a later key compromise (no forward secrecy at this layer by design).
+- Default `MINIRELAY_RETENTION_SECONDS` is **3600** (one hour). A 60s sweep deletes older rows. Tags rotate every epoch; the README says keeping history only lengthens the window for a later key compromise (no forward secrecy this layer by design).
 - Per-scope override `MINIRELAY_SCOPE_RETENTION` (e.g. `zafu-group-v1=90000` for 25 hours). Hard ceiling `MINIRELAY_MAX_SCOPE_RETENTION_SECONDS` defaults to **48 hours**.
 - `DEPLOY-retention.md` also notes that what actually serves `/bucket` on `zcash.rotko.net` in production was **not confirmed** in that note (minirelay vs something else). Unverified here as well. Either way, the relay is a short-lived blind mailbox, not a ticket archive.
 - **A zirc room cannot be the only copy of a ticket secret.** Event tickets need to last from purchase until after doors (days to months). That is longer than the documented relay ceiling.
@@ -114,7 +114,7 @@ That is a step backward from “backend never sees the secret.”
 
 - The backend never sees the secret. Recoverable on any device that restores the same mnemonic (and uses the same site origin, identity name, and nonce).
 - Check-in is “approve derive / show ticket,” not “approve read this mailbox.”
-- Zirc, if used at all, only carries public handles (invoice id, event id, sku) or an encrypted envelope the backend cannot open.
+- Zirc, if used all, only carries public handles (invoice id, event id, sku) or an encrypted envelope the backend cannot open.
 - **Not available today.** There is no `zafu_derive` (or similar) in v1. A page must not receive the site seed and do the KDF itself — that would put the ticket-derivation key in JS on the origin (guest-identity territory).
 
 Invoice nonce must be public and remembered (it cannot include `C`, because `C` is computed from the secret). The nonce can live in the payment memo next to `C`, or in a receipt the backend already stores without identity.
@@ -137,7 +137,7 @@ This is implementable against `4e0b9e28` without new Zafu methods.
 
 **Near term (no Zafu protocol change):** keep today’s client-side secret and memo binding. After the secret exists, seal it to the purchaser’s site-scoped ZID with `zafu_encrypt` (PQ path when `pq_pubkey` is advertised). Persist the ciphertext on the SEZS backend keyed by `C` or invoice id, with no secret and no need for a name. Check-in asks the user to approve `zafu_decrypt` (or a later, tighter “open this ticket” statement) and then proceeds exactly as now (QR → nullifier → admit once). Zirc is optional transport for that same envelope, not the source of truth.
 
-**Preferred once Zafu can grow a method:** add a wallet-side derive (for example `zafu_derive` or an SEZS-specific capability) so the secret is never in page JS at rest and is re-computable from the seed plus a public nonce. The encrypted envelope becomes a convenience backup, not the only recovery path. This is the most private design that still meets “not device-locked,” “recoverable,” and “check-in requires a user-authorised wallet action.”
+**Preferred once Zafu can grow a method:** add a wallet-side derive (for example `zafu_derive` or an SEZS-specific capability) so the secret is never in page JS rest and is re-computable from the seed plus a public nonce. The encrypted envelope becomes a convenience backup, not the only recovery path. This is the most private design that still meets “not device-locked,” “recoverable,” and “check-in requires a user-authorised wallet action.”
 
 Either way, signing in is still not a ticket, and `C` in the payment memo remains the binding between payment and leaf.
 
@@ -149,7 +149,7 @@ Feasible as **sealed zirc rooms** operated by the event, not as an on-chain cw42
 - **Membership:** bearer invites, ideally `sealInvite`’d to each usher’s site-scoped ZID after they have visited an origin and called `zafu_zid_pubkey`. An usher who leaks the invite leaks the board. There is no automatic “cw420 weight = room membership” link; that would have to be operational policy (issue invites only to current group members; on removal, rotate).
 - **What is needed:** a relay the event controls or trusts for availability (still blind to plaintext); a place ushers actually join from. The wallet’s People/groups UI is built for Zafu groups and door codes (`people/groups.ts`, `people/door.ts`), not for “join this SEZS usher room” from a dapp. A dedicated usher page could use `@zafu/zirc/room` if it is given the invite — but then the page learns the room secret, so XSS on that origin is a channel leak. The missing piece is a wallet method: “accept this sealed invite into wallet storage, and send/receive without giving the secret to the page.”
 - **Limits already documented:** no ratchet, no automatic rotation, 1 hour default / 48 hour max relay retention unless the event runs a relay with a longer scope (still capped). Usher *messaging* that must last a whole production week needs a store besides default minirelay, or clients that persist history.
-- **Do not** put ticket secrets in the usher channel. Ushers should only see a ticket secret at scan time, and then forget it (`TICKET-PROOF-DESIGN.md`).
+- **Do not** put ticket secrets in the usher channel. Ushers should only see a ticket secret scan time, and then forget it (`TICKET-PROOF-DESIGN.md`).
 
 ## What would need building in Zafu (not in SEZS alone)
 
@@ -172,7 +172,7 @@ Effort is higher if we pretend phase 4 can replace phase 2: it cannot, until Zaf
 ## Questions only you can answer
 
 1. Do you accept that the backend must **not** learn the ticket secret, even if that means it cannot “send the secret” in the clear over zirc? (Recommended: yes.)
-2. Should phase 2 (self-seal + `zafu_decrypt` at the door, no new Zafu methods) ship first, with derive + room APIs asked of Zafu in parallel?
+2. Should phase 2 (self-seal + `zafu_decrypt` the door, no new Zafu methods) ship first, with derive + room APIs asked of Zafu in parallel?
 3. For deterministic derive, is one ticket per (identity, event, sku) enough, or must an invoice nonce allow more than one leaf per person per event?
 4. Which origin should site-scoped keys be bound to (the Speakez tickets origin)? **Decided (14 November 2026):** always the `domain` URL set on the event contract (cw-event-manifold `EventInfo.domain` / `SetDomain`). Lab value: `http://127.0.0.1:3051`. A new origin still means new keys and a new backup. Opening the lab app as `localhost` is a different origin than `127.0.0.1`; ZID binding follows the contract domain, not whatever the tab happened to use.
 5. For usher channels, should ushers use a dedicated SEZS page, or should we wait for a wallet-native “accept invite” so the page never sees the room secret?

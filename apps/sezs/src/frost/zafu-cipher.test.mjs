@@ -9,8 +9,10 @@ import {
 } from './zafu-cipher.mjs'
 
 describe('Zafu FrostRelayCipher (Noise_K)', () => {
-  it('loads the wasm package and round-trips a payload', async () => {
-    assert.ok(resolveZafuWasmDir(), 'SEZS_ZAFU_WASM or the local zafu package must be present')
+  it('loads the wasm package and round-trips a payload', async (t) => {
+    if (!resolveZafuWasmDir()) {
+      t.skip('SEZS_ZAFU_WASM or a zafu package is not present (optional on a clean clone; see docs/BUILD.md)'); return
+    }
     const { src } = await loadZafuCipher()
     assert.ok(src.includes('zcash-wasm'))
     const a = await generateCipherIdentity()

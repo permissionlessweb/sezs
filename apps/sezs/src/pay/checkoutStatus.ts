@@ -1,8 +1,7 @@
 /**
  * Payment-status machine for ticket checkout.
  *
- * Ported from the permissionless web SVG mint runtime:
- *   ~/src/terp-core/websites/permissionless.money/pages/mint.html
+ * Ported from the permissionless.money SVG mint runtime:
  *     statusMark        (~1388)
  *     ownPhase          (~1395)
  *     PHASE_RANK        (~1413)
@@ -67,7 +66,7 @@ export const statusMark = (st: CheckoutStatus | null | undefined): StatusMark =>
   mempool: st?.mempool?.txid || null,
 })
 
-/** Phase of this checkout: anything still pointing at the baseline deposit is not ours. */
+/** Phase of this checkout: anything still pointing the baseline deposit is not ours. */
 export const ownPhase = (st: CheckoutStatus | null | undefined, baseline: StatusMark | null): MintPhase => {
   const phase = (st?.phase || 'waiting') as MintPhase
   if (!baseline) return phase
@@ -90,7 +89,7 @@ export const ticketStepOf = (phase: string | null | undefined): (typeof TICKET_S
     : 'waiting'
 }
 
-/** Paid only after an on-chain deposit — never at mempool. */
+/** Paid only after an on-chain deposit — never mempool. */
 export const phaseIsPaid = (phase: string | null | undefined, paidFlag?: boolean): boolean => {
   if (phase === 'Mempool') return false
   if (phase && phase in PHASE_RANK) return (PHASE_RANK[phase] || 0) >= PHASE_RANK.Deposited

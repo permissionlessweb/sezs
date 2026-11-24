@@ -1,5 +1,5 @@
 {
-  "name": "@dao-dao/config",
+  "name": "@sezs/config",
   "version": "2.7.1-rc.5",
   "license": "BSD-3-Clause-Clear",
   "dependencies": {

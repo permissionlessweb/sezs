@@ -1,6 +1,6 @@
 # SEZS Speakeasy guest app
 
-Loopback Next.js 13 (`output: 'export'`) at `127.0.0.1:3051`. Tunnel: `ssh -L 3051:127.0.0.1:3051 build-host`. Existing nginx `sezs-lan.conf` is fully commented (old `0.0.0.0:3050`). No second proxy. No mainnet txs from this app.
+Loopback Next.js 13 (`output: 'export'`) at `127.0.0.1:3051`. An optional SSH local-forward of port 3051 to that loopback address can be used when browsing from another machine. Existing nginx `sezs-lan.conf` is fully commented (old `0.0.0.0:3050`). No second proxy. No mainnet txs from this app.
 
 Area diagrams:
 

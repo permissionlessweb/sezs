@@ -162,8 +162,13 @@ async function startReverseProxy(sessionPort) {
   return { base: `http://127.0.0.1:${port}`, close: () => new Promise((r) => srv.close(r)) }
 }
 
-test("loopback e2e: built alpha static bundle + production session server on subpath /alpha/sezs/api", async () => {
+test("loopback e2e: built alpha static bundle + production session server on subpath /alpha/sezs/api", async (t) => {
   assert.equal(existsSync(join(OUT_DIR, "index.html")), true, "apps/sezs/out/index.html must exist (build first)")
+  const indexHtml = readFileSync(join(OUT_DIR, "index.html"), "utf8")
+  if (!indexHtml.includes("/alpha/sezs/")) {
+    t.skip("static export was not built with NEXT_PUBLIC_BASE_PATH=/alpha/sezs (run just build, then just test-loopback-e2e)")
+    return
+  }
   const dir = mkdtempSync(join(tmpdir(), "sezs-e2e-loop-"))
   const secretFile = join(dir, "session.secret")
   writeFileSync(secretFile, randomBytes(32).toString("hex") + "\n", { mode: 0o600 })

@@ -13,7 +13,7 @@ export const vitestConfig: Required<
   >
 > = {
   exclude: [...defaultExclude, '**/.next/**'],
-  setupFiles: ['@dao-dao/config/vitest/setup.ts'],
+  setupFiles: ['@sezs/config/vitest/setup.ts'],
   watch: false,
   hideSkippedTests: true,
   // 1 hour timeout for tests.

@@ -129,6 +129,6 @@ test('door notes stay plain', () => {
   assert.equal(doorNoteFor('', { ok: true }), 'Admitted. A second scan will be refused.')
   assert.equal(doorNoteFor('replay'), 'Already admitted.')
   assert.equal(doorNoteFor('nullifier already spent: execute wasm contract failed'), 'Already admitted.')
-  assert.equal(doorNoteFor('unknown or historical root is missing: execute wasm contract failed [ /Users/x ]'), 'Not on the guest list.')
+  assert.equal(doorNoteFor('unknown or historical root is missing: execute wasm contract failed [ <workspace> ]'), 'Not on the guest list.')
   assert.equal(doorNoteFor('rpc error: code = Unknown desc = boom'), 'Please try again.')
 })

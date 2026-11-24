@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil'
 import { AuthProvider } from './auth/AuthContext'
 import { BleProvider } from './ble/BleContext'
 
-/** Auth kernel only. Do not import @dao-dao/stateful here — it OOMs Next compile. */
+/** Auth kernel only. Keep this module free of heavy UI-state graphs. */
 const ClientProviders = ({ children }: { children: ReactNode }) => (
   <RecoilRoot>
     <AuthProvider>

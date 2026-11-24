@@ -301,13 +301,13 @@ const main = async () => {
 
   // --- payroll ---
   console.log('payroll invite / register / propose / frost / execute')
-  const inv = await json('/sezs/payroll/invites', { method: 'POST', as: 'admin-1', body: { role: 'artist', label: 'Lab payout' } })
+  const inv = await json('/sezs/payroll/invites', { method: 'POST', as: 'admin-1', body: { role: 'artist', label: 'Artist 1' } })
   if (!inv.data?.ok) die('invite: ' + (inv.data?.error || inv.status))
   const key = inv.data.key || inv.data.registrationKey || inv.data.invite?.key
   if (!key) die('invite missing key')
   const reg = await json('/sezs/payroll/register', {
     method: 'POST',
-    body: { registrationKey: key, displayName: 'Lab artist', zec: d.payZec, um: d.payUm },
+    body: { registrationKey: key, displayName: 'Artist 1', zec: d.payZec, um: d.payUm },
   })
   if (!reg.data?.ok) die('register: ' + (reg.data?.error || reg.status))
   const participantId = reg.data.participant?.id

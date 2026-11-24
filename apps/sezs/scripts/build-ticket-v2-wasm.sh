@@ -3,7 +3,7 @@
 # <repo>/e2e/lab/sezs-ticket-v2 and stage it for the app:
 #   public/zk/sezs-ticket-v2/   web build + prover worker (served to the browser)
 #   .zk/sezs-ticket-v2/node/    nodejs build (splash backend tree builder, tests)
-# Both outputs are gitignored and reproducible. Build on build-host.
+# Both outputs are gitignored and reproducible. Build on the development machine.
 set -euo pipefail
 APP="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="${SEZS_TICKET_V2_SRC:?set SEZS_TICKET_V2_SRC to circuits/sezs-ticket-v2}"

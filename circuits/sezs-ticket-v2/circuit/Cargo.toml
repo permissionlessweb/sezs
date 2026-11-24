@@ -26,7 +26,7 @@ reddsa = { workspace = true }
 rand = { workspace = true }
 rand_core = { workspace = true }
 sha2 = { workspace = true }
-zk-cosmwasm = { path = "../../../../terp-core/crates/cosmwasm/packages/zk", default-features = false, optional = true }
+zk-cosmwasm = { version = "4.1.0", default-features = false, optional = true }
 
 [[bin]]
 name = "sezs-v2-dump-tables"
@@ -46,4 +46,4 @@ path = "src/bin/fixture.rs"
 getrandom = { version = "0.4", features = ["sys_rng"] }
 
 [dev-dependencies]
-sezs-ticket-v2-verify = { path = "../../../contracts/cw-ave/packages/sezs-ticket-v2-verify" }
+sezs-ticket-v2-verify = { path = "../../../contracts/packages/sezs-ticket-v2-verify" }

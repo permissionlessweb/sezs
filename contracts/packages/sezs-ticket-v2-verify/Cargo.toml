@@ -1,0 +1,8 @@
+[package]
+name = "sezs-ticket-v2-verify"
+description = "ConsumeTicket v2 door verification for cw-event-manifold: Halo2 proof via zk-wasmvm proof_instance_verify + RedPallas rk consent. No cosmwasm-std dependency, so any std version can call it."
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+
+[dependencies]

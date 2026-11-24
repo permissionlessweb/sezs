@@ -1,0 +1,366 @@
+# SEZS fork pins. Version lines in member Cargo.toml stay on crates.io.
+# `just deps-patch-git` rewrites each workspace [patch.crates-io] to these
+# published git revs. `just deps-patch-local` rewrites them to relative
+# paths under $SEZS_CRATES_ROOT (never committed).
+
+[defaults]
+# Local paths in this file are relative to SEZS_CRATES_ROOT.
+
+# ---------------------------------------------------------------------------
+# cw-orchestrator fork (circuit_interface / zk / cw-orch-kms)
+# ---------------------------------------------------------------------------
+
+[crates.cw-orch]
+stable = "0.30.0"
+local = "cw-orchestrator/cw-orch"
+
+[crates.cw-orch.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[crates.cw-orch-core]
+stable = "2.1.4"
+local = "cw-orchestrator/packages/cw-orch-core"
+
+[crates.cw-orch-core.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[crates.cw-orch-daemon]
+stable = "0.29.0"
+local = "cw-orchestrator/cw-orch-daemon"
+
+[crates.cw-orch-daemon.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[crates.cw-orch-traits]
+stable = "0.25.0"
+local = "cw-orchestrator/packages/cw-orch-traits"
+
+[crates.cw-orch-traits.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[crates.cw-orch-mock]
+stable = "0.24.2"
+local = "cw-orchestrator/packages/cw-orch-mock"
+
+[crates.cw-orch-mock.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[crates.cw-orch-networks]
+stable = "0.25.0"
+local = "cw-orchestrator/packages/cw-orch-networks"
+
+[crates.cw-orch-networks.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+# Fork-only crate (not published on crates.io). Member Cargo.toml uses a git
+# dependency with this rev; patch-local may rewrite it to a path via the
+# special [patch] table for that git URL only when switching, then restore
+# the git dep on patch-git. See dep.py.
+
+[crates.cw-orch-kms]
+# no crates.io version
+local = "cw-orchestrator/packages/cw-orch-kms"
+git_only = true
+
+[crates.cw-orch-kms.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[crates.cw-orch-contract-derive]
+stable = "0.21.0"
+local = "cw-orchestrator/packages/macros/cw-orch-contract-derive"
+
+[crates.cw-orch-contract-derive.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[crates.cw-orch-fns-derive]
+stable = "0.23.0"
+local = "cw-orchestrator/packages/macros/cw-orch-fns-derive"
+
+[crates.cw-orch-fns-derive.git]
+url = "https://github.com/permissionlessweb/cw-orchestrator"
+branch = "sezs/msg-store-full-circuit"
+rev = "4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+# ---------------------------------------------------------------------------
+# cosmwasm fork (4.1.0 / security/advisory-bumps tip)
+# ---------------------------------------------------------------------------
+
+[crates.cosmwasm-std]
+stable = "4.1.0"
+local = "cosmwasm/packages/std"
+
+[crates.cosmwasm-std.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cosmwasm-core]
+stable = "4.1.0"
+local = "cosmwasm/packages/core"
+
+[crates.cosmwasm-core.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cosmwasm-crypto]
+stable = "4.1.0"
+local = "cosmwasm/packages/crypto"
+
+[crates.cosmwasm-crypto.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cosmwasm-derive]
+stable = "4.1.0"
+local = "cosmwasm/packages/derive"
+
+[crates.cosmwasm-derive.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cosmwasm-schema]
+stable = "4.1.0"
+local = "cosmwasm/packages/schema"
+
+[crates.cosmwasm-schema.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cosmwasm-schema-derive]
+stable = "4.1.0"
+local = "cosmwasm/packages/schema-derive"
+
+[crates.cosmwasm-schema-derive.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cosmwasm-vm]
+stable = "4.1.0"
+local = "cosmwasm/packages/vm"
+
+[crates.cosmwasm-vm.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cw-schema]
+stable = "4.1.0"
+local = "cosmwasm/packages/cw-schema"
+
+[crates.cw-schema.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.cw-schema-derive]
+stable = "4.1.0"
+local = "cosmwasm/packages/cw-schema-derive"
+
+[crates.cw-schema-derive.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+[crates.zk-cosmwasm]
+stable = "4.1.0"
+local = "cosmwasm/packages/zk"
+
+[crates.zk-cosmwasm.git]
+url = "https://github.com/permissionlessweb/cosmwasm"
+branch = "security/advisory-bumps"
+rev = "adace180be362e03c5aabed4b705c37c7f633d94"
+
+# ---------------------------------------------------------------------------
+# cosmos-rust fork (MsgStoreFullCircuit)
+# ---------------------------------------------------------------------------
+
+[crates.cosmrs]
+stable = "0.23.0"
+local = "cosmos-rust/cosmrs"
+
+[crates.cosmrs.git]
+url = "https://github.com/permissionlessweb/cosmos-rust"
+branch = "sezs/msg-store-full-circuit"
+rev = "cd05b370ddff27fba82fa071c76d270c1ca7181c"
+
+[crates.cosmos-sdk-proto]
+stable = "0.28.0"
+local = "cosmos-rust/cosmos-sdk-proto"
+
+[crates.cosmos-sdk-proto.git]
+url = "https://github.com/permissionlessweb/cosmos-rust"
+branch = "sezs/msg-store-full-circuit"
+rev = "cd05b370ddff27fba82fa071c76d270c1ca7181c"
+
+# ---------------------------------------------------------------------------
+# zakura / halo2 (circuits workspace)
+# pin is the published SHA the circuit tree was developed against
+# ---------------------------------------------------------------------------
+
+[crates.zakura-halo2-gadgets]
+local = "zakura-common/crates/halo2_gadgets"
+
+[crates.zakura-halo2-gadgets.git]
+url = "https://github.com/permissionlessweb/common"
+branch = "feat/plonk-artifact-codec"
+rev = "5df51585a0df2faaceb15cc1e406ecd060265ffc"
+
+[crates.zakura-halo2-poseidon]
+local = "zakura-common/crates/halo2_poseidon"
+
+[crates.zakura-halo2-poseidon.git]
+url = "https://github.com/permissionlessweb/common"
+branch = "feat/plonk-artifact-codec"
+rev = "5df51585a0df2faaceb15cc1e406ecd060265ffc"
+
+[crates.zakura-halo2-proofs]
+local = "zakura-common/crates/halo2_proofs"
+
+[crates.zakura-halo2-proofs.git]
+url = "https://github.com/permissionlessweb/common"
+branch = "feat/plonk-artifact-codec"
+rev = "5df51585a0df2faaceb15cc1e406ecd060265ffc"
+
+[crates.zakura-pasta-curves]
+local = "zakura-common/crates/pasta_curves"
+
+[crates.zakura-pasta-curves.git]
+url = "https://github.com/permissionlessweb/common"
+branch = "feat/plonk-artifact-codec"
+rev = "5df51585a0df2faaceb15cc1e406ecd060265ffc"
+
+[crates.zakura-reddsa]
+local = "zakura-common/crates/reddsa"
+
+[crates.zakura-reddsa.git]
+url = "https://github.com/permissionlessweb/common"
+branch = "feat/plonk-artifact-codec"
+rev = "5df51585a0df2faaceb15cc1e406ecd060265ffc"
+
+[crates.osst]
+stable = "0.1.1"
+local = "zeratul/crates/osst"
+git_only = false
+
+[crates.osst.git]
+url = "https://github.com/permissionlessweb/zeratul"
+branch = "master"
+rev = "987bb7ff253c0f95e3a01af8049f27551ebcffae"
+
+[crates.abstract-cw-multi-test]
+stable = "3.0.0-rc"
+local = "cw-multi-test-fork"
+
+[crates.abstract-cw-multi-test.git]
+url = "https://github.com/permissionlessweb/cw-multi-test-fork"
+branch = "terp-rs-pin-20261108-wip-abstract-mt"
+rev = "fe59039b6ef72b19bfc371648956c61b932c4928"
+
+[crates.cw20-ics20]
+local = "cw-plus/contracts/cw20-ics20"
+
+[crates.cw20-ics20.git]
+url = "https://github.com/permissionlessweb/cw-plus"
+branch = "terp-rs-pin-20261108-wip"
+rev = "141c83a69b8ac17c8e5659c041ddabcd812313ca"
+
+[crates.cw-storage-plus]
+local = "cw-storage-plus"
+
+[crates.cw-storage-plus.git]
+url = "https://github.com/permissionlessweb/cw-storage-plus"
+branch = "v3.1.0-zk.0"
+rev = "cb69d46c10c91d391a13d9ee55a80684c1fbd95a"
+
+[crates.cw-utils]
+local = "cw-minus/packages/cw-utils"
+
+[crates.cw-utils.git]
+url = "https://github.com/permissionlessweb/cw-minus"
+branch = "main"
+rev = "e9aaeafc9a05c98ba9cb7c970557c316b81a6573"
+
+[crates.cw2]
+local = "cw-minus/packages/cw2"
+
+[crates.cw2.git]
+url = "https://github.com/permissionlessweb/cw-minus"
+branch = "main"
+rev = "e9aaeafc9a05c98ba9cb7c970557c316b81a6573"
+
+[crates.cw-controllers]
+local = "cw-minus/packages/controllers"
+
+[crates.cw-controllers.git]
+url = "https://github.com/permissionlessweb/cw-minus"
+branch = "main"
+rev = "e9aaeafc9a05c98ba9cb7c970557c316b81a6573"
+
+[crates.ibc-proto]
+local = "ibc-proto-rs"
+
+[crates.ibc-proto.git]
+url = "https://github.com/permissionlessweb/ibc-proto-rs"
+branch = "v3.1.0-zk.0"
+rev = "6bb6236eef08c56b4c0490ed564864936b412151"
+
+[crates.tendermint]
+local = "tendermint-rs/tendermint"
+
+[crates.tendermint.git]
+url = "https://github.com/permissionlessweb/tendermint-rs"
+branch = "v3.1.0-zk.0"
+rev = "c732393410cefadb53da98836a7620ef1a1ef8bb"
+
+[crates.tendermint-proto]
+local = "tendermint-rs/proto"
+
+[crates.tendermint-proto.git]
+url = "https://github.com/permissionlessweb/tendermint-rs"
+branch = "v3.1.0-zk.0"
+rev = "c732393410cefadb53da98836a7620ef1a1ef8bb"
+
+[crates.tendermint-rpc]
+local = "tendermint-rs/rpc"
+
+[crates.tendermint-rpc.git]
+url = "https://github.com/permissionlessweb/tendermint-rs"
+branch = "v3.1.0-zk.0"
+rev = "c732393410cefadb53da98836a7620ef1a1ef8bb"
+
+[crates.tendermint-config]
+local = "tendermint-rs/config"
+
+[crates.tendermint-config.git]
+url = "https://github.com/permissionlessweb/tendermint-rs"
+branch = "v3.1.0-zk.0"
+rev = "c732393410cefadb53da98836a7620ef1a1ef8bb"
+
+[crates.ics23]
+local = "ics23/rust"
+
+[crates.ics23.git]
+url = "https://github.com/permissionlessweb/ics23"
+branch = "feat/blake3-dohash"
+rev = "a60a82d843d94f90a154ad2df390e1515546492e"

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
 import { applyHits, pollPayments } from './chain-watchers.mjs'
+import { ticketV2WasmAvailable } from '../../src/ticket/v2/node.mjs'
 
 describe('local-chain ticket watchers', () => {
   it('is fail-closed when no local session is up', async () => {
@@ -24,7 +25,8 @@ describe('local-chain ticket watchers', () => {
     assert.equal(paid[0].txid, 'cd'.repeat(32))
   })
 
-  it('does not mark a mempool hit as paid', () => {
+  it('does not mark a mempool hit as paid', (tt) => {
+    if (!ticketV2WasmAvailable()) { tt.skip('ticket v2 wasm not built'); return }
     const paid = []
     const applied = applyHits({}, [
       { rail: 'zec', commitment: 'ab'.repeat(32), txid: 'cd'.repeat(32), confirmed: false },

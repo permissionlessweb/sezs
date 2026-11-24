@@ -1,7 +1,0 @@
-export * from './GovProposalsTab'
-export * from './MembersTab'
-export * from './NeutronVotingVaultsTab'
-export * from './ProposalsTab'
-export * from './NftsTab'
-export * from './SubDaosTab'
-export * from './TreasuryTab'

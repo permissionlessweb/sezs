@@ -1,0 +1,19 @@
+# SEZS dependency-control plane.
+# Committed default is patch-git: a clean clone builds from published git revs
+# and crates.io. patch-local is opt-in for a developer crates checkout and
+# must never be committed (CI checks this).
+
+[paths]
+matrix = "dependency-matrix.toml"
+
+# Workspace roots whose [patch.crates-io] tables this tool rewrites.
+# Paths are relative to the repository root (the directory that contains justfile).
+workspaces = [
+  "crates/Cargo.toml",
+  "circuits/sezs-ticket-v2/Cargo.toml",
+]
+
+[policy]
+forbid_absolute_paths = true
+# patch-git requires a full 40-character SHA.
+require_full_rev = true

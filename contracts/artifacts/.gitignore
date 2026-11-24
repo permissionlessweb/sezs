@@ -1,0 +1,4 @@
+*.wasm
+# keep checksums when present
+!checksums.txt
+!*.sha256

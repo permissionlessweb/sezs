@@ -1,6 +1,6 @@
 /** SEZS query core: one shared cache for every client read.
  *
- * Modeled on the @dao-dao/state query layer (typed query keys, one
+ * Typed query keys, one
  * definition per read, indexer first with a chain fallback), without pulling
  * react-query into the static app. What it does:
  *  - in-flight dedupe: callers asking for the same key share one request

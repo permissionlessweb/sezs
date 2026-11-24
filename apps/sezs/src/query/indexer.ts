@@ -1,6 +1,6 @@
 /** Indexer-first reads with a typed chain fallback.
  *
- * Same URL shape as @dao-dao/state queryIndexer:
+ * Indexer URL shape:
  *   {base}/{chainId}/contract/{address}/{formula}?{args}
  *
  * Today no indexer serves morocco-1 SEZS contracts: indexer.daodao.zone

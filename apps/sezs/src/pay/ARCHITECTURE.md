@@ -37,15 +37,15 @@ flowchart TD
 
 A Pay click, a URI, a dest, a passkey, and a browser `paid` flag are not paid.
 
-Guest JS must not call `127.0.0.1:8421` or `127.0.0.1:19091`. A visitor's browser would hit **their** loopback, not build-host. Dev binds `127.0.0.1` only, reached on-box or via SSH port-forward. This pane does not start cloudflared, nginx, or a second proxy.
+Guest JS must not call `127.0.0.1:8421` or `127.0.0.1:19091`. A visitor's browser would hit **their** loopback, not the development machine. Dev binds `127.0.0.1` only, reached on-box or via SSH port-forward. This pane does not start cloudflared, nginx, or a second proxy.
 
 When rails are wired later, DREGG is `svg-mint-fed` on `127.0.0.1:8421` and `/sezs/pay` shares the existing frost inbox on `127.0.0.1:19091`. Paid still only from a server watcher fact (`Deposited` / `Entitled` / `Settled`).
 
 ## Fund a REGTEST / testnet DREGG minter
 
-The fed on build-host is **unfunded**: `/health` has shown `minter_funded: false` with `minter_balance_unknown` (or `minter_underfunded`). Checkout stays closed until you fund the **already-configured lab minter**. This pane will not read `.env`, will not print keys, and will not send mainnet.
+The fed on the development machine is **unfunded**: `/health` has shown `minter_funded: false` with `minter_balance_unknown` (or `minter_underfunded`). Checkout stays closed until you fund the **already-configured lab minter**. This pane will not read `.env`, will not print keys, and will not send mainnet.
 
-**Provide, yourself, on build-host (REGTEST or Terp testnet only):**
+**Provide, yourself, on the development machine (REGTEST or Terp testnet only):**
 
 1. **The lab Terp the fed already uses.** Same chain the existing `DREGG_MINTER_LCD` / local terpd already points at. Confirm it is REGTEST or a Terp testnet — not morocco-1 / mainnet. Do not paste the LCD URL.
 
@@ -63,4 +63,4 @@ The fed on build-host is **unfunded**: `/health` has shown `minter_funded: false
 
 **Proof that funding worked** (on-box or SSH port-forward, never a public tunnel from this pane): `GET http://127.0.0.1:8421/health` shows `minter_funded: true`, `checkout_ready: true`, and empty `reasons`.
 
-A live shielded-ZEC ticket still also needs, separately, a funded testnet/regtest ZEC spend capability already on build-host (zcli/Zallet — never a mnemonic) and a CompactTxStreamer on `127.0.0.1:19067` that this pane must not steal from artmint-lwd. Lab `DREGG_ZEC_UA` must already be `utest1` / `uregtest1` (do not print it).
+A live shielded-ZEC ticket still also needs, separately, a funded testnet/regtest ZEC spend capability already on the development machine (zcli/Zallet — never a mnemonic) and a CompactTxStreamer on `127.0.0.1:19067` that this pane must not steal from artmint-lwd. Lab `DREGG_ZEC_UA` must already be `utest1` / `uregtest1` (do not print it).

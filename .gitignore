@@ -100,3 +100,9 @@ server.log
 **/email-auth.sqlite
 **/email-auth.sqlite-*
 **/email-outbox/
+
+# Rust workspaces
+crates/target/
+contracts/target/
+contracts/artifacts/*.wasm
+circuits/**/target/

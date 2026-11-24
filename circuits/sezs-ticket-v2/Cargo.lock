@@ -439,6 +439,7 @@ dependencies = [
 [[package]]
 name = "cosmwasm-vm-derive"
 version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
 dependencies = [
  "blake2",
  "proc-macro2",
@@ -2744,6 +2745,7 @@ dependencies = [
 [[package]]
 name = "zakura-bls12-381"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "ff",
  "rand_core 0.10.1",
@@ -2753,6 +2755,7 @@ dependencies = [
 [[package]]
 name = "zakura-halo2-gadgets"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "arrayvec",
  "ff",
@@ -2766,6 +2769,7 @@ dependencies = [
 [[package]]
 name = "zakura-halo2-poseidon"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "ff",
  "group",
@@ -2775,6 +2779,7 @@ dependencies = [
 [[package]]
 name = "zakura-halo2-proofs"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "blake2b_simd",
  "corez",
@@ -2790,6 +2795,7 @@ dependencies = [
 [[package]]
 name = "zakura-jubjub"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "ff",
  "group",
@@ -2801,6 +2807,7 @@ dependencies = [
 [[package]]
 name = "zakura-pasta-curves"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "blake2b_simd",
  "cc",
@@ -2816,6 +2823,7 @@ dependencies = [
 [[package]]
 name = "zakura-reddsa"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "blake2b_simd",
  "group",
@@ -2829,6 +2837,7 @@ dependencies = [
 [[package]]
 name = "zakura-sinsemilla"
 version = "5.0.0-rc.3"
+source = "git+https://github.com/permissionlessweb/common?rev=5df51585a0df2faaceb15cc1e406ecd060265ffc#5df51585a0df2faaceb15cc1e406ecd060265ffc"
 dependencies = [
  "group",
  "once_cell",
@@ -2859,6 +2868,7 @@ dependencies = [
 [[package]]
 name = "zk-cosmwasm"
 version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
 dependencies = [
  "base64",
  "blake3",
@@ -2891,3 +2901,163 @@ name = "zmij"
 version = "1.0.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b"
+
+[[patch.unused]]
+name = "abstract-cw-multi-test"
+version = "3.0.0-rc"
+source = "git+https://github.com/permissionlessweb/cw-multi-test-fork?rev=fe59039b6ef72b19bfc371648956c61b932c4928#fe59039b6ef72b19bfc371648956c61b932c4928"
+
+[[patch.unused]]
+name = "cosmos-sdk-proto"
+version = "0.28.0"
+source = "git+https://github.com/permissionlessweb/cosmos-rust?rev=cd05b370ddff27fba82fa071c76d270c1ca7181c#cd05b370ddff27fba82fa071c76d270c1ca7181c"
+
+[[patch.unused]]
+name = "cosmrs"
+version = "0.23.0"
+source = "git+https://github.com/permissionlessweb/cosmos-rust?rev=cd05b370ddff27fba82fa071c76d270c1ca7181c#cd05b370ddff27fba82fa071c76d270c1ca7181c"
+
+[[patch.unused]]
+name = "cosmwasm-core"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cosmwasm-crypto"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cosmwasm-derive"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cosmwasm-schema"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cosmwasm-schema-derive"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cosmwasm-std"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cosmwasm-vm"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cw-controllers"
+version = "3.0.0"
+source = "git+https://github.com/permissionlessweb/cw-minus?rev=e9aaeafc9a05c98ba9cb7c970557c316b81a6573#e9aaeafc9a05c98ba9cb7c970557c316b81a6573"
+
+[[patch.unused]]
+name = "cw-orch"
+version = "0.30.0"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-orch-contract-derive"
+version = "0.21.1"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-orch-core"
+version = "2.1.4"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-orch-daemon"
+version = "0.29.0"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-orch-fns-derive"
+version = "0.23.1"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-orch-mock"
+version = "0.24.4"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-orch-networks"
+version = "0.24.10"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-orch-traits"
+version = "0.25.0"
+source = "git+https://github.com/permissionlessweb/cw-orchestrator?rev=4d229628a8333b2d7011a0e670238d5e8494bff4#4d229628a8333b2d7011a0e670238d5e8494bff4"
+
+[[patch.unused]]
+name = "cw-schema"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cw-schema-derive"
+version = "4.1.0"
+source = "git+https://github.com/permissionlessweb/cosmwasm?rev=adace180be362e03c5aabed4b705c37c7f633d94#adace180be362e03c5aabed4b705c37c7f633d94"
+
+[[patch.unused]]
+name = "cw-storage-plus"
+version = "3.0.1"
+source = "git+https://github.com/permissionlessweb/cw-storage-plus?rev=cb69d46c10c91d391a13d9ee55a80684c1fbd95a#cb69d46c10c91d391a13d9ee55a80684c1fbd95a"
+
+[[patch.unused]]
+name = "cw-utils"
+version = "3.0.0"
+source = "git+https://github.com/permissionlessweb/cw-minus?rev=e9aaeafc9a05c98ba9cb7c970557c316b81a6573#e9aaeafc9a05c98ba9cb7c970557c316b81a6573"
+
+[[patch.unused]]
+name = "cw2"
+version = "3.0.0"
+source = "git+https://github.com/permissionlessweb/cw-minus?rev=e9aaeafc9a05c98ba9cb7c970557c316b81a6573#e9aaeafc9a05c98ba9cb7c970557c316b81a6573"
+
+[[patch.unused]]
+name = "cw20-ics20"
+version = "3.0.0"
+source = "git+https://github.com/permissionlessweb/cw-plus?rev=141c83a69b8ac17c8e5659c041ddabcd812313ca#141c83a69b8ac17c8e5659c041ddabcd812313ca"
+
+[[patch.unused]]
+name = "ibc-proto"
+version = "0.52.0"
+source = "git+https://github.com/permissionlessweb/ibc-proto-rs?rev=6bb6236eef08c56b4c0490ed564864936b412151#6bb6236eef08c56b4c0490ed564864936b412151"
+
+[[patch.unused]]
+name = "ics23"
+version = "0.12.0"
+source = "git+https://github.com/permissionlessweb/ics23?rev=a60a82d843d94f90a154ad2df390e1515546492e#a60a82d843d94f90a154ad2df390e1515546492e"
+
+[[patch.unused]]
+name = "osst"
+version = "0.1.1"
+source = "git+https://github.com/permissionlessweb/zeratul?rev=987bb7ff253c0f95e3a01af8049f27551ebcffae#987bb7ff253c0f95e3a01af8049f27551ebcffae"
+
+[[patch.unused]]
+name = "tendermint"
+version = "0.40.4"
+source = "git+https://github.com/permissionlessweb/tendermint-rs?rev=c732393410cefadb53da98836a7620ef1a1ef8bb#c732393410cefadb53da98836a7620ef1a1ef8bb"
+
+[[patch.unused]]
+name = "tendermint-config"
+version = "0.40.4"
+source = "git+https://github.com/permissionlessweb/tendermint-rs?rev=c732393410cefadb53da98836a7620ef1a1ef8bb#c732393410cefadb53da98836a7620ef1a1ef8bb"
+
+[[patch.unused]]
+name = "tendermint-proto"
+version = "0.40.4"
+source = "git+https://github.com/permissionlessweb/tendermint-rs?rev=c732393410cefadb53da98836a7620ef1a1ef8bb#c732393410cefadb53da98836a7620ef1a1ef8bb"
+
+[[patch.unused]]
+name = "tendermint-rpc"
+version = "0.40.4"
+source = "git+https://github.com/permissionlessweb/tendermint-rs?rev=c732393410cefadb53da98836a7620ef1a1ef8bb#c732393410cefadb53da98836a7620ef1a1ef8bb"

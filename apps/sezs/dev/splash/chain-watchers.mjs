@@ -31,13 +31,10 @@ export const watchersReady = () => {
  * Each hit is { rail, commitment, txid, amountCents }.
  */
 const defaultScanScript = () => {
-  const home = process.env.HOME || ''
   const cands = [
     process.env.SEZS_TICKET_SCAN,
     process.env.SEZS_ICT_SCRIPTS && join(process.env.SEZS_ICT_SCRIPTS, 'sezs_scan_ticket_payments.mjs'),
-    home && process.env.SEZS_SCAN_TICKET_PAYMENTS,
-    home && process.env.SEZS_SCAN_TICKET_PAYMENTS,
-    home && process.env.SEZS_SCAN_TICKET_PAYMENTS,
+    process.env.SEZS_SCAN_TICKET_PAYMENTS,
   ].filter(Boolean)
   return cands.find((c) => existsSync(c)) || ''
 }

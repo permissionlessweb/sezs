@@ -1,6 +1,6 @@
 /** Typed query keys. Every client read in SEZS gets its key here, so
  * invalidation by prefix is exact (e.g. sezsKeys.event.all(chainId)).
- * Shape follows the @dao-dao/state queryOptions convention:
+ * Query key shape:
  * [app, domain, chainId, kind, ...args]. */
 
 export const sezsKeys = {

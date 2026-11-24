@@ -11,7 +11,7 @@ Decisions this builds on (user, t20u):
 - The proof is made **before** reaching the door and carried in the QR, animated if it is too big.
 - No ETH. Only ushers submit.
 
-Companions: `VOTE-SDK-TICKETS-ASSESSMENT.md`, `DOOR-PRIVACY-DECISION.md` (v1, superseded at the door by this doc), `BACKEND-ROLE.md`, `TICKET-PROOF-DESIGN.md`, `EVENT-MANIFOLD-API.md`.
+Companions: `VOTE-SDK-TICKETS-ASSESSMENT.md`, `DOOR-PRIVACY-DECISION.md` (v1, superseded the door by this doc), `BACKEND-ROLE.md`, `TICKET-PROOF-DESIGN.md`, `EVENT-MANIFOLD-API.md`.
 
 ---
 
@@ -20,7 +20,7 @@ Companions: `VOTE-SDK-TICKETS-ASSESSMENT.md`, `DOOR-PRIVACY-DECISION.md` (v1, su
 - **The verifier exists and fits.** Terp's zk-wasmvm exposes `deps.api.proof_instance_verify(zkid, proof, instances)`. It is Halo2 **IPA over Pasta**, using `Params<vesta::Affine>` for circuits over the Pallas base field, with a Blake2b transcript. The host also has `redpallas_spendauth_verify` and `poseidon_hash_pallas`. Our circuit and the RedPallas consent signature can both be checked inside a CosmWasm contract (§1).
 - **I could not confirm it is live on the public testnet today.** Every documented testnet endpoint returned an nginx 404 on 14 Nov 2026 (§1.5).
 - **Spike (real numbers, §8):**
-  - Proof size: **4,192 bytes** at both tree depth 8 and depth 10 (K=11).
+  - Proof size: **4,192 bytes** both tree depth 8 and depth 10 (K=11).
   - Prove time, Apple M1 Pro: native multicore **~0.33–0.41 s**; native single-thread **~1.5 s**; **WASM single-thread (Node 24 WASI) ~6.0 s**.
   - Verify time: 5–12 ms native multicore, ~29 ms native single-thread, ~112 ms WASM.
   - The QR bundle is 4,448 bytes, which is **more than the 2,953-byte single-QR limit**, so it needs animated frames (or several printed codes).
@@ -34,11 +34,11 @@ Companions: `VOTE-SDK-TICKETS-ASSESSMENT.md`, `DOOR-PRIVACY-DECISION.md` (v1, su
 
 ## 1. Terp testnet zk-wasmvm verify API (findings)
 
-Source checked on build-host in `~/src/terp-core` at `045d686f` (5 Nov 2026 14:24 UTC+0). The vendored CosmWasm fork is at `crates/cosmwasm` `adace180b` ("release 4.1.0").
+The CosmWasm fork used here is permissionlessweb/cosmwasm at `adace180be362e03c5aabed4b705c37c7f633d94` (release 4.1.0).
 
 ### 1.1 Contract-side API
 - `crates/cosmwasm/packages/std/src/traits.rs`, `Api::proof_instance_verify(&self, zkid: u64, proof: &[u8], i: &[u8]) -> Result<bool, VerificationError>`. The verifying key is looked up from x/wasm by `zkid`.
-  - `proof_instance_batch_verify(zkids, proofs, instances)` also exists, at most 32 items per call (`vm/src/imports.rs` `MAX_COUNT_PROOF_INSTANCE_BATCH`).
+  - `proof_instance_batch_verify(zkids, proofs, instances)` also exists, most 32 items per call (`vm/src/imports.rsMAX_COUNT_PROOF_INSTANCE_BATCH`).
 - The wasm import is `proof_instance_verify` (`std/src/exports/imports.rs`). The host side is `do_proof_instance_verify` (`vm/src/imports.rs` ~L1410).
   - Instances are routed by the circuit footer's `curve_id`.
   - The instance count must equal footer `i` (check H-05).
@@ -62,7 +62,7 @@ Source checked on build-host in `~/src/terp-core` at `045d686f` (5 Nov 2026 14:2
 Notes:
 - The prover type is in the footer: `CircuitType` Plonkish=0, Groth16=1, Stwo=2, Flock=3 (`zk/src/circuits.rs`).
 - The generic Pasta path stores a **serialized ConstraintSystem** together with the VK (the "V2 CS-inclusive" footer, `zk/src/footer.rs`, 80-byte footer). The host rebuilds it through `DynamicCircuit`, which takes "gates and lookups from the CS" (`zk/src/circuits.rs` ~L535).
-- So a custom circuit with lookups (ours) is in scope **if** it is serialized with the fork's halo2 (`zakura-halo2-proofs`, `crates/zakura-common/crates/halo2_proofs`, patched in at `x/wasm/wasmvm/libwasmvm/Cargo.toml` L38–80).
+- So a custom circuit with lookups (ours) is in scope **if** it is serialized with the fork's halo2 (`zakura-halo2-proofs`, `crates/zakura-common/crates/halo2_proofs`, patched in x/wasm/wasmvm/libwasmvm/Cargo.toml` L38–80).
 - **Not yet verified:** that a proof from crates.io `halo2_proofs 0.3.5` (the spike) verifies against a VK serialized by the fork. `curves/vote.rs` says the vote-sdk's crates.io halo2 0.3 "shares the same byte-level serialization format" as the fork. Phase 0 tests this.
 
 ### 1.3 VK registration flow (x/wasm Go side)
@@ -87,7 +87,7 @@ Notes:
 - Read-only checks on 14 Nov 2026 (about 21:55–22:20 UTC+0), from both the box and the laptop:
   - Every one of these returned **HTTP 404 (nginx)**: `https://testnet-rpc.terp.network/status`, `https://rpc-testnet.terp.network/status`, `https://testnet-api.terp.network/cosmos/base/tendermint/v1beta1/node_info`, `https://api-testnet.terp.network/...`, `https://testnet-faucet.terp.network/status`.
   - The chain-registry `terpnettestnet2` (`90u-2`, itrocket) did not answer.
-- **So it is not confirmed live.** Until you point me at a working testnet endpoint, plan on a **local** `terpd` built from this terp-core: `docker/localterp`, or the ict-rs Docker harness already used by `sezs_consume_e2e` (`build-host-ro/crates/ict-rs/ict-rs-cw-orch/examples/sezs_consume_e2e.rs`).
+- **So it is not confirmed live.** Until you point me a working testnet endpoint, plan on a **local** `terpd` built from this terp-core: `docker/localterp`, or the ict-rs Docker harness already used by `sezs_consume_e2e` (`the build machine-ro/crates/ict-rs/ict-rs-cw-orch/examples/sezs_consume_e2e.rs`).
 
 ---
 
@@ -97,21 +97,21 @@ Notes:
 - Private inputs: `secret`, `sku`, Merkle `siblings[D]` and `bits[D]`, and `alpha` (a Pallas scalar).
 - Public inputs, in this order: `[root, N, event_id, domain, rk_x, rk_y]`.
 
-```
+`
 C   = Poseidon(secret, sku, event_id)          // leaf shape unchanged
 root = MerkleRoot_D(C, siblings, bits)          // parent = Poseidon(left, right)
 N   = Poseidon(secret, event_id)               // door nullifier, unchanged
 ask = Poseidon(TAG_AK, secret, domain)         // never leaves the holder
 rk  = [ask]·SpendAuthG + [alpha]·SpendAuthG     // base-field fixed mul + full-width fixed mul + complete add
-```
+`
 
 - `SpendAuthG` is the Orchard generator `hash_to_curve("z.cash:Orchard")(b"G")`, so `rk` is a standard RedPallas SpendAuth verification key. The signing key is `rsk = ask + alpha`.
-- `event_id` and `domain` are public, so a proof for one event or domain can't be used at another.
+- `event_id` and `domain` are public, so a proof for one event or domain can't be used another.
 - `sku` stays **private**, so the anonymity set isn't split by tier.
 - Nothing about `ask` or `rk` is ever sent to the backend.
 
 ### 2.2 Gadgets and parameters
-- Spike: `halo2_gadgets 0.5.0` `Pow5Chip<P128Pow5T3>`, `EccChip` with `CircuitVersion::AnchoredBase`, a custom one-row Merkle swap gate, and a 10-bit lookup table. **K = 11.**
+- Spike: `halo2_gadgets 0.5.0Pow5Chip<P128Pow5T3>`, `EccChip` with `CircuitVersion::AnchoredBase`, a custom one-row Merkle swap gate, and a 10-bit lookup table. **K = 11.**
   - `AnchoredBase` is the fixed version after the Orchard incomplete-addition bug. The legacy `InsecureUnanchoredBase` must never be used for proving.
 - Fixed-base tables (the windowed z/u values) take about 101 s to search for natively. They must ship as precomputed constants (28,256 bytes in the spike), the way Orchard does.
 - **Tree depth: 10** (1,024 leaves). Depth 8 and depth 10 cost the same in the spike: same K, same proof size, and prove time within noise for single-thread and WASM.
@@ -131,15 +131,15 @@ rk  = [ask]·SpendAuthG + [alpha]·SpendAuthG     // base-field fixed mul + full
 
 - The payment service appends `C` when a shielded ZEC or UM payment with memo `sezs1:<C>` and the right amount confirms. It is the only writer.
 - **Publishing.** The service calls `UpdateGuestRoot { root, leaf_count, epoch }` on the manifold with its **service key**.
-  - It publishes after each batch: at most every 15 minutes, and immediately when sales close or doors open.
+  - It publishes after each batch: most every 15 minutes, and immediately when sales close or doors open.
   - The full leaf list (≤ 1,024 × 32 B) is public: served by the service and mirrored by `PaidLeaves` on the contract.
 - **Root history.** The contract keeps every root for the event (`ROOTS: Map<root, epoch>`). Any historical root is accepted, which is safe because the tree is append-only: an older root proves membership in a subset.
-  - A proof made at home stays valid even if the root moves before doors open.
+  - A proof made home stays valid even if the root moves before doors open.
 - **Why not a coinholder-style snapshot plus PIR?** Valar uses a snapshot root and PIR because Zcash has ~10⁸ nullifiers and voters must not reveal which one they are asking about. With ≤ 1,024 public leaves, the holder **downloads the whole list** and builds the path locally. That gives the same "don't reveal your leaf when fetching a witness" property with no PIR server. An epoch-root plus full-list download is the best fit within that approach.
 - **Late buyers.**
-  - The app always proves against the **newest** root at proving time. The anonymity set is then every ticket in that root, not just the latest batch.
+  - The app always proves against the **newest** root proving time. The anonymity set is then every ticket in that root, not just the latest batch.
   - What leaks is "bought on or before epoch k". You accepted that.
-  - Someone who pays at the door and checks in a minute later can be linked by physical timing. You accepted that too.
+  - Someone who pays the door and checks in a minute later can be linked by physical timing. You accepted that too.
   - Optional: re-prove the evening before doors open to join the largest set.
 - **Integrity.** The service key could insert an unpaid `C`. That's a payment-integrity risk, not a privacy one, and it's the same as v1. Optional hardening: `RegisterPaidLeaf` per leaf, with the contract recomputing the root via `poseidon_hash_pallas`. That needs the standard constants (§2.3).
 
@@ -153,7 +153,7 @@ New or changed config:
 - `service_key: Addr`: the only sender allowed for `UpdateGuestRoot`. Set by the coordinators.
 - `usher_group: Addr`: a cw4/cw420 group. Membership is checked with a `Member { addr }` query on `ConsumeTicket`.
 - `zkid: u64`: the `sezs_consume_v2` circuit id from `MsgStoreFullCircuit`. 0 means fail closed.
-- `event_id_fp`, `domain_fp`: the field encodings of `event_id` and the contract `domain`, fixed at setup.
+- `event_id_fp`, `domain_fp`: the field encodings of `event_id` and the contract `domain`, fixed setup.
 - `door_auth_pubkey`: already exists. Used for printed tickets.
 
 Execute messages:
@@ -185,12 +185,12 @@ Tests: `cosmwasm_std::testing` lets tests register a circuit verifier for `proof
 1. The app has the ticket secret: from the browser, or decrypted from the ZID-sealed backup **fetched by invoice id in advance**, never by `C` near the door.
 2. It downloads the full leaf list plus the newest root from the contract or service, finds its own `C` locally, and builds the path.
 3. It samples `alpha` and proves (§8: about 6 s in WASM single-thread).
-4. It stores the bundle `(proof, root, N, rk)` and keeps `alpha` locally, so it can sign at the door.
+4. It stores the bundle `(proof, root, N, rk)` and keeps `alpha` locally, so it can sign the door.
 
 ### 5.2 At the door, live (default)
 1. The holder shows the **pre-made bundle** as an animated QR (§6). The usher's device reassembles it and checks it locally: proof verification took ~112 ms in WASM in the spike; the device also checks the root is in `Roots` and `NullifierSpent` is false.
 2. The usher's device shows a small **challenge QR**: `(event_id, domain, usher addr, 16-byte nonce, unix time)`.
-3. The holder's app scans it, shows "Approve check-in at <event> by <usher>?", and RedPallas-signs it with `rsk = ask + alpha`. It then shows **one small QR** of about 120 bytes: the signature plus a hash of the challenge.
+3. The holder's app scans it, shows "Approve check-in <event> by <usher>?", and RedPallas-signs it with `rsk = ask + alpha`. It then shows **one small QR** of about 120 bytes: the signature plus a hash of the challenge.
 4. The usher submits `ConsumeTicket { …, consent: Live }`.
 
 What this protects against:
@@ -205,8 +205,8 @@ What this protects against:
 - The usher scans the codes and submits with `consent: Printed`. Whoever holds the paper gets in once, because `N` is spent. The print screen says so.
 
 ### 5.4 What is never on the wire
-- `secret`, `ask`, `alpha`, `C`, and any ticket public key registered at purchase.
-- The raw-secret QR `sezs1://ticket?k=…` stays **refused** at the door. That's unchanged from v1.
+- `secret`, `ask`, `alpha`, `C`, and any ticket public key registered purchase.
+- The raw-secret QR `sezs1://ticket?k=…` stays **refused** the door. That's unchanged from v1.
 
 ---
 
@@ -217,20 +217,20 @@ Both of Zafu's and Zigner's existing schemes are in your tree:
 | Scheme | Where | Frame format | Notes |
 | --- | --- | --- | --- |
 | BC-UR fountain (`ur:<type>/<seq>-<n>/…` bytewords) | Zafu: `apps/extension/src/shared/components/animated-qr-display.tsx` (display, density 100/140/**200 default**/300 B per frame, ~300 ms per frame), `animated-qr-scanner.tsx` (`MAX_UR_PARTS = 4096`, `MAX_UR_PART_BYTES = 2048`), `workers/ur-decode-worker.ts`, wasm `ur_encode_frames(cbor, ur_type, fragment_size)` / `ur_decode_frames` (`packages/zcash-wasm/zafu_wasm.d.ts` L1075–1083), parser `packages/wallet/src/ur-parser.ts`. Zigner: `rust/signer` uses crate `ur = "0.4"`. | CBOR payload, UR fountain parts | Same family as Keystone, Zodl and Vizor. The density presets are tuned to Vizor's voting flow. |
-| Zigner RaptorQ | `~/src/zigner/rust/qrcode_rtx/src/lib.rs` `make_data_packs` (`raptorq 1.8.1`), decoder `rust/qr_reader_phone/src/process_payload.rs`; `CHUNK_SIZE = 1072`, 1/15 s per frame (`rust/constants/src/lib.rs` L216–246) | 4-byte BE length with the top bit set, plus a serialized RaptorQ `EncodingPacket`; repair packets ≈ source packets | Fewer, denser frames. Used for Zigner and cw-orch-kms (`packages/cw-orch-kms/src/ui_shared.rs` `zigner_frames`, per `docs/issues/approval-tx-multiframe-qr.md`). |
+| Zigner RaptorQ |  `make_data_packs` (`raptorq 1.8.1`), decoder `rust/qr_reader_phone/src/process_payload.rs`; `CHUNK_SIZE = 1072`, 1/15 s per frame (`rust/constants/src/lib.rs` L216–246) | 4-byte BE length with the top bit set, plus a serialized RaptorQ `EncodingPacket`; repair packets ≈ source packets | Fewer, denser frames. Used for Zigner and cw-orch-kms (`packages/cw-orch-kms/src/ui_shared.rszigner_frames`, per `docs/issues/approval-tx-multiframe-qr.md`). |
 
 **Recommendation:**
 - Live phone-to-usher transfer: **BC-UR** with type `ur:sezs-ticket-v2`, a CBOR map `{v:2, proof, root, n, rk}`, using Zafu's density presets.
-  - At 300 B per fragment, the 4,448-byte bundle is 15 source parts; at the 200 B default it is 23.
-  - A phone camera usually needs a few seconds at about 3 fps. **I haven't measured scan time.**
-- Paper: **RaptorQ** at 1,072-byte chunks (9 printed codes, any 5 suffice) or 1,500-byte chunks (≈ 3 + 2).
+  - At 300 B per fragment, the 4,448-byte bundle is 15 source parts; the 200 B default it is 23.
+  - A phone camera usually needs a few seconds about 3 fps. **I haven't measured scan time.**
+- Paper: **RaptorQ** 1,072-byte chunks (9 printed codes, any 5 suffice) or 1,500-byte chunks (≈ 3 + 2).
 - Both encoders exist as Rust and wasm in your tree. Reusing Zafu's wasm means no new QR code to maintain.
 
 ---
 
 ## 7. Backend changes (payment service)
 
-1. **Stop** accepting or recording `N` and the ticket public key at invoice time. Invoice input becomes `{ commitment C, rail, sku, eventId }` only.
+1. **Stop** accepting or recording `N` and the ticket public key invoice time. Invoice input becomes `{ commitment C, rail, sku, eventId }` only.
    - The v1 consent path registered both; that's removed for v2.
    - `BACKEND-ROLE.md` "What the backend does" step 1 and the "accepted v1 trade" sentence need updating when v2 lands.
 2. Keep: match memo `C` to the invoice and amount, append `C`, and never see the secret.
@@ -238,13 +238,13 @@ Both of Zafu's and Zigner's existing schemes are in your tree:
    - A tree builder (depth 10, append-only, persisted).
    - `UpdateGuestRoot` publisher with the service key (testnet or local only).
    - `GET /leaves?event=` returning the full leaf list and current root.
-4. Sealed ZID backup: store and serve by **invoice id**. The client fetches it right after purchase or well before the event, never keyed by `C` at check-in.
+4. Sealed ZID backup: store and serve by **invoice id**. The client fetches it right after purchase or well before the event, never keyed by `C` check-in.
 5. The door no longer touches the backend. Admission is the contract. The backend may show a read-only "consumed count".
 6. Keep the logging rules: no secrets, no raw QR, and short retention for invoice IP logs.
 
 ---
 
-## 8. Spike (measured, 14 Nov 2026, build-host)
+## 8. Spike (measured, 14 Nov 2026, the build machine)
 
 Code: `<repo>/e2e/lab/spikes/spike-v2/` (untracked, not committed). It contains `src/lib.rs` (circuit), `src/bin/spike.rs`, `src/bin/dump_tables.rs` and `run-wasi.mjs`. Build output goes to `<repo>/e2e/lab/spikes/target`.
 
@@ -257,7 +257,7 @@ Setup:
 - 3 proofs per configuration, each with a fresh `alpha`.
 
 Correctness:
-- MockProver: satisfied at depth 8 and 10.
+- MockProver: satisfied depth 8 and 10.
 - A wrong nullifier is rejected.
 - Real prove and verify succeeded.
 - The `rk` from the circuit is byte-equal to `reddsa::VerificationKey<orchard::SpendAuth>` built from `rsk = ask + alpha`.
@@ -298,19 +298,19 @@ Prior art for in-browser proving: Zafu already ships Valar's voting proofs in WA
 
 What holds, assuming the conditions in this doc:
 - The backend never learns `secret`, `ask`, `alpha`, `N` or `rk`. It sees `C` per invoice; you accepted that.
-- **The operator and the chain can't tell which `C` (so which invoice: amount, rail, pay time) was used at the door.** Consume reveals only `(root, N, rk, proof, consent signature)`, and `rk` is freshly re-randomised.
+- **The operator and the chain can't tell which `C` (so which invoice: amount, rail, pay time) was used the door.** Consume reveals only `(root, N, rk, proof, consent signature)`, and `rk` is freshly re-randomised.
 - Double entry is blocked: `N` is fixed by the secret and spent once on-chain.
-- Live consent: an usher can't admit without the holder's signature on that usher's challenge, at that time. The contract checks it.
+- Live consent: an usher can't admit without the holder's signature on that usher's challenge, that time. The contract checks it.
 - No ETH, so no payer address is ever tied to a ticket. ZEC and UM payments are shielded.
 
 Limits you accepted, or that are inherent:
-- The usher, operator and chain see **who physically attends, when, at which door, and through which usher**.
-- The root used reveals "bought on or before epoch k". With 15–300 people the set is small, and someone who buys at the door and enters right away can be linked by timing.
+- The usher, operator and chain see **who physically attends, when, which door, and through which usher**.
+- The root used reveals "bought on or before epoch k". With 15–300 people the set is small, and someone who buys the door and enters right away can be linked by timing.
 - Paper is bearer.
 - A transferred ticket stays usable by anyone who holds the secret; first use wins.
 - The service key can insert unpaid leaves (integrity, not privacy).
-- `alpha` must be fresh for each proof. Reusing a bundle at two doors just gets the second rejected by `N`.
-- Network metadata: proving needs no backend call (the leaf list is public and downloaded in full), but fetching the backup by invoice id links the client's IP to that invoice at fetch time. Do it right after purchase.
+- `alpha` must be fresh for each proof. Reusing a bundle two doors just gets the second rejected by `N`.
+- Network metadata: proving needs no backend call (the leaf list is public and downloaded in full), but fetching the backup by invoice id links the client's IP to that invoice fetch time. Do it right after purchase.
 
 ---
 

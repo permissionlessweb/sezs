@@ -1,18 +1,23 @@
 // node --test src/ticket/v2/ticket-v2.test.mjs   (needs scripts/build-ticket-v2-wasm.sh)
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { loadTicketV2Node } from './node.mjs'
+import { loadTicketV2Node, ticketV2WasmAvailable } from './node.mjs'
 
-const t = loadTicketV2Node()
+const haveWasm = ticketV2WasmAvailable()
+const t = haveWasm ? loadTicketV2Node() : null
 const E = 'speakez-sessions', D = 'http://127.0.0.1:3051'
 const hex = (b) => Buffer.from(b).toString('hex')
 
-test('circuit info and vk hash (compare with on-chain footer vk_hash)', () => {
+test('circuit info and vk hash (compare with on-chain footer vk_hash)', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   assert.deepEqual(t.info(), { circuit: 'sezs_consume_v2', depth: 10, k: 11, numPublic: 6, bundleVersion: 2 })
   assert.match(t.vkHash(), /^[0-9a-f]{64}$/)
 })
 
-test('prove, local verify, live + printed consent under rk', () => {
+test('prove, local verify, live + printed consent under rk', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const secret = t.newSecret()
   const C = t.commitment(secret, 'ga', E)
   assert.match(t.memo(C), /^sezs1:[0-9a-f]{64}$/)
@@ -36,6 +41,8 @@ test('prove, local verify, live + printed consent under rk', () => {
   assert.notEqual(t.consumeFields(p2.bundle).rk, f.rk)
 })
 
-test('unpaid ticket cannot prove', () => {
+test('unpaid ticket cannot prove', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   assert.throws(() => t.prove({ secret: t.newSecret(), sku: 'ga', eventId: E, domain: D, leaves: [t.newSecret()] }), /not in this leaf list/)
 })

@@ -1,5 +1,5 @@
 # Official and session-local binary versions for Speak-Ez Sessions (SEZS) lab chains.
-# Checksums are SHA-256 of the files under ~/.ict-rs/bins on build-host
+# Checksums are SHA-256 of the files under ~/.ict-rs/bins on the development machine
 # (darwin-arm64). Linux release SHA256SUMS were not minisign-verified here.
 #
 # Official tags:

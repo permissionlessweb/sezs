@@ -1,0 +1,7 @@
+# Host toolchain for crates/ (orch) and contracts/ unit tests.
+# Wasm release artifacts are built inside terp-optimizer (see tools/optimize.sh),
+# which pins its own guest rustc.
+[toolchain]
+channel = "1.97.1"
+components = ["rustfmt", "clippy"]
+targets = ["wasm32-unknown-unknown"]

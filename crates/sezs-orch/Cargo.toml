@@ -1,0 +1,45 @@
+[package]
+name = "sezs-orch"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "BSD-3-Clause"
+description = "Reusable cw-orch Deploy suite for Speak-Ez Sessions: SEZS contracts, minimal DAO, terp-beacon, nftfi-raffle, and the production consume circuit uploaded through the terp-core cw-orch fork."
+
+[dependencies]
+anyhow = "1"
+cosmwasm-std = { version = "=4.1.0", features = ["std"] }
+cw-orch = { version = "0.30.0", features = ["daemon", "zk"] }
+dotenv = "0.15"
+env_logger = { version = "0.11", default-features = false }
+hex = "0.4"
+schemars = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+thiserror = "2"
+base64 = "0.22"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
+cosmrs = "0.23.0"
+cw-orch-kms = { git = "https://github.com/permissionlessweb/cw-orchestrator", rev = "4d229628a8333b2d7011a0e670238d5e8494bff4", package = "cw-orch-kms" }
+
+sezs-circuit-orch = { path = "../sezs-circuit-orch" }
+
+[[bin]]
+name = "sezs-orch-deploy"
+path = "src/bin/deploy.rs"
+
+[dev-dependencies]
+# none: Mock cannot implement ZkCwEnv (circuit upload is Daemon-only in the fork)
+
+[[bin]]
+name = "sezs-orch-roles"
+path = "src/bin/roles.rs"
+
+[[bin]]
+name = "sezs-orch-curate"
+path = "src/bin/curate.rs"
+
+[[bin]]
+name = "sezs-orch-kms-approve"
+path = "src/bin/kms_approve.rs"

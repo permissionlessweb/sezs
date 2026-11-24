@@ -54,12 +54,12 @@ const eslintConfig = {
             groups: ['builtin', 'external', 'internal'],
             pathGroups: [
               {
-                pattern: '@dao-dao/**',
+                pattern: '@sezs/**',
                 group: 'external',
                 position: 'after',
               },
             ],
-            pathGroupsExcludedImportTypes: ['@dao-dao/**'],
+            pathGroupsExcludedImportTypes: ['@sezs/**'],
             'newlines-between': 'always',
             alphabetize: {
               order: 'asc',
@@ -94,11 +94,11 @@ const eslintConfig = {
               regex: '\\@\\/\\.\\.\\/\\.\\.\\/packages',
               replacement: '@dao-dao',
               message:
-                'Import from @dao-dao/* instead of a relative path (i.e. replace "../../packages" with "@dao-dao").',
+                'Import from @sezs/* instead of a relative path (i.e. replace "../../packages" with "@dao-dao").',
             },
             {
               regex: '\\@dao\\-dao\\/stateless\\/(components|theme)[^\'"]*',
-              replacement: '@dao-dao/stateless',
+              replacement: '@sezs/stateless',
               files: {
                 // Let storybook files (stories and files within the storybook
                 // package like decorators) import specific stateless files,
@@ -106,7 +106,7 @@ const eslintConfig = {
                 ignore: '.*\\.stories\\.tsx|packages/storybook',
               },
               message:
-                'Import from root @dao-dao/stateless instead of a direct path. Ensure the export has been added to its sibling index.',
+                'Import from root @sezs/stateless instead of a direct path. Ensure the export has been added to its sibling index.',
             },
             {
               regex: '(\\bt\\(\\s*\'[^\\.\']+\'|i18nKey="[^\\."]+")',

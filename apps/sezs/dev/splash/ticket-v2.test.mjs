@@ -1,7 +1,7 @@
 // node --test dev/splash/ticket-v2.test.mjs   (needs scripts/build-ticket-v2-wasm.sh)
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { loadTicketV2Node } from '../../src/ticket/v2/node.mjs'
+import { loadTicketV2Node, ticketV2WasmAvailable } from '../../src/ticket/v2/node.mjs'
 import { issueInvoiceV2, markPaidV2, markSeenV2, leavesV2, putEnvelopeV2, getEnvelopesV2, ensureV2, hexOf, hydrateV2, ingestPaidLeafV2, publicInvoiceV2 } from './ticket-v2.mjs'
 import { loadTree } from './ticket-leaves.mjs'
 import { mkdtempSync, rmSync } from 'node:fs'
@@ -9,7 +9,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createRootPublisher, updateGuestRootMsg, cliSigner } from './root-publisher.mjs'
 
-const t2 = loadTicketV2Node()
+const haveWasm = ticketV2WasmAvailable()
+const t2 = haveWasm ? loadTicketV2Node() : null
 const EVENT = 'speakez-sessions'
 const holder = () => {
   const secret = t2.newSecret() // stays in this "browser"; never passed to the backend
@@ -17,7 +18,9 @@ const holder = () => {
 }
 const fresh = () => ({ log: [] })
 
-test('v2 invoice records only C, rail, sku, eventId and refuses correlators', () => {
+test('v2 invoice records only C, rail, sku, eventId and refuses correlators', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const s = fresh()
   const { C } = holder()
   assert.deepEqual(issueInvoiceV2(s, { rail: 'zec', commitment: C, nullifier: 'aa'.repeat(32) }), { ok: false, error: 'v2_no_correlators', fields: ['nullifier'] })
@@ -31,7 +34,9 @@ test('v2 invoice records only C, rail, sku, eventId and refuses correlators', ()
   assert.equal(issueInvoiceV2(s, { rail: 'zec', commitment: holder().C, eventId: 'other-event' }).error, 'wrong_event')
 })
 
-test('paid leaves build the standard-Poseidon root; holder proves from the public list', () => {
+test('paid leaves build the standard-Poseidon root; holder proves from the public list', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const s = fresh()
   const hs = [holder(), holder(), holder()]
   for (const h of hs) {
@@ -50,7 +55,9 @@ test('paid leaves build the standard-Poseidon root; holder proves from the publi
   assert.equal(t2.verifyBundle({ bundle: p.bundle, eventId: EVENT, domain: 'http://127.0.0.1:3051' }), true)
 })
 
-test('sealed backup by invoice id only', () => {
+test('sealed backup by invoice id only', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const s = fresh()
   const { C } = holder()
   const inv = issueInvoiceV2(s, { rail: 'penumbra', commitment: C }).invoice
@@ -61,7 +68,9 @@ test('sealed backup by invoice id only', () => {
   assert.equal(putEnvelopeV2(s, { invoiceId: inv.id, plaintext: 'no' }).ok, false)
 })
 
-test('root publisher cadence, monotonic epochs, unchanged root skipped', async () => {
+test('root publisher cadence, monotonic epochs, unchanged root skipped', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const s = fresh()
   ensureV2(s)
   const sent = []
@@ -85,12 +94,16 @@ test('root publisher cadence, monotonic epochs, unchanged root skipped', async (
   assert.equal(leavesV2(s).published.epoch, 3)
 })
 
-test('lab signer refuses non-loopback nodes', () => {
+test('lab signer refuses non-loopback nodes', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   assert.throws(() => cliSigner({ terpd: 'terpd', home: '/tmp/x', keyName: 'admin', node: 'tcp://rpc.terp.network:26657', chainId: 'x' }), /non-loopback/)
 })
 
 
-test('paid leaves persist under the session root and rebuild after a restart', () => {
+test('paid leaves persist under the session root and rebuild after a restart', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const root = mkdtempSync(join(tmpdir(), 'sezs-v2-persist-'))
   const prev = process.env.SEZS_SESSION_ROOT
   process.env.SEZS_SESSION_ROOT = root
@@ -115,7 +128,9 @@ test('paid leaves persist under the session root and rebuild after a restart', (
   }
 })
 
-test('ingestPaidLeafV2 rebuilds a leaf from chain history without a live invoice', () => {
+test('ingestPaidLeafV2 rebuilds a leaf from chain history without a live invoice', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const root = mkdtempSync(join(tmpdir(), 'sezs-v2-rebuild-'))
   const prev = process.env.SEZS_SESSION_ROOT
   process.env.SEZS_SESSION_ROOT = root
@@ -135,7 +150,9 @@ test('ingestPaidLeafV2 rebuilds a leaf from chain history without a live invoice
   }
 })
 
-test('markSeenV2 records mempool without paying or appending a leaf', () => {
+test('markSeenV2 records mempool without paying or appending a leaf', async (tt) => {
+  if (!haveWasm) { tt.skip('ticket v2 wasm not built; run apps/sezs/scripts/build-ticket-v2-wasm.sh'); return }
+
   const root = mkdtempSync(join(tmpdir(), 'sezs-v2-seen-'))
   const prev = process.env.SEZS_SESSION_ROOT
   process.env.SEZS_SESSION_ROOT = root

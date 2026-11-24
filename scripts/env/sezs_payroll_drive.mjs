@@ -84,13 +84,13 @@ const main = async () => {
   console.log('dest prefixes', d.zecPrefix, d.umPrefix)
   console.log('balances before', JSON.stringify(before))
 
-  const inv = await json('/sezs/payroll/invites', { method: 'POST', as: 'admin-1', body: { role: 'artist', label: 'Lab payout' } })
+  const inv = await json('/sezs/payroll/invites', { method: 'POST', as: 'admin-1', body: { role: 'artist', label: 'Artist 1' } })
   if (!inv.data?.ok) throw new Error('invite: ' + (inv.data?.error || inv.status))
   const key = inv.data.key || inv.data.registrationKey || inv.data.invite?.key
   if (!key) throw new Error('invite missing key')
   const reg = await json('/sezs/payroll/register', {
     method: 'POST',
-    body: { registrationKey: key, displayName: 'Lab artist', zec: d.zec, um: d.um },
+    body: { registrationKey: key, displayName: 'Artist 1', zec: d.zec, um: d.um },
   })
   if (!reg.data?.ok) throw new Error('register: ' + (reg.data?.error || reg.status))
   const participantId = reg.data.participant?.id

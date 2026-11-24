@@ -13,7 +13,7 @@ import {
   zecUriLabOk,
 } from '../pay/network'
 
-/** Lab DREGG on build-host. Not the public mint origin. */
+/** Lab DREGG on the development machine. Not the public mint origin. */
 export const DREGG_DEFAULT = 'http://127.0.0.1:8421'
 
 export type DreggHealth = {

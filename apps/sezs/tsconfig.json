@@ -1,5 +1,5 @@
 {
-  "extends": "@dao-dao/config/ts/nextjs.json",
+  "extends": "@sezs/config/ts/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": { "@/*": ["./*"] }

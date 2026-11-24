@@ -68,7 +68,7 @@ const anyOf = (typeUrl: string, value: Uint8Array) => cat([fStr(1, typeUrl), fBy
 
 // ── authenticator data ─────────────────────────────────────────────────────
 
-/** Public passkey facts. Same shape as terp-passkey PasskeyRegistration (build-host source). */
+/** Public passkey facts. Same shape as terp-passkey PasskeyRegistration (the development machine source). */
 export type PasskeyParams = {
   origin: string
   rp_id: string

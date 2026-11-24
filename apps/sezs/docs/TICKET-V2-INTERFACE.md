@@ -51,7 +51,7 @@ sezs-ticket-v2-verify = { path = "../../packages/sezs-ticket-v2-verify" }
 It calls the zk-wasmvm imports `proof_instance_verify` and
 `redpallas_spendauth_verify` directly (`TerpHost`). Build the contract with
 `RUSTFLAGS="-C link-arg=--allow-undefined -C target-feature=-bulk-memory,-sign-ext,-reference-types"`
-then `wasm-opt -Oz --signext-lowering` (Homebrew wasm-opt; `~/.cargo/bin/wasm-opt` is broken on build-host).
+then `wasm-opt -Oz --signext-lowering` (Homebrew wasm-opt; `~/.cargo/bin/wasm-opt` is broken on the development machine).
 
 Suggested drop-in for the manifold's stubbed `verify_ticket_proof`
 (I did not edit the manifold; that file belongs to the other worker):
@@ -122,7 +122,7 @@ used for every measurement below).
 | Ticket paid after last root → "unknown root", then accepted after the next publish | refused / ok |
 
 Prove times: native multicore 212 ms; Node wasm single-thread ~2.6 s;
-headless Chromium 131 on build-host: keygen 4.26 s (once per page), prove
+headless Chromium 131 on the development machine: keygen 4.26 s (once per page), prove
 2.51–2.54 s, verify 51 ms, sign 2 ms.
 
 ## 5. Front end (browser WASM)

@@ -8,7 +8,7 @@ The public event site is https://permissionless.money/sez. Official Zafu downloa
 
 ## Build
 
-From this directory, on build-host:
+From this directory, on the development machine:
 
     pnpm install --ignore-workspace
     pnpm build
