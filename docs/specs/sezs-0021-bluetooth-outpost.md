@@ -107,3 +107,15 @@ without changing the message set.
   chosen. The first version MAY keep HTTP simulate/ingest and add radio
   later.
 - Battery, range, and multi-usher pairing behaviour are unmeasured.
+
+## Implementation decisions (Rust port)
+
+- `crates/sezs-outpost` is the first Rust version. It replaces
+  `apps/sezs/dev/ble-helper` as the supported process. HTTP binds
+  127.0.0.1 only (default port 3061) and serves both the helper `/v1/*`
+  paths and the desk `/sezs/v2/door/device/*` routes.
+- A `Transport` trait fronts the radio. This version ships
+  `SimulatedTransport` so tests and the desk run without BLE hardware.
+  A later GATT central can implement the same trait.
+- Revoked and expired grants are deleted, not retained. Ticket openings
+  are dropped from the ingest queue after a consume attempt finishes.

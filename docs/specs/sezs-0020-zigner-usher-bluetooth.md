@@ -118,3 +118,13 @@ way to specify the door without touching the Zigner tree.
 - Exact ABNF for grant, frame, and consume-device messages needs a
   confirmation pass with the Signer App Lead.
 - Device key derivation is documented in the Zigner workstream, not here.
+
+## Implementation decisions (Rust port)
+
+- Canonical field layouts for grant, frame, consume-device, and usher-reg
+  are those already used by `apps/sezs/src/ble/messages.mjs`. The first
+  Rust codec in `crates/sezs-outpost` matches them byte-for-byte
+  (UTF-8, LF, no trailing newline) and rejects non-canonical texts.
+- Device frame signatures are ed25519 over the raw text bytes. Admin and
+  usher ADR-36 stay behind a `RoleChecks` trait so the outpost can link
+  the desk's live predicates without pulling in a second role source.

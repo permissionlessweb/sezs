@@ -5697,6 +5697,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "sezs-outpost"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "axum 0.7.9",
+ "ed25519-dalek",
+ "hex",
+ "rand 0.8.8",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "tempfile",
+ "tokio",
+ "tower 0.4.13",
+]
+
+[[package]]
 name = "sezs-server"
 version = "0.1.0"
 dependencies = [
