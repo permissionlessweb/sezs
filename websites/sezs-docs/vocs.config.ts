@@ -1,4 +1,5 @@
 import { defineConfig } from 'vocs/config'
+import { specSidebarItems } from './src/generated/spec-sidebar.ts'
 
 export default defineConfig({
   basePath: '/alpha/sezs/docs',
@@ -27,14 +28,7 @@ export default defineConfig({
     {
       text: 'Specs',
       collapsed: false,
-      items: [
-        { text: 'Specs', link: '/specs' },
-        { text: 'Event contract', link: '/specs/event' },
-        { text: 'Proof benchmarks', link: '/specs/event/benchmark' },
-        { text: 'Ticketing', link: '/specs/ticketing' },
-        { text: 'Digital gallery', link: '/specs/gallery' },
-        { text: 'Admin capabilities', link: '/specs/admin' },
-      ],
+      items: specSidebarItems,
     },
     {
       text: 'Guides',

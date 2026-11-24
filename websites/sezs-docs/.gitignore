@@ -8,3 +8,6 @@ src/pages/specs/admin
 .DS_Store
 *.log
 .tsbuildinfo
+src/pages/specs/sezs-*.mdx
+src/generated/
+src/pages/specs/index.mdx

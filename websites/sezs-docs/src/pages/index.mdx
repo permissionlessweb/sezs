@@ -7,19 +7,16 @@ import { Card, Cards } from 'vocs'
 
 # Speak-Ez Sessions
 
-Documentation for the event stack: the contract, the tickets, the gallery, and the door. Specs are written next to the code and copied into this site when it is built. Guides and disclaimers live here.
+Documentation for the event stack. The numbered specifications are rendered from `docs/specs/` when this site is built. Guides and disclaimers live here.
 
 The public event site is [permissionless.money/alpha/sezs](https://permissionless.money/alpha/sezs/). This is pilot software, and it has not been audited. Read the [disclaimers](/disclaimers) before you buy a ticket or send funds.
 
 <Cards>
-  <Card title="Event contract" description="Instantiate, execute, query, roles, NIP-52, errors." to="/specs/event" />
-  <Card title="Proof benchmarks" description="Measured gas and prove times, with the test and date for each figure." to="/specs/event/benchmark" />
-  <Card title="Ticketing" description="Circuit, secret handling, door consent, and consume." to="/specs/ticketing" />
-  <Card title="Digital gallery" description="Showcase today; FROST escrow and auctions as planned work." to="/specs/gallery" />
-  <Card title="Admin capabilities" description="cw420 usher hierarchy and the FROST admin UI." to="/specs/admin" />
+  <Card title="Specifications" description="Numbered SEZS specifications, rendered from docs/specs at build time." to="/specs" />
   <Card title="Guides" description="Wallets, ZEC, tickets, and artist or vendor steps." to="/guides" />
+  <Card title="Disclaimers" description="Pilot software. Read before you buy a ticket or send funds." to="/disclaimers" />
 </Cards>
 
 ## How this site is built
 
-A script pulls `SPEC.md` and `BENCHMARK.md` from the contract crate, the circuit crate, the gallery folder, and the FROST admin folder. The result is a static tree. Edit those source files, not the generated copies under Specs.
+A script reads the ZIP-style preambles in `docs/specs/` and writes the specs index, each specification page, and the sidebar. Adjacent in-repo notes (gallery, admin, proof benchmarks) are copied from their paths in this repository. Edit those sources, not the generated copies under Specs.

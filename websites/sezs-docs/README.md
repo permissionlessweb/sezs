@@ -2,7 +2,7 @@
 
 Static Vocs site for Speak-Ez Sessions specs, guides, and notes. Visual style follows the event webapp (`apps/sezs`): dark field, amber core, Silkscreen wordmark, serif body — not the Terp Docs theme.
 
-Specs are written next to the code. `scripts/sync-from-source.py` copies `SPEC.md` and `BENCHMARK.md` into `src/pages/specs/` at `predev` / `prebuild`. Files named `INTERNAL*` stay next to the source and are never copied. Do not edit the generated copies.
+Numbered specifications in `docs/specs/` are the source of truth. `scripts/sync-from-source.py` reads their ZIP-style preambles at `predev` / `prebuild`, writes the specs index and one page per specification, and generates the sidebar. Adjacent in-repo notes (gallery, admin capabilities, proof benchmarks) are copied from their paths in this repository. A clean clone is enough; the script does not look at `~/abstract/sezs-app` or `~/abstract/sezs-lab`. Do not edit the generated copies.
 
 The public event site is https://permissionless.money/sez. Official Zafu downloads are at https://zafu.pro.
 
@@ -25,9 +25,8 @@ This package applies the same `patches/vocs@2.8.5.patch` as the other Vocs sites
 
 ## Source of truth
 
-- Event contract: `cw-ave/contracts/cw-event-manifold/docs/SPEC.md`
-- Proof benchmarks: `cw-ave/contracts/cw-event-manifold/docs/BENCHMARK.md`
-- Ticketing: `sezs-ticket-v2/docs/SPEC.md`
+- Numbered specifications: `docs/specs/sezs-*.md` (index and sidebar are derived from the preambles)
+- Proof benchmarks: `contracts/cw-event-manifold/docs/BENCHMARK.md`
 - Digital gallery: `apps/sezs/src/gallery/docs/SPEC.md`
 - Admin capabilities: `apps/sezs/src/frost/docs/SPEC.md`
 
