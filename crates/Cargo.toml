@@ -48,3 +48,9 @@ tendermint-rpc = { git = "https://github.com/permissionlessweb/tendermint-rs", r
 tendermint-config = { git = "https://github.com/permissionlessweb/tendermint-rs", rev = "c732393410cefadb53da98836a7620ef1a1ef8bb" }
 ics23 = { git = "https://github.com/permissionlessweb/ics23", rev = "a60a82d843d94f90a154ad2df390e1515546492e" }
 # END SEZS-DEPS-PATCH
+
+# BEGIN SEZS-DEPS-GIT-PATCH
+# git-only crates use the git dep in member Cargo.toml.
+# Path overrides belong only in patch-local and must not be committed.
+# hash-market patch-git needs the sezs/service-trait SHA on origin.
+# END SEZS-DEPS-GIT-PATCH

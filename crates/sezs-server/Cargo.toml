@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 publish = false
 license = "BSD-3-Clause"
-description = "SEZS backend server. Session is first; ticketing, email, and payroll follow. Implements the hash-market SezsService surface once that crate SHA is published."
+description = "SEZS backend server. Session is first; ticketing, email, and payroll follow. Implements the hash-market SezsService surface (terp-rs sezs/service-trait)."
 
 [lib]
 name = "sezs_server"
