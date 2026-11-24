@@ -1,20 +1,46 @@
 # sezs-server
 
-Rust port of the Speak-Ez Sessions backend processes, starting with the
-production session service (sezs-0010 / sezs-0012 login). It is a thin
-product binary meant to implement `hash-market::sezs::SezsService` once
-the `sezs/service-trait` SHA is on origin (currently local-only at
-`e01e9fe734eb128735d6c5cb1f8d02536efbf7c2` in the terp-rs worktree). Until
-that SHA can be pinned through `tools/deps`, this crate does not depend
-on hash-market and can be built and tested on its own.
+Rust port of the Speak-Ez Sessions backend processes. The thin `sezs-server`
+binary implements `hash_market::sezs::SezsService` and mounts those routes
+at `/sezs` (with `/itl` as an alias) on a single 127.0.0.1 bind. That is
+the fix for the Node clash where session and email both defaulted to port
+3058.
 
-Session parity lives in `tests/session_parity.rs` and follows
-`apps/sezs/server/session.test.mjs`.
+## hash-market dependency
+
+`hash-market` is a fork-only crate in permissionlessweb/terp-rs (not on
+crates.io). The committed `Cargo.toml` line is a git dep at
+`b782ea404049d87fabd4f72510136fd1a16198b4` (`sezs/service-trait`).
+
+`just deps-patch-git` cannot fetch that SHA until the branch is pushed to
+origin. For local builds:
+
+```
+# SEZS_CRATES_ROOT must contain a `terp-rs` checkout of sezs/service-trait
+# (symlink the worktree if needed).
+export SEZS_CRATES_ROOT=/path/to/crates-root
+# Only rewrite git-only path patches (keep patch-git for crates.io):
+export SEZS_DEPS_GIT_ONLY=1
+just deps-patch-local
+```
+
+`just deps-patch-local` writes a `[patch."https://github.com/permissionlessweb/terp-rs"]`
+path override into `crates/Cargo.toml`. That change must not be committed.
+Restore with `just deps-patch-git` before committing workspace manifests.
+
+## Session
+
+Parity: `tests/session_parity.rs` follows `apps/sezs/server/session.test.mjs`.
+Production (`NODE_ENV=production` or `SEZS_ENV=production`) refuses to boot
+without `SEZS_SESSION_SECRET` or `SEZS_SESSION_SECRET_FILE`.
+
+## Ticketing
+
+Invoice, payment watch, public leaves, envelopes, and door consume (P1–P3)
+live under `src/ticketing/`. Rust tests follow the splash Node tests and
+are named after the Quint predicates. The public tree root is a
+SHA-256 placeholder until the circuit crate is linked; it is not identical
+to the Node wasm `P128Pow5T3` root.
 
 The process binds 127.0.0.1 only unless `SEZS_ALLOW_NON_LOOPBACK=1`.
-Production (`NODE_ENV=production` or `SEZS_ENV=production`) refuses to
-boot without `SEZS_SESSION_SECRET` or `SEZS_SESSION_SECRET_FILE`.
-
-Ticketing, email, FROST payroll, and the Bluetooth outpost are not in
-this crate yet. They will share this binary's one bind (the Node
-session port 3058 clash).
+Default port is 3058 (`SEZS_BIND` or `SEZS_SESSION_PORT`).

@@ -364,3 +364,24 @@ local = "ics23/rust"
 url = "https://github.com/permissionlessweb/ics23"
 branch = "feat/blake3-dohash"
 rev = "a60a82d843d94f90a154ad2df390e1515546492e"
+
+# ---------------------------------------------------------------------------
+# hash-market (terp-rs). Fork-only; not on crates.io.
+# The committed default in member Cargo.toml is a git dep at this rev.
+# just deps-patch-git cannot fetch this SHA until sezs/service-trait is
+# pushed to origin. Until then, use just deps-patch-local with
+# SEZS_CRATES_ROOT pointing at a directory that contains a `terp-rs`
+# checkout of that branch (on this machine, symlink the
+# terp-rs-sezs-service-trait worktree as terp-rs).
+# ---------------------------------------------------------------------------
+
+[crates.hash-market]
+# no crates.io version
+local = "terp-rs/tools/hash-market"
+git_only = true
+
+[crates.hash-market.git]
+url = "https://github.com/permissionlessweb/terp-rs"
+branch = "sezs/service-trait"
+rev = "b782ea404049d87fabd4f72510136fd1a16198b4"
+

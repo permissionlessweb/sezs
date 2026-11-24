@@ -100,3 +100,17 @@ files are gitignored because they are derived; rebuild with
 `SEZS_REBUILD_CIRCUITS=1`. Crate tests that inspect the production blob
 skip when the files are absent, so a clean clone does not require a prior
 keygen. They are not copied from a developer workspace.
+
+## hash-market (sezs-server)
+
+`crates/sezs-server` depends on `hash-market` from the terp-rs git repo at
+the SHA in `tools/deps/_devops/dependency-matrix.toml`. That SHA lives on
+the local `sezs/service-trait` branch until it is pushed. Until then,
+`just deps-patch-git` cannot resolve it.
+
+For a local build, point `SEZS_CRATES_ROOT` at a directory that contains a
+`terp-rs` checkout of that branch and run `SEZS_DEPS_GIT_ONLY=1 just deps-patch-local`
+(so only the git-only path patch is written; crates.io pins stay on patch-git). Do not
+commit the resulting `[patch."https://github.com/permissionlessweb/terp-rs"]`
+block. Switch back with `just deps-patch-git` before committing
+`crates/Cargo.toml`.

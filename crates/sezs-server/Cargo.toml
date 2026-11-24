@@ -39,6 +39,9 @@ subtle = "2"
 thiserror = "2"
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "time", "signal", "io-util"] }
 url = "2"
+axum = { version = "0.7", default-features = false, features = ["http1", "json", "tokio"] }
+tower = "0.4"
+hash-market = { git = "https://github.com/permissionlessweb/terp-rs", rev = "b782ea404049d87fabd4f72510136fd1a16198b4", default-features = false, features = ["sezs"] }
 
 [dev-dependencies]
 hex = "0.4"
