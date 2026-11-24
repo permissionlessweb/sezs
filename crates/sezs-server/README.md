@@ -30,15 +30,14 @@ Restore with `just deps-patch-git` before committing workspace manifests.
 
 ## Session
 
-Parity: `tests/session_parity.rs` follows `apps/sezs/server/session.test.mjs`.
+Parity: `tests/session_parity.rs` follows the former Node session tests (removed once the Rust port landed).
 Production (`NODE_ENV=production` or `SEZS_ENV=production`) refuses to boot
 without `SEZS_SESSION_SECRET` or `SEZS_SESSION_SECRET_FILE`.
 
 ## Ticketing
 
 Invoice, payment watch, public leaves, envelopes, and door consume (P1–P3)
-live under `src/ticketing/`. Rust tests follow the splash Node tests and
-are named after the Quint predicates. The public tree root is the circuit-identical Poseidon `P128Pow5T3` hash
+live under `src/ticketing/`. Rust tests follow the former splash Node tests and are named after the Quint predicates. The public tree root is the circuit-identical Poseidon `P128Pow5T3` hash
 from `circuits/sezs-ticket-v2` (same as the Node wasm `treeRoot`). Legacy
 custom-suite vectors in `apps/sezs/src/ticket/ticket.test.mjs` are stale and
 must not be rewritten to match.

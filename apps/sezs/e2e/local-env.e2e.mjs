@@ -31,7 +31,8 @@ describe('ict-rs local session e2e', () => {
     const blob = JSON.stringify(raw)
     assert.doesNotMatch(blob, /mnemonic|private[_-]?key|seed|password|\.env/i)
     assert.doesNotMatch(blob, /relay\.zafu\.pro|penumbra\.zone|morocco-1/)
-    if (raw.backends?.bouncer) assertLocalRelay(raw.backends.bouncer, 'session bouncer')
+    if (raw.backends?.sezs_server) assertLocalRelay(raw.backends.sezs_server, 'sezs-server')
+    if (raw.backends?.sezs_outpost) assertLocalRelay(raw.backends.sezs_outpost, 'sezs-outpost')
   })
 
   it('autofills and randomizes addresses from a connected Zafu hook', async () => {

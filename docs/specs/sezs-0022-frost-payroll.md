@@ -103,9 +103,8 @@ is documentation of what the code already is.
 
 - Source of truth: hash-market `onboard_authz` FROST module (renamed
   from `itl_frost`)
-- Desk routes: `apps/sezs/dev/splash/payroll-routes.mjs`
-- Ceremony helper: `apps/sezs/dev/frost-payroll` (moving to
-  `crates/sezs-frost-payroll`)
+- Desk routes: `crates/sezs-server` `/sezs/payroll/*` (formerly `apps/sezs/dev/splash/payroll-routes.mjs`)
+- Ceremony helper: `crates/sezs-frost-payroll`
 
 ## Open Issues
 

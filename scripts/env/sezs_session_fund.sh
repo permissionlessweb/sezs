@@ -240,13 +240,24 @@ fi
 # Bind splash lab identities to the session coord/usher keyring addresses.
 python3 "$HERE/sezs_bind_live_roles.py" || log "live role bind skipped"
 
-# --- restart splash so dests and frost signer are in its environment ---
-log "restarting splash with session dests and FROST root signer"
-stop_port "$SPLASH_PORT"
+# --- restart sezs-server so dests and contract env are in its environment ---
+log "restarting sezs-server with session dests"
+SEZS_SERVER_PORT="${SEZS_BIND:-${SEZS_SESSION_PORT:-${SPLASH_PORT:-3058}}}"
+if [[ "$SEZS_SERVER_PORT" == *:* ]]; then SEZS_SERVER_PORT="${SEZS_SERVER_PORT##*:}"; fi
+SEZS_REPO="${SEZS_REPO:-$(cd "$SEZS_APP/../.." && pwd)}"
+SERVER_BIN="${SEZS_SERVER_BIN:-$SEZS_REPO/crates/target/release/sezs-server}"
+stop_port "$SEZS_SERVER_PORT"
 sleep 0.4
+if [[ ! -x "$SERVER_BIN" ]]; then
+  cargo build --manifest-path "$SEZS_REPO/crates/Cargo.toml" --release -p sezs-server
+fi
+mkdir -p "${SEZS_STATE_DIR:-$ROOT/sezs-server}"
 nohup env \
   SEZS_SESSION_ROOT="$ROOT" \
-  SEZS_SPLASH_DIR="${SEZS_SPLASH_DIR:-$ROOT/splash}" \
+  SEZS_STATE_DIR="${SEZS_STATE_DIR:-$ROOT/sezs-server}" \
+  SEZS_BIND="$SEZS_SERVER_PORT" \
+  SEZS_SESSION_HOST="$BIND" \
+  SEZS_SESSION_PORT="$SEZS_SERVER_PORT" \
   SEZS_ADMIN_FROST_DIR="${SEZS_ADMIN_FROST_DIR:-$ROOT/admin-frost}" \
   SEZS_V2_ROOT_SIGNER=frost \
   SEZS_V2_KEY_NAME=coord \
@@ -265,15 +276,13 @@ nohup env \
   SEZS_PAYROLL_ZEC_DEST="${SEZS_PAYROLL_ZEC_DEST:-}" \
   SEZS_PAYROLL_UM_DEST="${SEZS_PAYROLL_UM_DEST:-}" \
   SEZS_ALLOW_LOCAL_UM=1 \
-  SEZS_SPLASH=1 \
-  SEZS_SPLASH_PORT="$SPLASH_PORT" \
-  SEZS_SPLASH_APP="http://$BIND:$NEXT_PORT" \
+  SEZS_SPLASH_APP="http://$BIND:${SEZS_NEXT_PORT:-3051}" \
   NODE_ENV="${NODE_ENV:-development}" \
-  node "$SEZS_APP/dev/splash/server.mjs" >"$ROOT/logs/splash.log" 2>&1 &
-record_pid splash "$!" 1
+  "$SERVER_BIN" >"$ROOT/logs/sezs-server.log" 2>&1 &
+record_pid sezs-server "$!" 1
 for i in $(seq 1 40); do
-  if http_up "http://$BIND:$SPLASH_PORT/sezs/session/me"; then
-    log "splash is listening"
+  if http_up "http://$BIND:$SEZS_SERVER_PORT/sezs/session/health"; then
+    log "sezs-server is listening"
     break
   fi
   sleep 0.25

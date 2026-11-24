@@ -23,8 +23,13 @@ stores only ZID-sealed ciphertext, and records nullifiers at the door. Read
 Lab / e2e also spawn a Zafu minirelay on `127.0.0.1:3053`. Tests refuse
 `zcash.rotko.net` and any non-loopback relay.
 
+The loopback backend is the Rust `sezs-server` process (one bind, default
+`127.0.0.1:3058`) plus `sezs-outpost` (`127.0.0.1:3061`) for usher BLE.
+
 ```bash
-pnpm --filter @sezs/app dev:splash   # Next 127.0.0.1:3051, splash 3052, minirelay 3053
+just sezs-server
+just sezs-outpost
+NEXT_PUBLIC_SEZS_SPLASH=1 pnpm --filter @sezs/app dev   # Next 127.0.0.1:3051, rewrites /sezs to :3058
 pnpm --filter @sezs/app test:ticket
 pnpm --filter @sezs/app test:zafu
 ```

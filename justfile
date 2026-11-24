@@ -19,8 +19,10 @@ help:
     @echo "  just typecheck          tsc --noEmit"
     @echo "  just build              typecheck + Next.js production build"
     @echo "  just test               app unit tests"
-    @echo "  just check-crates       cargo check -p sezs-orch workspace"
-    @echo "  just test-crates        cargo test  (orch workspace)"
+    @echo "  just check-crates       cargo check --workspace (crates/)"
+    @echo "  just test-crates        cargo test  --workspace (crates/)"
+    @echo "  just sezs-server        run sezs-server on 127.0.0.1:3058 (one bind)"
+    @echo "  just sezs-outpost       run sezs-outpost on 127.0.0.1:3061"
     @echo "  just build-contracts    cargo test/check of contracts/"
     @echo "  just optimize           terp-optimizer (Docker) + checksums"
     @echo "  just check              typecheck + lint + unit tests + cargo check"
@@ -53,11 +55,9 @@ build: typecheck
     cd "{{app}}" && NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 NEXT_PUBLIC_BASE_PATH=/alpha/sezs pnpm exec next build
 
 test:
-    cd "{{app}}" && node --test dev/splash/*.test.mjs server/*.test.mjs src/frost/*.test.mjs src/pay/*.test.mjs src/ticket/v2/*.test.mjs src/event/*.test.mjs
+    cd "{{app}}" && node --test dev/splash/*.test.mjs src/frost/*.test.mjs src/pay/*.test.mjs src/ticket/v2/*.test.mjs src/event/*.test.mjs
 
-# Loopback server e2e needs a static export built with the public alpha base path.
-test-loopback-e2e:
-    cd "{{app}}" && NEXT_PUBLIC_BASE_PATH=/alpha/sezs node --test server/session-loopback.e2e.test.mjs
+# Rust session/ticketing/email/payroll loopback parity lives in crates/sezs-server.
 
 lint:
     cd "{{root}}" && pnpm exec turbo run lint --continue --filter=@sezs/app... || true
@@ -71,6 +71,12 @@ check-crates:
 
 test-crates:
     cargo test --manifest-path "{{root}}/crates/Cargo.toml" --workspace -- --nocapture
+
+sezs-server:
+    cargo run --manifest-path "{{root}}/crates/Cargo.toml" -p sezs-server --release
+
+sezs-outpost:
+    cargo run --manifest-path "{{root}}/crates/Cargo.toml" -p sezs-outpost --release
 
 # ---------------------------------------------------------------------------
 # Contracts

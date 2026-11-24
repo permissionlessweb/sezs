@@ -1,4 +1,4 @@
-//! Parity tests against apps/sezs/server/session.test.mjs.
+//! Parity tests against the former Node session tests (removed after the Rust port).
 
 use ed25519_dalek::{Signer, SigningKey};
 use p256::ecdsa::{Signature, SigningKey as P256SigningKey};

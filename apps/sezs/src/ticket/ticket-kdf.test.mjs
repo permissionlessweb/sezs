@@ -19,8 +19,8 @@ import {
   DEFAULT_SKU,
   toHex,
 } from './commitment.mjs'
-import { findForbiddenSecretField, refuseSecretFields, scrubLog } from '../../dev/splash/guards.mjs'
-import { putEnvelope, getEnvelopes } from '../../dev/splash/envelopes.mjs'
+import { findForbiddenSecretField, refuseSecretFields, scrubLog } from './guards.mjs'
+import { putEnvelope, getEnvelopes } from './envelopes.mjs'
 import { refuseRelayEndpoint } from '../zafu/relay-guard.mjs'
 import {
   createLabZidProvider,

@@ -3,7 +3,7 @@
  *
  * A Transport is a byte/session factory. BLE is the first radio. The
  * local demo uses a loopback helper (LoopbackHelperTransport) talking to
- * a process on 127.0.0.1; tests and the modal preview use
+ * sezs-outpost on 127.0.0.1:3061; tests and the modal preview use
  * SimulatedTransport. Web Bluetooth is a third implementation so both
  * radios fit, but it is not the demo default (see web-bluetooth.mjs).
  *
@@ -32,7 +32,7 @@ export const describeTransport = (id) => {
     return 'Simulated loopback transport for tests and for previewing the modal without a radio.'
   }
   if (id === TRANSPORTS.loopbackHelper) {
-    return 'Native helper on loopback (recommended demo path). The helper holds the GATT central and Noise XX session; the page reads signed frames from 127.0.0.1.'
+    return 'sezs-outpost on loopback (recommended demo path, 127.0.0.1:3061). A later GATT central can implement the same Transport; the page reads signed frames from loopback.'
   }
   if (id === TRANSPORTS.webBluetooth) {
     return 'Optional Web Bluetooth central in Chrome. Not the local demo default: macOS support is uneven, there is no background reconnect, and the Noise client would live in the tab.'

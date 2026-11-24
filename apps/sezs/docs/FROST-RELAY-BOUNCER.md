@@ -1,5 +1,10 @@
 # FROST relay and bouncer — how Speak-Ez Sessions adopts Zafu's design
 
+> **Status.** The Node frostd-lite and bouncer processes have been removed.
+> Payroll FROST ceremonies run in-process in `sezs-server`. This document is
+> kept as historical context for the old loopback relay layout.
+
+
 This note is for implementers. It describes how event-admin FROST DKG and
 signing are routed, and how that maps to Zafu's design at
 [`frost.md`](https://github.com/rotkonetworks/zafu/blob/1eb7a2f89eea00bda9c50002e39a2cbce2986d9f/docs/src/security/frost.md)

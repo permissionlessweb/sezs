@@ -136,9 +136,9 @@ custom Poseidon suite and are known stale; they must not be rewritten to
 the production roots.
 
 
-- Current Node: `apps/sezs/dev/splash/` (ticket-pay, ticket-v2, consume)
-  and `apps/sezs/server/` (session)
-- Target Rust: `crates/sezs-server`, traits in hash-market
+- Current: `crates/sezs-server` (session, ticketing, payroll; email opt-in)
+  with traits in hash-market. Client and lab libraries remain under
+  `apps/sezs/dev/splash/` (ticket-pay, ticket-v2) and `apps/sezs/src/ticket/`.
 - Models: `docs/specs/quint/ticket_lifecycle.qnt`,
   `docs/specs/quint/door_consume.qnt`
 

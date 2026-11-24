@@ -1,5 +1,5 @@
 /**
- * Talks to the thin desktop helper on loopback. The helper is the GATT
+ * Talks to sezs-outpost on loopback. The outpost is the GATT
  * central and holds Noise XX; this client only reads already-decrypted
  * signed frames and posts pairing / ack commands.
  */

@@ -13,12 +13,15 @@ Public repository: [permissionlessweb/sezs](https://github.com/permissionlessweb
 
 | Path | What it is |
 | --- | --- |
-| `apps/sezs` | Web app (Next.js, static export) and session server |
+| `apps/sezs` | Web app (Next.js, static export) |
 | `packages/config` | Shared TypeScript, ESLint and Prettier config |
+| `crates/sezs-server` | One-bind loopback backend (session, ticketing, payroll; email opt-in) |
+| `crates/sezs-outpost` | Loopback Bluetooth outpost (usher devices) |
 | `crates/sezs-orch` | cw-orch deploy and curate suite |
 | `crates/sezs-circuit-orch` | cw-orch interface for the ticket consume circuit |
 | `contracts/cw-event-manifold` | Event coordinator CosmWasm contract |
 | `circuits/sezs-ticket-v2` | Halo2 ticket consume circuit, prover and wasm bindings |
+| `docs/specs` | ZIP-style specifications (source for the docs site) |
 | `docs/` | Product and build documentation |
 | `justfile` | The only operator entry point |
 

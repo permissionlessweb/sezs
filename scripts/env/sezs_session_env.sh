@@ -7,7 +7,7 @@
 #   - compact/light wallet sidecar (lightwalletd on loopback)
 #   - single-node Penumbra v2.0.8 (pd + cometbft 0.37.18 + kms)
 #   - Penumbra↔Terp IBC relayer (Hermes, when HERMES_BIN is set)
-#   - session backends: minirelay, frostd-lite, bouncer, splash, root publisher
+#   - session backends: sezs-server (one bind), sezs-outpost, minirelay
 #
 # There is no IBC relayer for Zcash↔Penumbra in this tree: Zcash is not a
 # Cosmos chain. This script records that gap honestly and does not fake one.
@@ -106,13 +106,25 @@ PENUMBRA_PRIVVAL_PORT="${PENUMBRA_PRIVVAL_PORT:-27659}"
 PENUMBRA_GRPC_PORT="${PENUMBRA_GRPC_PORT:-28080}"
 PENUMBRA_METRICS_PORT="${PENUMBRA_METRICS_PORT:-19000}"
 NEXT_PORT="${SEZS_NEXT_PORT:-3051}"
-SPLASH_PORT="${SEZS_SPLASH_PORT:-3052}"
+# One-bind Rust backend (replaces Node splash / session / email / payroll).
+SEZS_SERVER_PORT="${SEZS_BIND:-${SEZS_SESSION_PORT:-${SEZS_SPLASH_PORT:-3058}}}"
+# Allow SEZS_BIND=127.0.0.1:3058 or a bare port.
+if [[ "$SEZS_SERVER_PORT" == *:* ]]; then
+  SEZS_SERVER_PORT="${SEZS_SERVER_PORT##*:}"
+fi
+OUTPOST_PORT="${SEZS_OUTPOST_PORT:-${SEZS_BLE_HELPER_PORT:-3061}}"
 RELAY_PORT="${SEZS_RELAY_PORT:-3053}"
+# Historical aliases (no Node bouncer / frostd-lite process is started).
+SPLASH_PORT="$SEZS_SERVER_PORT"
 BOUNCER_PORT="${SEZS_BOUNCER_PORT:-3055}"
 FROSTD_PORT="${FROSTD_LITE_PORT:-3056}"
 
 need_loopback_bind "$BIND:$TERP_RPC_PORT"
-need_loopback_bind "http://$BIND:$SPLASH_PORT"
+need_loopback_bind "http://$BIND:$SEZS_SERVER_PORT"
+need_loopback_bind "http://$BIND:$OUTPOST_PORT"
+
+export SEZS_SERVER_PORT OUTPOST_PORT SEZS_SESSION_PORT="$SEZS_SERVER_PORT" SEZS_OUTPOST_PORT="$OUTPOST_PORT"
+
 
 tcp_up() {
   python3 - "$BIND" "$1" << 'PY'
@@ -177,10 +189,9 @@ data = {
                  "grpc": f"http://127.0.0.1:{os.environ.get('PENUMBRA_GRPC_PORT','28080')}", "pd": f"http://127.0.0.1:{os.environ.get('PENUMBRA_GRPC_PORT','28080')}", "ok": pd_ok and pd_grpc_ok},
     "backends": {
         "next": f"http://127.0.0.1:{os.environ.get('SEZS_NEXT_PORT','3051')}",
-        "splash": f"http://127.0.0.1:{os.environ.get('SEZS_SPLASH_PORT','3052')}",
+        "sezs_server": f"http://127.0.0.1:{os.environ.get('SEZS_SERVER_PORT', os.environ.get('SEZS_SESSION_PORT','3058'))}",
+        "sezs_outpost": f"http://127.0.0.1:{os.environ.get('OUTPOST_PORT', os.environ.get('SEZS_OUTPOST_PORT','3061'))}",
         "minirelay": f"http://127.0.0.1:{os.environ.get('SEZS_RELAY_PORT','3053')}",
-        "bouncer": f"http://127.0.0.1:{os.environ.get('SEZS_BOUNCER_PORT','3055')}",
-        "frostd_lite": f"http://127.0.0.1:{os.environ.get('FROSTD_LITE_PORT','3056')}",
     },
     "relayers": {
         "penumbra_terp": "hermes when HERMES_BIN is set",
@@ -214,10 +225,9 @@ do_health() {
   local fails=0
   status_one terp-rpc "$TERP_RPC_PORT" || fails=$((fails+1))
   status_one terp-lcd "$TERP_LCD_PORT" http "http://$BIND:$TERP_LCD_PORT/cosmos/base/tendermint/v1beta1/node_info" || fails=$((fails+1))
-  status_one splash "$SPLASH_PORT" http "http://$BIND:$SPLASH_PORT/sezs/session/me" || fails=$((fails+1))
+  status_one sezs-server "$SEZS_SERVER_PORT" http "http://$BIND:$SEZS_SERVER_PORT/sezs/session/health" || fails=$((fails+1))
+  status_one sezs-outpost "$OUTPOST_PORT" http "http://$BIND:$OUTPOST_PORT/health" || fails=$((fails+1))
   status_one minirelay "$RELAY_PORT" http "http://$BIND:$RELAY_PORT/health" || fails=$((fails+1))
-  status_one bouncer "$BOUNCER_PORT" http "http://$BIND:$BOUNCER_PORT/bouncer/health" || fails=$((fails+1))
-  status_one frostd-lite "$FROSTD_PORT" http "http://$BIND:$FROSTD_PORT/health" || fails=$((fails+1))
   # optional chains
   if tcp_up "$ZAKURA_RPC_PORT"; then
     status_one zakura-rpc "$ZAKURA_RPC_PORT" || true
@@ -563,26 +573,20 @@ start_backends() {
   fi
 
   export SEZS_ZIRC_RELAY="http://$BIND:$RELAY_PORT"
-  export SEZS_FROST_BOUNCER="http://$BIND:$BOUNCER_PORT"
-  export FROSTD_LITE_PORT="$FROSTD_PORT"
-  export BOUNCER_PORT
   export RELAY_URL="http://$BIND:$RELAY_PORT"
-  export FROST_RELAY_URL="http://$BIND:$FROSTD_PORT"
-  export SEZS_SPLASH=1
-  export NODE_ENV="${NODE_ENV:-development}"
-  export SEZS_SPLASH_PORT="$SPLASH_PORT"
   export SEZS_SPLASH_APP="http://$BIND:$NEXT_PORT"
+  export SEZS_SESSION_PORT="$SEZS_SERVER_PORT"
+  export SEZS_BIND="$SEZS_SERVER_PORT"
+  export SEZS_STATE_DIR="${SEZS_STATE_DIR:-$ROOT/sezs-server}"
+  export SEZS_OUTPOST_PORT="$OUTPOST_PORT"
+  export NODE_ENV="${NODE_ENV:-development}"
   refuse_public SEZS_ZIRC_RELAY "$SEZS_ZIRC_RELAY"
-  refuse_public SEZS_FROST_BOUNCER "$SEZS_FROST_BOUNCER"
+  mkdir -p "$SEZS_STATE_DIR"
+  chmod 700 "$SEZS_STATE_DIR" 2>/dev/null || true
 
-  if ! http_up "http://$BIND:$FROSTD_PORT/health"; then
-    log "starting frostd-lite on $BIND:$FROSTD_PORT"
-    nohup node "$SEZS_APP/dev/frost-relay/frostd-lite.mjs" >"$ROOT/logs/frostd-lite.log" 2>&1 &
-    record_pid frostd-lite "$!" 1
-  else
-    log "reusing frostd-lite"
-    record_pid frostd-lite "reuse" 0
-  fi
+  SEZS_REPO="${SEZS_REPO:-$(cd "$SEZS_APP/../.." && pwd)}"
+  SERVER_BIN="${SEZS_SERVER_BIN:-$SEZS_REPO/crates/target/release/sezs-server}"
+  OUTPOST_BIN="${SEZS_OUTPOST_BIN:-$SEZS_REPO/crates/target/release/sezs-outpost}"
 
   if ! http_up "http://$BIND:$RELAY_PORT/health"; then
     if [[ -x "$SEZS_APP/dev/minirelay-loopback/target/release/sezs-minirelay-loopback" ]]; then
@@ -599,35 +603,40 @@ start_backends() {
     record_pid minirelay "reuse" 0
   fi
 
-  if ! http_up "http://$BIND:$BOUNCER_PORT/bouncer/health"; then
-    log "starting bouncer on $BIND:$BOUNCER_PORT"
-    nohup node "$SEZS_APP/dev/bouncer/serve.mjs" >"$ROOT/logs/bouncer.log" 2>&1 &
-    record_pid bouncer "$!" 1
+  if ! http_up "http://$BIND:$SEZS_SERVER_PORT/sezs/session/health"; then
+    if [[ ! -x "$SERVER_BIN" ]]; then
+      log "building sezs-server"
+      cargo build --manifest-path "$SEZS_REPO/crates/Cargo.toml" --release -p sezs-server
+    fi
+    log "starting sezs-server on $BIND:$SEZS_SERVER_PORT"
+    nohup env SEZS_BIND="$SEZS_SERVER_PORT" SEZS_SESSION_HOST="$BIND" SEZS_STATE_DIR="$SEZS_STATE_DIR" \
+      "$SERVER_BIN" >"$ROOT/logs/sezs-server.log" 2>&1 &
+    record_pid sezs-server "$!" 1
   else
-    log "reusing bouncer"
-    record_pid bouncer "reuse" 0
+    log "reusing sezs-server"
+    record_pid sezs-server "reuse" 0
   fi
 
-  if ! http_up "http://$BIND:$SPLASH_PORT/sezs/session/me"; then
-    log "starting splash on $BIND:$SPLASH_PORT"
-    SEZS_SPLASH_DIR="${SEZS_SPLASH_DIR:-$ROOT/splash}" \
-      nohup node "$SEZS_APP/dev/splash/server.mjs" >"$ROOT/logs/splash.log" 2>&1 &
-    record_pid splash "$!" 1
+  if ! http_up "http://$BIND:$OUTPOST_PORT/health"; then
+    if [[ ! -x "$OUTPOST_BIN" ]]; then
+      log "building sezs-outpost"
+      cargo build --manifest-path "$SEZS_REPO/crates/Cargo.toml" --release -p sezs-outpost
+    fi
+    log "starting sezs-outpost on $BIND:$OUTPOST_PORT"
+    nohup env SEZS_OUTPOST_HOST="$BIND" SEZS_OUTPOST_PORT="$OUTPOST_PORT" SEZS_BLE_HELPER_PORT="$OUTPOST_PORT" \
+      "$OUTPOST_BIN" >"$ROOT/logs/sezs-outpost.log" 2>&1 &
+    record_pid sezs-outpost "$!" 1
   else
-    log "reusing splash"
-    record_pid splash "reuse" 0
+    log "reusing sezs-outpost"
+    record_pid sezs-outpost "reuse" 0
   fi
-
-  # Root publisher lives inside splash when SEZS_V2_ROOT_CONTRACT is set.
-  # Payment watchers for real ZEC/UM are wired in a later stage; this stage
-  # only reserves the process slot.
 }
 
 wait_core() {
   local i
   for i in $(seq 1 40); do
-    if http_up "http://$BIND:$SPLASH_PORT/sezs/session/me" \
-       && http_up "http://$BIND:$BOUNCER_PORT/bouncer/health"; then
+    if http_up "http://$BIND:$SEZS_SERVER_PORT/sezs/session/health" \
+       && http_up "http://$BIND:$OUTPOST_PORT/health"; then
       return 0
     fi
     sleep 0.4
@@ -643,7 +652,7 @@ SESSION_PORTS=(
   "$ZAKURA_RPC_PORT" "$ZAKURA_P2P_PORT" "$ZAKURA_METRICS_PORT" "$LIGHTWALLETD_PORT"
   "$PENUMBRA_RPC_PORT" "$PENUMBRA_P2P_PORT" "$PENUMBRA_ABCI_PORT" "$PENUMBRA_PRIVVAL_PORT"
   "$PENUMBRA_GRPC_PORT" "$PENUMBRA_METRICS_PORT"
-  "$NEXT_PORT" "$SPLASH_PORT" "$RELAY_PORT" "$BOUNCER_PORT" "$FROSTD_PORT"
+  "$NEXT_PORT" "$SEZS_SERVER_PORT" "$OUTPOST_PORT" "$RELAY_PORT"
 )
 HS_PREVIEW_PORTS="47080 47090 47658"
 

@@ -6,7 +6,7 @@
  *
  * The wallet signs only the challenge bytes and does not bind the origin into
  * the signature, so the server must issue a fresh nonce that already commits
- * to this origin (see session-login.mjs and apps/sezs/docs/ZAFU-CONNECT.md).
+ * to this origin (see sezs-server session routes and apps/sezs/docs/ZAFU-CONNECT.md).
  */
 import { detect, requireWallet, sign, ZafuError, type ZafuErrorCode } from '@zafu/zid'
 

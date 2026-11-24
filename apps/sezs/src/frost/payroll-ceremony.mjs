@@ -1,7 +1,8 @@
 /**
  * Run a 2-of-3 FROST DKG + signing ceremony over the local bouncer.
  * Signing crypto is frost-ed25519 via sezs-frost-payroll.
- * Transport is frostd-lite through the bouncer.
+ * The Rust desk runs this ceremony in-process via sezs-frost-payroll.
+ * This Node helper remains for older seat tooling; prefer just sezs-server.
  * Payloads are sealed with Zafu FrostRelayCipher (Noise_K).
  */
 import { spawn } from 'node:child_process'

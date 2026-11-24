@@ -1,5 +1,11 @@
 # Ticket backend role
 
+> The live ticket, session, email, and payroll HTTP processes are the Rust
+> `sezs-server` crate (one 127.0.0.1 bind, default port 3058). Guards that
+> refuse secret fields live in `apps/sezs/src/ticket/guards.mjs`. This note
+> describes the role those processes still must honour.
+
+
 Date: 14 November 2026 (Africa/Dakar, UTC+0).
 
 This is a firm rule. The ticket backend never learns the ticket secret. If a
@@ -79,10 +85,11 @@ It does not verify a Halo2 proof. See `DOOR-PRIVACY-DECISION.md`.
 - Put ticket secrets, QR payloads, seeds, or signing keys into usher chat,
   logs, or analytics.
 
-Code-level guards live in `dev/splash/guards.mjs` and are asserted in
-`dev/splash/lib.test.mjs` and the ticket e2e suite. The splash watcher
-(`dev/splash/ticket-pay.mjs`) and the HTTP surface (`dev/splash/server.mjs`)
-point here so no team member misreads the backend as a holder of tickets.
+Code-level guards live in `src/ticket/guards.mjs` (re-exported from
+`dev/splash/guards.mjs`) and are asserted in `dev/splash/lib.test.mjs` and
+the ticket e2e suite. The payment watcher (`dev/splash/ticket-pay.mjs`) and
+the live HTTP surface (`crates/sezs-server`) point here so no team member
+misreads the backend as a holder of tickets.
 
 ## Ticket v2 (supersedes the v1 door above once the front end switches)
 

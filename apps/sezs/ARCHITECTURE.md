@@ -8,7 +8,7 @@ Area diagrams:
 - [Tickets / pay](src/pay/ARCHITECTURE.md)
 - [Admin FROST](src/frost/ARCHITECTURE.md)
 - [Gallery / showcase](src/gallery/ARCHITECTURE.md)
-- Mail gateway: `<repo>/e2e/lab/sezs/sezs-docs/EMAIL.md`
+- Mail: in-process on `sezs-server` when `SEZS_EMAIL_ENABLE=1` (file sink, 4 KiB cap)
 
 ```mermaid
 flowchart TB
@@ -35,13 +35,13 @@ flowchart TB
 
   subgraph loop ["Loopback backends"]
     NEXT["Next 127.0.0.1:3051"]
-    INBOX["FROST inbox 127.0.0.1:19091"]
-    GW["mail-gateway 127.0.0.1:3061 spool .eml"]
+    SRV["sezs-server 127.0.0.1:3058 — /sezs one bind"]
+    OUT["sezs-outpost 127.0.0.1:3061 — usher BLE"]
     DREGG["DREGG 127.0.0.1:8421 — quoted, not paid"]
   end
 
   subgraph hop ["Existing nginx + tunnel"]
-    NGX["sezs-lan.conf commented\nlocation / → :3051\nlocation /sezs/frost/ → :19091"]
+    NGX["sezs-lan.conf commented\nlocation / → :3051\nlocation /sezs/ → :3058"]
     TUN["ssh -L 3051:127.0.0.1:3051"]
   end
 
@@ -58,15 +58,16 @@ flowchart TB
   A --> FROST
   A --> AUTH
   PAY --> DREGG
-  PAY --> INBOX
-  FROST --> INBOX
-  MAILC -->|"port 3051 fallback"| GW
-  MAILC -.->|"same-origin /sezs/mail when hop is on"| NGX
+  PAY --> SRV
+  FROST --> SRV
+  MAILC -->|"/sezs/mail on the one bind"| SRV
+  MAILC -.->|"same-origin /sezs when hop is on"| NGX
   T --> NEXT
   G --> NEXT
   TUN --> NEXT
   NGX -.-> NEXT
-  NGX -.-> INBOX
+  CI --> OUT
+  NGX -.-> SRV
 ```
 
-Tickets are pre-arrival. Cash App QR is door + Admin. Gallery Buy is off. Mail is spool only. FROST desk flags are not a send.
+Tickets are pre-arrival. Cash App QR is door + Admin. Gallery Buy is off. Mail is a file sink on the one bind when enabled. FROST desk flags are not a send.
