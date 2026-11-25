@@ -11,6 +11,7 @@
 import { credIdOf } from './webauthn.ts'
 import type { PasskeyParams } from './smartAccountTx.ts'
 import { b64, fromB64 } from './smartAccountTx.ts'
+import { passkeyDisplayName } from './passkeyName.ts'
 import { prepareWebAuthn } from './rpId.ts'
 
 export type PasskeyAssertionPayload = {
@@ -42,12 +43,19 @@ export const prfExtension = async (): Promise<AuthenticationExtensionsClientInpu
   return { prf: { eval: { first: buf } } } as AuthenticationExtensionsClientInputs
 }
 
+type PrfExtensionResults = {
+  enabled?: boolean
+  results?: { first?: ArrayBuffer | ArrayBufferView }
+}
+
+function prfExtensionResults(cred: PublicKeyCredential): PrfExtensionResults | undefined {
+  const ext = cred.getClientExtensionResults?.() as { prf?: PrfExtensionResults } | undefined
+  return ext?.prf
+}
+
 /** 32-byte PRF output, or null if the authenticator omitted it. */
 export function prfOf(cred: PublicKeyCredential): Uint8Array | null {
-  const ext = cred.getClientExtensionResults?.() as {
-    prf?: { enabled?: boolean; results?: { first?: ArrayBuffer | ArrayBufferView } }
-  }
-  const first = ext?.prf?.results?.first
+  const first = prfExtensionResults(cred)?.results?.first
   if (!first) return null
   const out = ArrayBuffer.isView(first)
     ? new Uint8Array(first.buffer, first.byteOffset, first.byteLength)
@@ -55,8 +63,30 @@ export function prfOf(cred: PublicKeyCredential): Uint8Array | null {
   return out.length === 32 ? out : out.length > 32 ? out.slice(0, 32) : null
 }
 
+/**
+ * Whether create() or get() reported the PRF extension as enabled.
+ * `undefined` means the authenticator omitted the field (Chrome/Safari often
+ * do this on create() and only return results on a later get()).
+ */
+export function prfEnabledOf(cred: PublicKeyCredential): boolean | undefined {
+  const prf = prfExtensionResults(cred)
+  if (!prf) return undefined
+  if (typeof prf.enabled === 'boolean') return prf.enabled
+  if (prf.results?.first) return true
+  return undefined
+}
+
+/**
+ * A follow-up get() can still produce PRF output when create() returned no
+ * results, unless the authenticator explicitly reported `enabled: false`.
+ */
+export function needsPrfAssertion(cred: PublicKeyCredential): boolean {
+  if (prfOf(cred)) return false
+  return prfEnabledOf(cred) !== false
+}
+
 export const PRF_UNSUPPORTED =
-  'This authenticator cannot lock a browser key (WebAuthn PRF is missing). Nothing was stored. Use Zafu, or a passkey manager that supports the PRF extension.'
+  'This authenticator cannot lock a browser key (WebAuthn PRF is missing). Nothing was stored.'
 
 /**
  * Feature-detect the PRF extension. Unknown (older browsers without
@@ -111,8 +141,8 @@ export async function createPasskeyForSignIn(alias: string): Promise<PasskeyRegi
       rp: { name: 'SEZS event', id: rpId },
       user: {
         id: crypto.getRandomValues(new Uint8Array(16)),
-        name: alias || 'guest',
-        displayName: alias || 'guest',
+        name: passkeyDisplayName(alias),
+        displayName: passkeyDisplayName(alias),
       },
       pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
       authenticatorSelection: uvRequired,
@@ -149,8 +179,8 @@ export async function createPasskeyWithKey(
       rp: { name: 'SEZS event', id: rpId },
       user: {
         id: crypto.getRandomValues(new Uint8Array(16)),
-        name: alias || 'guest',
-        displayName: alias || 'guest',
+        name: passkeyDisplayName(alias),
+        displayName: passkeyDisplayName(alias),
       },
       pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
       authenticatorSelection: uvRequired,
@@ -168,13 +198,16 @@ export async function createPasskeyWithKey(
   let prf = prfOf(cred)
   let assertion: PasskeyAssertionPayload | undefined
 
-  // Chrome/Safari often return `{ prf: { enabled: true } }` on create() and only emit
-  // `prf.results.first` on get(). Combine that follow-up get() with any session challenge.
+  // Chrome, Safari, Google Password Manager, and iCloud Keychain often return
+  // `{ prf: { enabled: true } }` on create() and only emit `prf.results.first`
+  // on a later get(). Combine that follow-up with any session challenge.
   if (opts?.challengeB64) {
-    const got = await assertPasskeyChallenge(credId, opts.challengeB64, { withPrf: true })
+    const got = await assertPasskeyChallenge(credId, opts.challengeB64, {
+      withPrf: !prf && needsPrfAssertion(cred),
+    })
     if (!prf) prf = got.prf
     assertion = got.assertion
-  } else if (!prf) {
+  } else if (needsPrfAssertion(cred)) {
     prf = await assertWithPrf(credId)
   }
 

@@ -16,6 +16,14 @@ export type WalletAdapter = {
   facts: WalletFact[]
   walletKind: WalletKind
   available?: () => boolean
+  /** Hide this option when WebAuthn PRF is known to be unavailable in this browser. */
+  requiresPrf?: boolean
+}
+
+export type PrfCapability = 'yes' | 'no' | 'unknown'
+
+export type ListWalletAdaptersOpts = {
+  prf?: PrfCapability
 }
 
 const builtin = (): WalletAdapter[] => [
@@ -54,6 +62,7 @@ const builtin = (): WalletAdapter[] => [
     blurb: 'Passkey + browser key',
     docs: '/guides/general/wallets/',
     walletKind: 'browser',
+    requiresPrf: true,
     facts: [
       { label: 'What', value: 'Page-local browser key' },
       { label: 'Identity', value: 'P-256 passkey, browser key sealed with WebAuthn PRF' },
@@ -85,12 +94,13 @@ export const registerWalletAdapter = (adapter: WalletAdapter) => {
   extra = [...extra.filter((a) => a.id !== adapter.id), adapter]
 }
 
-export const listWalletAdapters = (): WalletAdapter[] => {
+export const listWalletAdapters = (opts?: ListWalletAdaptersOpts): WalletAdapter[] => {
   const seen = new Set<string>()
   const out: WalletAdapter[] = []
   for (const a of [...extra, ...builtin()]) {
     if (seen.has(a.id)) continue
     if (a.available && !a.available()) continue
+    if (a.requiresPrf && opts?.prf === 'no') continue
     seen.add(a.id)
     out.push(a)
   }

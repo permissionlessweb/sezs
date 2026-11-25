@@ -24,6 +24,7 @@ import {
   assertAnyOf,
   createPasskey,
 } from './webauthn'
+import { passkeyDisplayName } from './passkeyName'
 
 type AuthApi = {
   session: AuthSession | null
@@ -73,7 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signIn = useCallback(async (alias?: string) => {
     setError('')
     try {
-      const name = (alias || 'guest').trim() || 'guest'
+      const name = passkeyDisplayName(alias)
       const credId = await createPasskey(name)
       persist({
         credId,

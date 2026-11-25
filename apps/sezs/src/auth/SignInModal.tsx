@@ -4,6 +4,7 @@ import { withBasePath } from '../ui/basePath'
 import { useAuth } from './AuthContext'
 import { SignInPanel } from './SignInPanel'
 import { AdapterId, WalletAdapter, listWalletAdapters } from './adapters/registry'
+import { detectPrfSupport } from './passkeyKey'
 import { signInComplete, walletDisplayId, walletLabel } from './types'
 import { docsHref } from '../docs/links'
 
@@ -37,10 +38,29 @@ const WalletFacts = ({ adapter }: { adapter: WalletAdapter }) => (
 export const SignInShell = ({ variant = 'modal' }: { variant?: 'modal' | 'page' }) => {
   const { session, signOut, error, closeSignIn } = useAuth()
   const done = signInComplete(session)
-  const adapters = listWalletAdapters()
+  const [prf, setPrf] = useState<'yes' | 'no' | 'unknown'>('unknown')
+  const adapters = listWalletAdapters({ prf })
   const [sel, setSel] = useState<AdapterId>(adapters[0]?.id || 'zafu')
   const [step, setStep] = useState<'list' | 'panel'>('list')
   const [info, setInfo] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    void detectPrfSupport().then((value) => {
+      if (cancelled) return
+      setPrf(value)
+      if (value === 'no') {
+        setSel((cur) => {
+          if (cur !== 'ephemeral') return cur
+          const next = listWalletAdapters({ prf: 'no' })
+          return next[0]?.id || 'zafu'
+        })
+      }
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
   const current =
     (done && session?.wallet
       ? adapters.find((a) => a.walletKind === session.wallet?.kind)

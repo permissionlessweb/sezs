@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
 
 import { useAuth } from './AuthContext'
 import {
@@ -17,6 +17,7 @@ import {
   createPasskeyForSignIn,
   createPasskeyWithKey,
 } from './passkeyKey'
+import { defaultPasskeyName, passkeyDisplayName } from './passkeyName'
 import { issuePasskeyChallenge, verifyPasskeySession } from './passkeySession'
 import { hasInboxBackend } from './session'
 import { issueZidChallenge, verifyZidSession } from './zidSession'
@@ -40,6 +41,7 @@ export const SignInPanel = ({ adapterId }: { adapterId?: AdapterId } = {}) => {
   const { session, bindWallet } = useAuth()
   const wallet = session?.wallet
   const [alias, setAlias] = useState('')
+  const [suggestedName, setSuggestedName] = useState('')
   const [busy, setBusy] = useState(false)
   const [msg, setMsg] = useState('')
   const [step, setStep] = useState<Step | null>(null)
@@ -54,6 +56,10 @@ export const SignInPanel = ({ adapterId }: { adapterId?: AdapterId } = {}) => {
     () => (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3051'),
     [],
   )
+  useEffect(() => {
+    setSuggestedName(defaultPasskeyName())
+  }, [])
+  const passkeyName = () => passkeyDisplayName(alias || session?.alias)
 
   const run = async (fn: () => Promise<void>) => {
     setBusy(true)
@@ -112,7 +118,7 @@ export const SignInPanel = ({ adapterId }: { adapterId?: AdapterId } = {}) => {
   const createPasskeySignIn = () =>
     run(async () => {
       const ch = await issuePasskeyChallenge(origin)
-      const pk = await createPasskeyForSignIn((alias || session?.alias || 'guest').trim() || 'guest')
+      const pk = await createPasskeyForSignIn(passkeyName())
       const signed = await assertPasskeyChallenge(pk.credId, ch.challengeB64)
       if (hasInboxBackend()) {
         const vr = await verifyPasskeySession({
@@ -155,7 +161,7 @@ export const SignInPanel = ({ adapterId }: { adapterId?: AdapterId } = {}) => {
     run(async () => {
       const ch = hasInboxBackend() ? await issuePasskeyChallenge(origin) : null
       const pk = await createPasskeyWithKey(
-        (alias || session?.alias || 'guest').trim() || 'guest',
+        passkeyName(),
         ch ? { challengeB64: ch.challengeB64 } : undefined,
       )
       if (ch && pk.assertion) {
@@ -319,7 +325,7 @@ export const SignInPanel = ({ adapterId }: { adapterId?: AdapterId } = {}) => {
               <label htmlFor="ticket-alias">Alias (optional)</label>
               <input
                 id="ticket-alias"
-                placeholder="how we greet you"
+                placeholder={isPasskey || isBrowser ? suggestedName || 'sez-yy-mm-dd' : 'how we greet you'}
                 value={alias}
                 onChange={(ev) => setAlias(ev.target.value)}
                 autoComplete="username"

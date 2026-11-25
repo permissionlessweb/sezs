@@ -18,6 +18,7 @@
  * Nothing here marks paid. A registered account is a sign-in, not a ticket.
  */
 import { CHAIN, PASSKEY_AUTH_CONTRACT, REGISTER_DESK, isTerp1 } from './chainConfig'
+import { PRF_UNSUPPORTED } from './passkeyKey'
 import {
   b64,
   buildRegisterPlan,
@@ -161,7 +162,7 @@ export async function prepareBrowserAccount(opts: {
   prfKey: Uint8Array | null
 }): Promise<Prepared> {
   if (!opts.prfKey) {
-    throw new Error('This passkey can’t lock a browser key, so the account would be lost on reload. Use Zafu, or a passkey manager that supports the PRF extension.')
+    throw new Error(PRF_UNSUPPORTED)
   }
   destroyRoot()
   const { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } = await loadCosmJs()

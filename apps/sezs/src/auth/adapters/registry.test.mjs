@@ -52,3 +52,16 @@ test('built-in adapters carry info facts and Zafu is a ZID login', () => {
   assert.equal(zafu?.official, 'https://zafu.pro')
   assert.ok(!JSON.stringify(listWalletAdapters()).includes('Keplr'))
 })
+
+test('listWalletAdapters hides the This browser option when PRF is known to be absent', () => {
+  const ids = listWalletAdapters({ prf: 'no' }).map((a) => a.id)
+  assert.ok(!ids.includes('ephemeral'))
+  assert.ok(ids.includes('zafu-passkey'))
+  assert.ok(ids.includes('zafu'))
+  const shown = listWalletAdapters({ prf: 'yes' }).map((a) => a.id)
+  assert.ok(shown.includes('ephemeral'))
+  const unknown = listWalletAdapters({ prf: 'unknown' }).map((a) => a.id)
+  assert.ok(unknown.includes('ephemeral'))
+  assert.equal(adapterById('ephemeral')?.requiresPrf, true)
+})
+

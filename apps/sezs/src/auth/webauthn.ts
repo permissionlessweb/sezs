@@ -1,4 +1,5 @@
 import { prepareWebAuthn } from './rpId.ts'
+import { passkeyDisplayName } from './passkeyName.ts'
 
 const b64 = {
   to: (buf: ArrayBuffer) =>
@@ -25,8 +26,8 @@ export async function createPasskey(alias: string): Promise<string> {
       rp: { name: 'SEZS event', id: rpId },
       user: {
         id: crypto.getRandomValues(new Uint8Array(16)),
-        name: alias || 'guest',
-        displayName: alias || 'guest',
+        name: passkeyDisplayName(alias),
+        displayName: passkeyDisplayName(alias),
       },
       pubKeyCredParams: [
         { type: 'public-key', alg: -7 },
