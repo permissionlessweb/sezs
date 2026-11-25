@@ -1,5 +1,5 @@
 # Email auth
 
-This note is superseded by [sezs-0012 Email Process](sezs-0012-email-process.md).
+This note is superseded by [SEZS-0012 Email Process](sezs-0012-email-process.md).
 
-Do not extend this file. Update sezs-0012 instead.
+Do not extend this file. Update [SEZS-0012](sezs-0012-email-process.md) instead.

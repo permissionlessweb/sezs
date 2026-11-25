@@ -5,14 +5,11 @@ Owners: SEZS contributors <noreply@permissionless.money>
 Status: Draft
 Category: Interface
 Created: 2026-11-24
+Last-Updated: 2026-11-25
 License: Apache-2.0
 ```
 
-## Terminology
-
-The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY", "RECOMMENDED",
-"OPTIONAL", and "REQUIRED" in this document are to be interpreted as described
-in BCP 14 when, and only when, they appear in all capitals.
+Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
 - **Email process.** The backend that issues email-login challenges, delivers
   them through a provider adapter, verifies them, and binds the resulting
@@ -26,14 +23,16 @@ SEZS offers email as a self-hosted sign-in path, not as a public identity
 on the alpha site. This document specifies issuance, rate limits, the
 delivery adapter, session binding, and the threat model. The default From
 identity is `sezs@permissionless.money`. Production DNS and the mail
-provider itself are operational issues (see Open Issues).
+provider itself are operational issues (see Open Issues). Login sessions
+that email binds to are specified in
+[SEZS-0010](sezs-0010-ticketing-process.md).
 
 ## Motivation
 
 Passkey and ZID are the primary authenticators. Email is a recovery and
 convenience path that has to work without handing mailbox custody to the
-event app. A provider adapter lets operations plug a sender without
-baking a vendor into the core crate.
+event app. A provider adapter lets a self-hosted deployment plug a sender
+without baking a vendor into the core crate.
 
 ## Privacy Implications
 
@@ -51,7 +50,8 @@ authenticated as that authenticator.
 - Default From MUST be `sezs@permissionless.money` unless explicitly
   overridden by configuration.
 - Email addresses MUST stay hidden on the public alpha UI.
-- The Email process MUST nest on the same bind as Session and Ticketing.
+- The Email process MUST be offered on the same service surface as
+  Session and Ticketing ([SEZS-0010](sezs-0010-ticketing-process.md)).
 
 ## Specification
 
@@ -86,19 +86,20 @@ email session, or refuse. They MUST NOT silently invent a binding.
 
 ### Rate limits and store
 
-The store MAY be the same SQLite WAL as Session (sezs-0010). Rate limits
-MUST cover request and verify. Persisted challenge files, if any, MUST
-be created with restrictive permissions.
+The store MAY be the same SQLite WAL as Session
+([SEZS-0010](sezs-0010-ticketing-process.md)). Rate limits MUST cover
+request and verify. Persisted challenge files, if any, MUST be created
+with restrictive permissions.
 
 ## Rationale
 
 Keeping vendors out of the core crate follows the self-hosted email
-decision and makes the Rust port testable with a memory sink.
+decision and makes the process testable with a memory sink.
 
 ## Reference Implementation
 
-- Current Node: `apps/sezs/dev/splash/email-*.mjs`
-- Target Rust: `crates/sezs-server` (provider adapter, no vendor SDK)
+- [`crates/sezs-server`](https://github.com/permissionlessweb/sezs/tree/main/crates/sezs-server)
+  (provider adapter, no vendor SDK)
 
 ## Open Issues
 
@@ -106,6 +107,5 @@ decision and makes the Rust port testable with a memory sink.
   still an operational decision.
 - Whether email sign-in is offered on the public alpha, or only on staff
   surfaces, follows the standing rule that email stays hidden on the
-  alpha. The Rust process mounts `/sezs/auth/email/*` only when
-  `SEZS_EMAIL_ENABLE=1`; the default product bind does not expose it.
-  Delivery uses a provider adapter (file sink in dev; no vendor SDK in core).
+  alpha. The default product surface does not expose it; the process
+  MAY mount `/sezs/auth/email/*` when email sign-in is explicitly enabled.

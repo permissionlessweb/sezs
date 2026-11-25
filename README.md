@@ -25,11 +25,12 @@ Public repository: [permissionlessweb/sezs](https://github.com/permissionlessweb
 | `docs/` | Product and build documentation |
 | `justfile` | The only operator entry point |
 
-Related contracts that this repo **references but does not vendor**:
+Related repositories this repo references but does not vendor:
 
 - [permissionlessweb/cw-ave](https://github.com/permissionlessweb/cw-ave) — `cw-ave`, factory, `cw420`
 - [permissionlessweb/dao-contracts](https://github.com/permissionlessweb/dao-contracts) — DAO modules and `dao-calendar` (calendar stays in that repo)
 - [permissionlessweb/terp-rs](https://github.com/permissionlessweb/terp-rs) — `terp-beacon`, `nftfi-raffle`
+- [permissionlessweb/zigner](https://github.com/permissionlessweb/zigner/tree/sezs/usher-ble) — usher phone app, `sezs/usher-ble` @ `bf41e6162d09394a5e0ad567f982f5335f762f16`. Derives SEZS device keys from the zigner key set, presents an usher tab, pairs over Bluetooth Low Energy on a TICKET GATT characteristic with device-key frames, and scans tickets for admission at the door.
 
 ## Build
 

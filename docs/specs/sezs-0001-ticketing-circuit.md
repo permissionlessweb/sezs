@@ -5,14 +5,11 @@ Owners: SEZS contributors <noreply@permissionless.money>
 Status: Draft
 Category: Circuit
 Created: 2026-11-24
+Last-Updated: 2026-11-25
 License: Apache-2.0
 ```
 
-## Terminology
-
-The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY", "RECOMMENDED",
-"OPTIONAL", and "REQUIRED" in this document are to be interpreted as described
-in BCP 14 when, and only when, they appear in all capitals.
+Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
 - **Secret.** A field element derived on the holder's device. It is the ticket
   opening. It MUST NOT leave the holder's device except by being shown to an
@@ -20,48 +17,54 @@ in BCP 14 when, and only when, they appear in all capitals.
 - **Commitment `C`.** `Poseidon(secret, sku_fp, event_id_fp)`.
 - **Nullifier `N`.** `Poseidon(secret, event_id_fp)`.
 - **Guest-list root.** The Merkle root of paid commitments, anchored on chain
-  by `UpdateGuestRoot`.
-- **`rk`.** The RedPallas spend-authorizing key used to sign door consent.
+  by `UpdateGuestRoot` as specified in [SEZS-0003](sezs-0003-session-coordinator.md).
+- **`rk`.** The RedPallas spend-authorizing key bound into the circuit as a
+  public input. Holder consent under `rk` is specified in
+  [SEZS-0010](sezs-0010-ticketing-process.md).
 
 ## Abstract
 
 This document specifies the Halo2 circuit `sezs_consume_v2`: public inputs,
-Poseidon argument order, encodings, proof bundle layout, and the rule that the
-event backend never learns the ticket secret. It is the circuit half of
-unlinkable check-in. The on-chain verifier is `sezs-ticket-v2-verify`. The
-backend process that watches payment memos and publishes leaves is sezs-0010.
-The contract that records nullifiers is sezs-0003.
+Poseidon argument order, field encodings, Merkle construction, proof bundle
+layout, and the verifying-key hash. It is the circuit half of unlinkable
+check-in. Invoice memos, ticket QR presentation, holder consent transports,
+and on-chain verification of a consume proof are specified in
+[SEZS-0010](sezs-0010-ticketing-process.md). The session contract that stores
+nullifiers and selects the verifier is specified in
+[SEZS-0003](sezs-0003-session-coordinator.md).
 
-A ticket is a commitment in a Merkle tree. At the door the usher's device
-builds a membership and nullifier proof; the contract verifies it and stores
-`N`. A second consume with the same `N` is refused (property P1 in
-`docs/specs/quint/ticket_lifecycle.qnt`).
+A ticket is a commitment in a Merkle tree. At the door a membership and
+nullifier proof is built against a published root; a second consume with the
+same `N` is refused (property P1 in `docs/specs/quint/ticket_lifecycle.qnt`).
 
 ## Motivation
 
-A naïve guest list would show the chain, and the backend, which paid leaf
-was admitted. Binding admission to a nullifier derived from a holder-kept
-secret lets the contract refuse double admission without naming the buyer.
+A naïve guest list would show the chain, and the ticketing process, which paid
+leaf was admitted. Binding admission to a nullifier derived from a holder-kept
+secret lets a verifier refuse double admission without naming the buyer, and
+without putting the opening in the public inputs.
 
 ## Privacy Implications
 
-The backend, the publisher, and any payment observer MAY see the memo that
-carries `C`. They MUST NOT be able to recover the secret from `C` alone.
-The chain stores `N` and the root, not the secret and not a buyer identity.
-Ushers are trusted for admission: the holder reveals the opening to the usher
-at check-in. Printed tickets are bearer instruments by design. Transfers and
-backups stay with the holder; there is no server-side recovery of a lost
-secret. If a service is found holding ticket secrets, that is a bug, not a
-fallback.
+Anyone who sees a payment memo that carries `C` MUST NOT be able to recover
+the secret from `C` alone. The circuit's public inputs are the root, the
+nullifier, the session and domain fields, and `rk`; they MUST NOT include the
+secret. Ushers are trusted for admission: the holder reveals the opening to
+the usher at check-in. Printed tickets are bearer instruments by design.
+Transfers and backups stay with the holder; there is no server-side recovery
+of a lost secret. If a service is found holding ticket secrets, that is a bug,
+not a fallback.
 
 ## Requirements
 
-- The backend MUST NOT learn, store, or require the ticket secret.
-- The circuit MUST bind consume to a guest-list root, a nullifier, an event,
-  a domain, and an `rk`.
-- The contract MUST refuse an unknown root and MUST fail closed when no
-  circuit id (`zkid`) is set.
-- The same nullifier MUST NOT be stored twice.
+- The circuit MUST bind consume to a guest-list root, a nullifier, a session
+  identifier, a domain, and an `rk`.
+- The secret MUST be a private witness. It MUST NOT appear among the public
+  inputs.
+- Commitments and nullifiers MUST use the Poseidon argument order defined
+  below, which MUST NOT be changed.
+- A change to the circuit MUST update the verifying-key hash recorded here
+  and the published verification key together.
 
 ## Specification
 
@@ -70,13 +73,9 @@ fallback.
 `sezs_consume_v2` is Halo2 IPA on the Pasta curves, `k = 11`, standard
 Poseidon `P128Pow5T3`, Merkle depth 10. The crate is `sezs-ticket-v2`.
 
-The ticketing process (`crates/sezs-server`) MUST compute public tree roots
-by calling this crate's `GuestTree` (standard `P128Pow5T3`, empty leaf `0`,
-parent = `Poseidon(left, right)`). It MUST NOT substitute a different hash.
-The Node wasm `treeRoot` binding is the same function. Vectors in
-`apps/sezs/src/ticket/ticket.test.mjs` were computed with the previous
-SEZS-custom Poseidon constants; they are known stale and MUST be left as
-a lock on that legacy JS module, not updated to look like production roots.
+Public tree roots MUST be computed by this crate's `GuestTree` (standard
+`P128Pow5T3`, empty leaf `0`, parent = `Poseidon(left, right)`). A process or
+client MUST NOT substitute a different hash.
 
 Public inputs, in this order:
 
@@ -100,52 +99,27 @@ currently used by the crate is
 `0b34842f8dabd9a347c7998cbf6e7f87a52bc98b8acd4bb449e629f1740eeff6`.
 A change to the circuit MUST update that hash and this document together.
 
-The contract binds `event_id` and `domain` to its config.
-
-### Invoice memo and QR
-
-A v2 invoice asks the buyer to pay in ZEC to a shielded address with a memo
-that is only the commitment: `sezs1:` plus hex of `C`. The invoice MUST NOT
-include a ticket public key or a nullifier.
-
-The holder shows a single static ticket QR (v3, bech32m, prefix `sezs3`) that
-carries the ticket opening (the secret), the sku when it is not the default,
-and an 8-byte event tag. Older `sezs1://ticket?…` URIs MAY still be accepted.
-The secret is derived in the browser with a KDF; it is never sent to the
-event backend.
-
-### Consent
-
-Consent is RedPallas under `rk`. Two transports are specified:
-
-- **Live.** The usher issues a challenge: `sezs-door-v2\0` plus `event_id_fp`,
-  `domain_fp`, a 16-byte nonce, `issued_at` as a big-endian `u64`, and the
-  usher address. The holder signs under `rk`. The contract checks a time
-  window of ±600 seconds and that the transaction sender is that usher.
-- **Printed.** The message is `sezs-print-v2\0` plus `event_id_fp`,
-  `domain_fp`, `N`, and `door_auth_pubkey`. The client sends only the
-  signature. The contract recomputes the message. The printed payload MUST
-  NOT carry a client-supplied message field.
-
-Only an on-chain usher MAY submit `ConsumeTicket` (see sezs-0003). Ushers
-MUST NOT be able to issue or forge a commitment or a nullifier (property P2
-in `docs/specs/quint/usher_authority.qnt`).
+Merkle depth 10 is a capacity choice (up to 1,024 paid leaves per root
+epoch), not a security parameter.
 
 ## Rationale
 
 Poseidon argument order puts the sku in `C` and keeps it out of `N`, so the
-same secret cannot be reused across skus of one event without producing a
-distinct leaf, while a single nullifier still covers the event. Merkle depth
-10 is a capacity choice (up to 1,024 paid leaves per root epoch), not a
-security parameter. Printed consent is bearer-by-design so a phone-less
-guest can still be admitted; that is a deliberate privacy and safety trade.
+same secret cannot be reused across skus of one session without producing a
+distinct leaf, while a single nullifier still covers the session. Keeping
+invoice presentation, consent transports, and verifier selection out of this
+document leaves the circuit as a stable object that a second prover or
+verifier can implement from these encodings alone.
 
 ## Reference Implementation
 
-- Circuit: `circuits/sezs-ticket-v2/`
-- On-chain verifier: `contracts/packages/sezs-ticket-v2-verify/`
+- Circuit: [`circuits/sezs-ticket-v2/`](https://github.com/permissionlessweb/sezs/tree/main/circuits/sezs-ticket-v2)
 - Formal properties: `docs/specs/quint/ticket_lifecycle.qnt`,
-  `docs/specs/quint/usher_authority.qnt`
+  `docs/specs/quint/usher_authority.qnt`, `docs/specs/quint/door_consume.qnt`
+
+On-chain verification of a bundle against a published root is specified in
+[SEZS-0003](sezs-0003-session-coordinator.md) and
+[SEZS-0010](sezs-0010-ticketing-process.md).
 
 ## Open Issues
 
@@ -153,5 +127,3 @@ guest can still be admitted; that is a deliberate privacy and safety trade.
 - A public-chain fee and latency measurement for ushers has not been run.
 - Desktop prove-time measurements exist; physical-phone timings have not
   been published in this repository.
-- Whether older `sezs1://ticket?…` URIs remain accepted, and for how long,
-  is not formally scheduled.

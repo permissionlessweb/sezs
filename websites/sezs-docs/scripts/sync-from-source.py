@@ -25,10 +25,9 @@ SPECS_OUT = PAGES / "specs"
 PREAMBLE_RE = re.compile(r"^```(?:\w+)?\n(.*?)\n```", re.S)
 ABSTRACT_RE = re.compile(r"^## Abstract\s*\n\n(.+?)(?:\n\n|\n## )", re.S)
 
-BANNER = (
-    "> **Generated — do not edit.** Source: `{src}`. "
-    "Change that file, then rebuild this site.\n"
-)
+# Source path is recorded at sync time in stdout only. Do not inject a
+# visible "generated" banner into rendered pages.
+BANNER = ""
 
 # In-repo notes that are not numbered specifications. Copied so unique
 # material (measured gas, gallery showcase, admin UI) still has a page.
@@ -63,7 +62,7 @@ ABSORBED: list[tuple[str, str, list[str]]] = [
     (
         "specs/event/index.mdx",
         "Event contract",
-        ["sezs-0003-coordinator-usher", "sezs-0004-metadata-nip52"],
+        ["sezs-0003-session-coordinator", "sezs-0004-metadata-nip52"],
     ),
     (
         "specs/ticketing/index.mdx",
@@ -149,11 +148,8 @@ def frontmatter(title: str, description: str) -> str:
 
 
 def splice_banner(text: str, src_label: str) -> str:
-    banner = BANNER.format(src=src_label)
-    if text.startswith("---"):
-        end = text.index("---", 3)
-        return text[: end + 3] + "\n\n" + banner + "\n" + text[end + 3 :].lstrip()
-    return banner + "\n" + text
+    # Kept as a hook for callers; rendered pages must not show a generated tag.
+    return text
 
 
 def load_specs() -> list[dict]:
@@ -188,7 +184,7 @@ def write_spec_pages(specs: list[dict]) -> None:
             f"{s['zip']} · {s['title']}",
             s["abstract"] or f"{s['zip']} — {s['title']}",
         )
-        body += BANNER.format(src=s["src"]) + "\n"
+        # Pages are derived at build time; do not display a generated tag.
         body += mdx_safe(s["text"])
         if not body.endswith("\n"):
             body += "\n"

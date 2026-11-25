@@ -1,23 +1,24 @@
 // SEZS usher authority.
+// Session coordinators may issue; ushers may admit only.
 // P2: ushers cannot issue or forge tickets.
 module usher_authority {
   import ticket_lifecycle.* from "./ticket_lifecycle"
 
-  type Role = | Coordinator | Usher | Holder | Outsider
+  type Role = | SessionCoordinator | Usher | Holder | Outsider
 
   type Actor = {
     name: str,
     role: Role,
   }
 
-  val alice: Actor = { name: "alice", role: Coordinator }
+  val alice: Actor = { name: "alice", role: SessionCoordinator }
   val usher1: Actor = { name: "usher1", role: Usher }
   val mallory: Actor = { name: "mallory", role: Outsider }
 
   var forged: Set[str]
 
   pure def isUsher(a: Actor): bool = a.role == Usher
-  pure def canIssue(a: Actor): bool = a.role == Coordinator
+  pure def canIssue(a: Actor): bool = a.role == SessionCoordinator
   pure def canConsume(a: Actor): bool = a.role == Usher
 
   val P2_ushers_cannot_issue_or_forge: bool = size(forged) == 0
@@ -104,7 +105,7 @@ module usher_authority {
     .then(forge(mallory, "t-fake"))
     .fail()
 
-  run coordinatorIssuesUsherAdmits = initAuth
+  run sessionCoordinatorIssuesUsherAdmits = initAuth
     .then(reserveAuth("t1"))
     .then(payAuth("t1"))
     .then(issueBy(alice, "t1"))

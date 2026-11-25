@@ -5,14 +5,11 @@ Owners: SEZS contributors <noreply@permissionless.money>
 Status: Draft
 Category: Protocol / Interface
 Created: 2026-11-24
+Last-Updated: 2026-11-25
 License: Apache-2.0
 ```
 
-## Terminology
-
-The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY", "RECOMMENDED",
-"OPTIONAL", and "REQUIRED" in this document are to be interpreted as described
-in BCP 14 when, and only when, they appear in all capitals.
+Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
 - **Payroll FROST set.** The threshold group that authorises artist and
   staff payouts. In the current design, `t = 2`, `n = 3`.
@@ -23,17 +20,20 @@ in BCP 14 when, and only when, they appear in all capitals.
 
 FROST payroll pays artists and staff from ticket inflow under a threshold
 policy: a transparent t-address for grant accountability, 20% upfront and
-80% after the event, and no payout job until paid ticket inflow exists.
-The design is the hash-market module formerly named `itl_frost`, which is
-SEZS and is being renamed in place. Other FROST variants in the tree
-(validator privval, payroll stdin helper, Zafu cipher tooling) serve other
-purposes and MUST NOT be confused with this module.
+80% after the session, and no payout job until paid ticket inflow exists.
+The source of truth is the hash-market payroll FROST module used by
+[`crates/sezs-server`](https://github.com/permissionlessweb/sezs/tree/main/crates/sezs-server).
+Other FROST variants in the tree (validator privval, payroll stdin helper,
+Zafu cipher tooling) serve other purposes and MUST NOT be confused with
+this module. Intended gallery escrow reuse of a FROST set is outlined in
+[SEZS-0006](sezs-0006-virtual-gallery.md) and
+[SEZS-0007](sezs-0007-private-auction.md).
 
 ## Motivation
 
 Grant accountability requires transparent payouts and a recorded roster.
 A single in-process source of truth already exists; this document names
-it and sets the rules a Rust `PayrollProcess` MUST keep.
+it and sets the rules a `PayrollProcess` MUST keep.
 
 ## Privacy Implications
 
@@ -63,17 +63,18 @@ logged. A passkey is not a FROST share.
 - DKG tags: `dkg1`, `dkg2`
 - Spend domain: `terp/frost_escrow/zec_spend/v0` (ZIP-244 / SpendAuth
   over the PCZT)
-- Roster domain: `itl-frost-roster-v1` (Open Issue: rename with the
-  module, in a planned compatibility step)
+- Roster domain: `itl-frost-roster-v1`
 - Spend memo prefix: `itl-frost-memo-v1:`
 
 `roster_commit(epoch, t, n, group_vk, seats)` is the canonical hash of
 the live holder set. `require_spend_memo_roster` MUST compare the memo
-to that commit.
+to that commit. The roster domain and memo prefix above are the strings
+current spends attest; changing them requires a compatibility window
+(see Open Issues).
 
-### HTTP (current inbox, to be served under `/sezs` after rename)
+### HTTP
 
-- `POST /sezs/frost/jobs` (formerly `/itl/frost/jobs`)
+- `POST /sezs/frost/jobs`
 - `GET  /sezs/frost/jobs/{id}`
 - `POST /sezs/frost/jobs/{id}/share`
 - `POST /sezs/frost/jobs/{id}/broadcast`
@@ -81,9 +82,13 @@ to that commit.
 Admin group-key rotation is a separate in-process flow
 (`rotate_frost_pubkey`, t-of-n of admin seats). It MUST NOT empty the
 current verifying key; the old key stays until the new one is applied.
-Payroll HTTP used by the desk today (`/sezs/payroll/*`) MUST be kept or
+Payroll HTTP used by the desk (`/sezs/payroll/*`) MUST be kept or
 mapped: state, invites, register, amounts, batches, frost ceremony,
 execute.
+
+Default execute is fail-closed until a payout adapter is provided.
+Session-coordinator routes require an authenticated login session
+([SEZS-0010](sezs-0010-ticketing-process.md)).
 
 ### Other FROST code, out of this specification
 
@@ -95,37 +100,24 @@ Those MAY be used as tools. They are not this payroll source of truth.
 
 ## Rationale
 
-Building on the existing module, rather than writing a second payroll
-FROST, keeps one inbox and one roster rule. Renaming `itl_*` to `sezs_*`
-is documentation of what the code already is.
+Building on the existing hash-market payroll module, rather than writing
+a second payroll FROST, keeps one inbox and one roster rule.
 
 ## Reference Implementation
 
-- Source of truth: hash-market `onboard_authz` FROST module (renamed
-  from `itl_frost`)
-- Desk routes: `crates/sezs-server` `/sezs/payroll/*` (formerly `apps/sezs/dev/splash/payroll-routes.mjs`)
-- Ceremony helper: `crates/sezs-frost-payroll`
+- Source of truth: hash-market `onboard_authz` FROST module
+- Desk routes: [`crates/sezs-server`](https://github.com/permissionlessweb/sezs/tree/main/crates/sezs-server)
+  `/sezs/payroll/*` and `/sezs/frost/*`
+- Ceremony helper: [`crates/sezs-frost-payroll`](https://github.com/permissionlessweb/sezs/tree/main/crates/sezs-frost-payroll)
 
 ## Open Issues
 
-- Domain and memo prefixes still use the `itl-frost-` string. A
-  compatibility window is needed before they can be renamed.
-- How 20/80 interacts with a mid-event cancellation (sezs-0010 P3) is
-  not fully specified.
+- The roster domain and spend memo prefix still use the strings recorded
+  above. A compatibility window is needed before they can be given
+  SEZS-prefixed names.
+- How 20/80 interacts with a mid-session cancellation
+  ([SEZS-0010](sezs-0010-ticketing-process.md) P3) is not fully specified.
 - Mainnet broadcast and confirmation policy is operational and is not
   restated here.
-
-
-## Implementation decisions (Rust port)
-
-- `sezs-frost-payroll` lives in `crates/sezs-frost-payroll` (library +
-  stdin/stdout binary). The Node ceremony still shells out to the binary
-  when one is built; the Rust desk calls `run_ceremony` in-process.
-- `sezs-server` re-exports hash-market `onboard_authz::sezs_frost` as
-  `payroll::itl_frost` and attaches `roster_commit` / `spend_memo_roster`
-  to `/sezs/payroll/batches/frost`. Prefixes remain `itl-frost-*`.
-- `/sezs/payroll/*` is mounted on the one `/sezs` bind. The process does
-  not listen on `HASHMERCHANT_BIND` / `SEZS_FROST_BIND`.
-- Default execute is fail-closed (`chain_unavailable`) until a payout
-  adapter is provided. Coordinator routes require a session cookie;
-  `SEZS_PAYROLL_DEV_COORDINATOR=1` grants the desk role on loopback.
+- Whether the same FROST set is reused for gallery escrow
+  ([SEZS-0006](sezs-0006-virtual-gallery.md)) is not decided.

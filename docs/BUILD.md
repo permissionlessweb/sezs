@@ -101,6 +101,22 @@ files are gitignored because they are derived; rebuild with
 skip when the files are absent, so a clean clone does not require a prior
 keygen. They are not copied from a developer workspace.
 
+## Usher phone app (not vendored)
+
+The normative usher phone application is
+[permissionlessweb/zigner](https://github.com/permissionlessweb/zigner/tree/sezs/usher-ble)
+on the `sezs/usher-ble` branch, at commit
+`bf41e6162d09394a5e0ad567f982f5335f762f16`. That branch is built on
+rotkonetworks zigner v0.15.0. It derives SEZS device keys from the zigner
+key set, presents an usher tab, pairs over Bluetooth Low Energy on a TICKET
+GATT characteristic with device-key frames, and scans tickets for admission
+at the door. The design document in that repository is
+`docs/sezs-usher-ble-camera.md`.
+
+This repository does not vendor or modify that tree. The wire protocol is
+specified in `docs/specs/sezs-0020-zigner-usher-bluetooth.md`. The door-side
+outpost is specified in `docs/specs/sezs-0021-bluetooth-outpost.md`.
+
 ## hash-market (sezs-server)
 
 `crates/sezs-server` depends on `hash-market` from the terp-rs git repo at
