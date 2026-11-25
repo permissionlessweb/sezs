@@ -11,9 +11,12 @@ License: Apache-2.0
 
 Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
+## Definitions
+
 - **Ticketing process.** The backend service that issues invoices, watches
-  payment, publishes paid leaves and guest-list roots, and serves public
-  ticket-v2 reads. It does not admit guests; admission is `ConsumeTicket`
+  payment, publishes [ticket leaves](sezs-0003-session-coordinator.md) and
+  guest-list roots, and serves public ticket-v2 reads. It does not admit
+  guests; admission is `ConsumeTicket`
   ([SEZS-0003](sezs-0003-session-coordinator.md)).
 - **Valid ticket.** A ticket that is paid and issued, has not been
   cancelled or refunded, and has not been admitted.

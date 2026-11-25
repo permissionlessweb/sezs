@@ -10,6 +10,8 @@ License: Apache-2.0
 
 Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
+## Definitions
+
 - **Virtual gallery.** The public showcase and collection viewer for session
   artwork and vendor work.
 - **Split.** Session-coordinator-chosen shares presented for charity and

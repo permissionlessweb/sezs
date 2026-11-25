@@ -11,17 +11,22 @@ License: Apache-2.0
 
 Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
+## Definitions
+
+- **Session.** The night being hosted.
+- **Session coordinator.** The curator configured at instantiate, or a member
+  of the session coordinators group. Session coordinators write session
+  parameters and decide who may authorise attendance.
+- **Usher.** A member of the usher group. An usher MAY submit a verified
+  consume; an usher MUST NOT issue or forge a ticket.
+- **Ticket leaf.** A paid commitment `C` registered on the session contract
+  and included in a published guest-list root.
 - **cw-ave.** Audio-visual event contracts, including the factory, in
   [permissionlessweb/cw-ave](https://github.com/permissionlessweb/cw-ave).
 - **cw-420.** A group contract used twice per session: once for session
   coordinators, once for ushers. Same wasm, two instances.
 - **cw-event-manifold.** The SEZS session contract in this monorepo. Schema
   id `sezs-event-v2`, API version `2`.
-- **Session coordinator.** The curator configured at instantiate, or a member
-  of the session coordinators group. Session coordinators write session
-  parameters and decide who may authorise attendance.
-- **Usher.** A member of the usher group. An usher MAY submit a verified
-  consume; an usher MUST NOT issue or forge a ticket.
 
 ## Abstract
 

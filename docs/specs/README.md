@@ -2,9 +2,9 @@
 
 These documents are the technical specifications for Speak-Ez Sessions.
 They follow the document structure of [ZIP-0000](https://zips.z.cash/zip-0000)
-(preamble, abstract, motivation, privacy implications, requirements,
-specification, rationale, reference implementation), as recorded in
-[SEZS-0000](sezs-0000.md). They are SEZS specifications, not Zcash
+(preamble, conventions sentence, definitions, abstract, motivation, privacy
+implications, requirements, specification, rationale, reference
+implementation), as recorded in [SEZS-0000](sezs-0000.md). They are SEZS specifications, not Zcash
 Improvement Proposals, and they are not governed by the Zcash ZIP editors.
 
 Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14)

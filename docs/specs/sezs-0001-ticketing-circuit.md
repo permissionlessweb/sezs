@@ -11,6 +11,8 @@ License: Apache-2.0
 
 Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
+## Definitions
+
 - **Secret.** A field element derived on the holder's device. It is the ticket
   opening. It MUST NOT leave the holder's device except by being shown to an
   usher at check-in, or written to a backup the holder controls.

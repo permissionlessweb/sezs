@@ -11,6 +11,8 @@ License: Apache-2.0
 
 Conformance keywords follow [BCP 14](https://www.rfc-editor.org/info/bcp14) ([RFC 2119](https://www.rfc-editor.org/rfc/rfc2119), [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174)), as adopted with the ZIP document conventions in [SEZS-0000](sezs-0000.md).
 
+## Definitions
+
 - **Payroll FROST set.** The threshold group that authorises artist and
   staff payouts. In the current design, `t = 2`, `n = 3`.
 - **Roster commit.** A canonical hash of the live holder set, bound into
